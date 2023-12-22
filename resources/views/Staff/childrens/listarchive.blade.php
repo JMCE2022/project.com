@@ -16,8 +16,12 @@
                     <button class="btn btn-success m-1" type="submit">Search</button>
                     <button type="button" class="btn btn-success m-1" onclick="clearSearch()">Clear</button>
                 </form>
+
+                @if(Auth::user()->user_type == 'Admin')
                 <a class="text-dark rounded border-bottom border-danger" href="{{url('Admin/Listchildrens')}}"><i class="fas fa-sign-out-alt " style="color: #dc3545;"></i> Back</a>
-                
+                @elseif(Auth::user()->user_type == 'Staff')
+                <a class="text-dark rounded border-bottom border-danger" href="{{url('Staff/Listchildrens')}}"><i class="fas fa-sign-out-alt " style="color: #dc3545;"></i> Back</a>
+                @endif
               
                 
             </div>
@@ -45,6 +49,7 @@
                             <td>{{ $children->sex }}</td>
                             <td>{{ $children->created_by }}</td>
                             <td>{{ $children->created_at }}</td>
+                            @if(Auth::user()->user_type == 'Admin')
                             <td class="text-center">
 
                                 <a href="{{ url('Admin/Listchildrens/Archive/'.$children->id) }}"><i
@@ -54,7 +59,17 @@
                             <td class="text-center">
                                 @include('layouts.deletePermanentChildrens')
                             </td>
-                            
+                            @elseif(Auth::user()->user_type == 'Staff')
+                            <td class="text-center">
+
+                                <a href="{{ url('Staff/Listchildrens/Archive/'.$children->id) }}"><i
+                                        class="fas fa-trash-restore" style="color: #198754;"></i></a>
+
+                            </td>
+                            <td class="text-center">
+                                @include('layouts.deletePermanentChildrens')
+                            </td>
+                            @endif
                         </tr>
                         @endforeach
                     </tbody>

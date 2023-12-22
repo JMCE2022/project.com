@@ -90,7 +90,13 @@
 
                     <div class="d-flex align-items-center justify-content-between">
                         <button type="submit" class="btn btn-success">Add</button>
+                        @if(Auth::user()->user_type == 'Admin')
                         <a class=" btn btn-outline-primary  m-2" href="{{url('Admin/Listchildrens')}}">Done</a>
+                            @elseif(Auth::user()->user_type == 'Staff')
+                            <a class=" btn btn-outline-primary  m-2" href="{{url('Staff/Listchildrens')}}">Done</a>
+                            @endif
+                            
+                       
                     </div>
                     </form>
 

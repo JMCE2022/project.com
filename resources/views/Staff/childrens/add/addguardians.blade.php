@@ -14,6 +14,17 @@
             <div class="row pt-4">
             <div class="col-md-3">
             @include('layouts.addpage')
+            <div class="col-md-12 text-center">
+
+
+                        <div class="clickable-box">
+                            @include('layouts.addpage2')
+                        </div>
+
+
+                    </div>
+                    <div>
+                    </div>
                 <div class="col-sm-12 col-xl-12">
                     <form method="post" action="" enctype="multipart/form-data">
                         @csrf
@@ -99,7 +110,13 @@
 
                     <div class="d-flex align-items-center justify-content-between">
                         <button type="submit" class="btn btn-success">Add</button>
+                        @if(Auth::user()->user_type == 'Admin')
                         <a class=" btn btn-outline-primary  m-2" href="{{url('Admin/Listchildrens')}}">Done</a>
+                            @elseif(Auth::user()->user_type == 'Staff')
+                            <a class=" btn btn-outline-primary  m-2" href="{{url('Staff/Listchildrens')}}">Done</a>
+                            @endif
+                           
+                        
                     </div>
                     </form>
 
