@@ -26,7 +26,9 @@
         }
 
         .login-box {
-            background-color: #fff;
+            background-color: white;
+            
+           
             /* Adding a semi-transparent black overlay */
             border-radius: 10px;
             margin-top: 100px;
@@ -56,16 +58,11 @@
             color: #fff;
         }
 
-        .input-group-prepend span {
-            background-color: #007bff;
-            color: #fff;
-            padding: 10px;
-            border-radius: 0 10px 10px 0;
-        }
+       
 
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
+        .btn-btn-primary {
+            background-color: #E74A3B;
+      color:white;
         }
 
         .d-flex a {
@@ -78,7 +75,7 @@
 
     <div class="container">
         <div class="login-box text-center">
-            <img class="img-fluid" src="images/Login/Logo.png" alt="Logo">
+        <h3 class="text-primary"><img src="{{asset('images/Admin/Logo2.png')}}" width="180px" alt="logo"></h3>
             <h1>PROFILING AND MONITORING SYSTEM</h1>
             <h2>Reception and Study Center for Children (RSCC)</h2>
             @if(Session::has('success'))
@@ -99,7 +96,7 @@
                         aria-describedby="basic-addon2" name="password">
                     <span class="input-group-text" id="basic-addon2"></span>
                 </div>
-                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                <button type="submit" class="btn btn-btn-primary btn-block">Login</button>
             </form>
             
         </div>

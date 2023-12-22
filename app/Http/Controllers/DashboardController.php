@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Auth;
-
+use Illuminate\Support\Facades\Auth;
+ 
 class DashboardController extends Controller
 {
     public function dashboard()
@@ -15,4 +15,7 @@ class DashboardController extends Controller
             return view('staff.dashboard');
         }
     }
+    
+    
+    
 }
