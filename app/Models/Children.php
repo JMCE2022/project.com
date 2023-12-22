@@ -32,14 +32,13 @@ class Children extends Model
     ];
     
 
-    static public function getChildren()
-    {
-        return self::select('childrens.*')
+   // Children model
 
-            ->where('is_deleted', '=', 0)
-            ->orderBy('id', 'desc');
-           
-    }
+public static function getChildren()
+{
+    return self::where('is_deleted', '=', 0)->orderBy('id', 'desc');
+}
+
     static public function getArchive()
     {
         return self::select('childrens.*')

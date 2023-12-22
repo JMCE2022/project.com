@@ -14,6 +14,17 @@
             <div class="row pt-4">
             <div class="col-md-3">
             @include('layouts.addpage')
+            <div class="col-md-12 text-center">
+
+
+                        <div class="clickable-box">
+                            @include('layouts.addpage2')
+                        </div>
+
+
+                    </div>
+                    <div>
+                    </div>
                 <div class="col-sm-12 col-xl-12">
                     <form method="post" action="" enctype="multipart/form-data">
                         @csrf

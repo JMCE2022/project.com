@@ -13,6 +13,7 @@ use App\Models\Children;
 use App\Models\Infofamily;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Log;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
@@ -575,28 +576,34 @@ class ChildrenController extends Controller
 
     }
     public function addInfofamilies()
-    {
-        if (Auth::user()->user_type == 'Admin') {
-            $data['Header_title'] = "Add Users";
-            $data['getRecord'] = Children::getChildren();
-             // Add this line for debugging
-            return view("admin.childrens.add.addinfofamilies", $data);
-        } else if (Auth::user()->user_type == 'Staff') {
-            $data['Header_title'] = "Add Users";
-            $data['getRecord'] = Children::getChildren();
+{
+    if (Auth::user()->user_type == 'Admin') {
+        $data['Header_title'] = "Add Users";
+        $data['getRecord'] = Children::getChildren();
         // Add this line for debugging
-            return view("staff.childrens.add.addinfofamilies", $data);
-        }
+        return view("admin.childrens.add.addinfofamilies", $data);
+    } else if (Auth::user()->user_type == 'Staff') {
+        $data['Header_title'] = "Add Users";
+        $data['getRecord'] = Children::getChildren();
+        // Add this line for debugging
+        return view("staff.childrens.add.addinfofamilies", $data);
     }
-    public function Infofamilies(Request $request)
-    {
+}
+
+public function Infofamilies(Request $request)
+{
+    try {
         $request->validate([
             'children_id' => 'required|integer',
             // Add other validation rules if needed
         ], [
             'children_id.required' => 'Please select a child.',
             'children_id.integer' => 'Invalid value for child.',
+            // Add other custom error messages if needed 
         ]);
+
+        // Log the incoming request data for debugging
+        Log::info('Request Data:', $request->all());
 
         // Check if the record with the specified children_id already exists
         $existingInfofamily = Infofamily::where('children_id', $request->input('children_id'))->first();
@@ -615,7 +622,6 @@ class ChildrenController extends Controller
         $user->infofamily_occupation = trim($request->infofamily_occupation);
         $user->infofamily_occupation_mother = trim($request->infofamily_occupation_mother);
 
-        // Associate child with the Infofamily model
         if ($request->has('children_id')) {
             $childrenId = $request->input('children_id');
             $children = Children::find($childrenId);
@@ -623,15 +629,23 @@ class ChildrenController extends Controller
             if ($children) {
                 $user->children()->associate($children);
             } else {
-                // Handle the case where the child with the specified ID is not found
+                // Log the error and handle the case where the child with the specified ID is not found
+                Log::error('Child not found for ID: ' . $childrenId);
                 return redirect()->back()->with('error', 'Child not found');
             }
         }
 
         $user->save();
-        
+
         return redirect()->back()->with('success', 'Family successfully added');
+    } catch (\Exception $e) {
+        // Log any exceptions for debugging
+        Log::error('Error in Infofamilies method: ' . $e->getMessage());
+
+        // Handle the exception as needed
+        return redirect()->back()->with('error', 'An error occurred. Please try again.');
     }
+}
 
 
     public function siblings(request $request)
