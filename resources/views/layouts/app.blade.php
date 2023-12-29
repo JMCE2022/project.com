@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>RSCC - {{Request::segment(2)}}</title>
+    <title>RSCC - {{Request::segment(2)}} - {{Request::segment(3)}}</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -35,9 +35,7 @@
 
 <body>
     <div class="container-fluid position-relative d-flex p-0 ">
-        <!-- Logo loading -->
-
-        <!-- logo loading End -->
+       
 
         <!-- sidebar-menu Start -->
         @include('layouts.sidebar')
@@ -60,25 +58,7 @@
         </div>
 
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
     </div>
 
     <!-- JavaScript Libraries -->
@@ -132,6 +112,7 @@
             XLSX.writeFile(wb, 'table_data.xlsx');
         });
     </script>
+    
 </body>
 
 </html>

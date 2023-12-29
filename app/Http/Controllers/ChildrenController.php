@@ -37,7 +37,7 @@ class ChildrenController extends Controller
             // Use Eloquent to filter data based on the search input
             if ($search) {
                 $query->where(function ($q) use ($search) {
-                    $q->where('full_name', 'LIKE', "%$search%")
+                    $q->where('firstname', 'LIKE', "%$search%")
                         ->orWhere('id', 'LIKE', "%$search%")
                         ->orWhere('created_by', 'LIKE', "%$search%");
                 });
@@ -62,7 +62,7 @@ class ChildrenController extends Controller
             // Use Eloquent to filter data based on the search input
             if ($search) {
                 $query->where(function ($q) use ($search) {
-                    $q->where('full_name', 'LIKE', "%$search%")
+                    $q->where('firstname', 'LIKE', "%$search%")
                         ->orWhere('id', 'LIKE', "%$search%")
                         ->orWhere('created_by', 'LIKE', "%$search%");
                 });
@@ -97,19 +97,31 @@ class ChildrenController extends Controller
        
             $user = new Children;
             $request->validate([
-                'full_name' => [
-                    'required',
-                    'string',
-                    'max:255', // Check uniqueness except for the current user
-                ],
+                'firstname' => 'required|string|max:50',
+                'lastname' => 'required|string|max:30',
+                'sex' => 'required|string|max:10',
+                'age' => 'nullable|integer|max:150',
+                'religion' => 'nullable|string|max:50',
+                'date_of_birth' => 'nullable|date',
+                'place_of_birth' => 'nullable|string|max:100',
+                'educational_attainment' => 'nullable|string|max:100',
+                'region' => 'nullable|string|max:20',
+                'province' => 'nullable|string|max:50',
+                'city' => 'nullable|string|max:50',
+                'barangay' => 'nullable|string|max:50',
+                'street_address' => 'nullable|string|max:50',
+                'present_health_condition' => 'nullable|string',
+                'physical_characteristic' => 'nullable|string',
+                'initial_assessment' => 'nullable|string',
             ]);
+            
 
-
-            $user->full_name = trim($request->full_name);
+            $user->firstname = trim($request->firstname);
+            $user->lastname = trim($request->lastname);
             $user->sex = trim($request->sex);
-            $user->age = trim($request->age);
+            $user->age = $request->input('age') ? (int) $request->input('age') : null;
             $user->religion = trim($request->religion);
-            $user->date_of_birth = trim($request->date_of_birth);
+            $user->date_of_birth = $request->input('date_of_birth') ? trim($request->input('date_of_birth')) : null;
             $user->place_of_birth = trim($request->place_of_birth);
             $user->educational_attainment = trim($request->educational_attainment);
             $user->region = trim($request->region);
@@ -155,20 +167,32 @@ class ChildrenController extends Controller
        
             $user = Children::getSingle($id);
             $request->validate([
-                'full_name' => [
-                    'required',
-                    'string',
-                    'max:255', // Check uniqueness except for the current user
-                ],
+                'firstname' => 'required|string|max:50',
+                'lastname' => 'required|string|max:30',
+                'sex' => 'required|string|max:10',
+                'age' => 'nullable|integer|max:150',
+                'religion' => 'nullable|string|max:50',
+                'date_of_birth' => 'nullable|date',
+                'place_of_birth' => 'nullable|string|max:100',
+                'educational_attainment' => 'nullable|string|max:100',
+                'region' => 'nullable|string|max:20',
+                'province' => 'nullable|string|max:50',
+                'city' => 'nullable|string|max:50',
+                'barangay' => 'nullable|string|max:50',
+                'street_address' => 'nullable|string|max:50',
+                'present_health_condition' => 'nullable|string',
+                'physical_characteristic' => 'nullable|string',
+                'initial_assessment' => 'nullable|string',
             ]);
 
 
 
-            $user->full_name = trim($request->full_name);
+            $user->firstname = trim($request->firstname);
+            $user->lastname = trim($request->lastname);
             $user->sex = trim($request->sex);
-            $user->age = trim($request->age);
+            $user->age = $request->input('age') ? (int) $request->input('age') : null;
             $user->religion = trim($request->religion);
-            $user->date_of_birth = trim($request->date_of_birth);
+            $user->date_of_birth = $request->input('date_of_birth') ? trim($request->input('date_of_birth')) : null;
             $user->place_of_birth = trim($request->place_of_birth);
             $user->educational_attainment = trim($request->educational_attainment);
             $user->region = trim($request->region);
@@ -184,8 +208,9 @@ class ChildrenController extends Controller
             if ($user->infofamily) {
                 $user->infofamily->infofamily_name_of_father = trim($request->infofamily_name_of_father);
                 $user->infofamily->infofamily_name_of_mother = trim($request->infofamily_name_of_mother);
-                $user->infofamily->infofamily_age_of_father = trim($request->infofamily_age_of_father);
-                $user->infofamily->infofamily_age_of_mother = trim($request->infofamily_age_of_mother);
+                $user->infofamily->infofamily_age_of_father = $request->input('infofamily_age_of_father') ? (int) $request->input('infofamily_age_of_father') : null;
+                $user->infofamily->infofamily_age_of_mother = $request->input('infofamily_age_of_mother') ? (int) $request->input('infofamily_age_of_mother') : null;
+                
                 $user->infofamily->infofamily_address = trim($request->infofamily_address);
                 $user->infofamily->infofamily_occupation = trim($request->infofamily_occupation);
                 $user->infofamily->infofamily_occupation_mother = trim($request->infofamily_occupation_mother);
@@ -199,30 +224,31 @@ class ChildrenController extends Controller
                     $siblingId = $sibling->id;
 
                     if (isset($request->sibling_fullname[$siblingId])) {
+                        $sibling_age_input = isset($request->sibling_age[$siblingId]) ? (int) $request->sibling_age[$siblingId] : null;
                         $sibling->update([
                             'sibling_fullname' => trim($request->sibling_fullname[$siblingId]),
-                            'sibling_age' => trim($request->sibling_age[$siblingId]),
+                            'sibling_age' => $sibling_age_input,
                             'sibling_sex' => trim($request->sibling_sex[$siblingId]),
-                            'sibling_date_of_birth' => trim($request->sibling_date_of_birth[$siblingId]),
+                            'sibling_date_of_birth' => $request->sibling_date_of_birth[$siblingId] ? trim($request->sibling_date_of_birth[$siblingId]) : null,
                             'sibling_educational_attainment' => trim($request->sibling_educational_attainment[$siblingId]),
                             'sibling_relationship' => trim($request->sibling_relationship[$siblingId]),
                         ]);
                     }
                 }
             }
-
             if ($user->guardian) {
                 $user->guardian->guardian_name = trim($request->guardian_name);
-                $user->guardian->guardian_age = trim($request->guardian_age);
+                $user->guardian->guardian_age = $request->has('guardian_age') ? (int) $request->input('guardian_age') : null;
+
                 $user->guardian->guardian_sex = trim($request->guardian_sex);
                 $user->guardian->guardian_occupation = trim($request->guardian_occupation);
                 $user->guardian->guardian_circumstances_of_guardian = trim($request->guardian_circumstances_of_guardian);
                 $user->guardian->guardian_economic_situation_of_the_family = trim($request->guardian_economic_situation_of_the_family);
-
             }
             if ($user->finder) {
                 $user->finder->finder_fullname = trim($request->finder_fullname);
-                $user->finder->finder_age = trim($request->finder_age);
+                $user->finder->finder_age = $request->has('finder_age') ? (int) $request->input('finder_age') : null;
+
                 $user->finder->finder_sex = trim($request->finder_sex);
                 $user->finder->finder_occupation = trim($request->finder_occupation);
                 $user->finder->finder_civil_status = trim($request->finder_civil_status);
@@ -269,12 +295,6 @@ class ChildrenController extends Controller
             }
             return redirect()->back()->with('success', 'Children Profile successfully updated');
         
-        
-
-
-
-
-
     }
     public function childrenlistarchive(Request $request)
     {
@@ -292,7 +312,7 @@ class ChildrenController extends Controller
             // Use Eloquent to filter data based on the search input
             if ($search) {
                 $query->where(function ($q) use ($search) {
-                    $q->where('full_name', 'LIKE', "%$search%")
+                    $q->where('firstname', 'LIKE', "%$search%")
                         ->orWhere('id', 'LIKE', "%$search%")
                         ->orWhere('created_by', 'LIKE', "%$search%");
                 });
@@ -317,7 +337,7 @@ class ChildrenController extends Controller
             // Use Eloquent to filter data based on the search input
             if ($search) {
                 $query->where(function ($q) use ($search) {
-                    $q->where('full_name', 'LIKE', "%$search%")
+                    $q->where('firstname', 'LIKE', "%$search%")
                         ->orWhere('id', 'LIKE', "%$search%")
                         ->orWhere('created_by', 'LIKE', "%$search%");
                 });
@@ -354,15 +374,15 @@ class ChildrenController extends Controller
     public function deletePermanentChildren($id)
     {
         // Find the user by ID
-        $user = Children::getSingle($id);
+        $child = Children::getSingle($id);
 
-        if (!$user) {
+        if (!$child) {
             // Handle case where user is not found
             // You may want to redirect or display an error message
         }
 
         // Perform the permanent deletion
-        $user->forceDelete();
+        $child->forceDelete();
 
         // Redirect or return a response as needed
         return redirect()->back()->with('success', 'Users successfully Deleted');
@@ -428,9 +448,8 @@ class ChildrenController extends Controller
     }
     
 
-public function Infofamilies(Request $request)
-{
-    try {
+    public function Infofamilies(Request $request)
+    {
         $request->validate([
             'children_id' => 'required|integer',
             // Add other validation rules if needed
@@ -439,51 +458,45 @@ public function Infofamilies(Request $request)
             'children_id.integer' => 'Invalid value for child.',
             // Add other custom error messages if needed 
         ]);
-
+    
         // Log the incoming request data for debugging
-        Log::info('Request Data:', $request->all());
-
+    
         // Check if the record with the specified children_id already exists
         $existingInfofamily = Infofamily::where('children_id', $request->input('children_id'))->first();
-
+    
         if ($existingInfofamily) {
             return redirect()->back()->with('error', 'Family for this child already exists');
         }
-
+    
         // If the record doesn't exist, proceed to create and save a new record
-        $user = new Infofamily;
-        $user->infofamily_name_of_father = trim($request->infofamily_name_of_father);
-        $user->infofamily_name_of_mother = trim($request->infofamily_name_of_mother);
-        $user->infofamily_age_of_father = trim($request->infofamily_age_of_father);
-        $user->infofamily_age_of_mother = trim($request->infofamily_age_of_mother);
-        $user->infofamily_address = trim($request->infofamily_address);
-        $user->infofamily_occupation = trim($request->infofamily_occupation);
-        $user->infofamily_occupation_mother = trim($request->infofamily_occupation_mother);
-
+        $infofamily = new Infofamily;
+        $infofamily->infofamily_name_of_father = trim($request->infofamily_name_of_father);
+        $infofamily->infofamily_name_of_mother = trim($request->infofamily_name_of_mother);
+        $infofamily->infofamily_age_of_father = $request->has('infofamily_age_of_father') ? (int)$request->input('infofamily_age_of_father') : null;
+        $infofamily->infofamily_age_of_mother = $request->has('infofamily_age_of_mother') ? (int)$request->input('infofamily_age_of_mother') : null;
+        $infofamily->infofamily_address = trim($request->infofamily_address);
+        $infofamily->infofamily_occupation = trim($request->infofamily_occupation);
+        $infofamily->infofamily_occupation_mother = trim($request->infofamily_occupation_mother);
+    
+       
+    
         if ($request->has('children_id')) {
             $childrenId = $request->input('children_id');
             $children = Children::find($childrenId);
-
+    
             if ($children) {
-                $user->children()->associate($children);
+                $infofamily->children()->associate($children);
             } else {
                 // Log the error and handle the case where the child with the specified ID is not found
                 Log::error('Child not found for ID: ' . $childrenId);
                 return redirect()->back()->with('error', 'Child not found');
             }
         }
-
-        $user->save();
-
+         $infofamily->save();
+    
         return redirect()->back()->with('success', 'Family successfully added');
-    } catch (\Exception $e) {
-        // Log any exceptions for debugging
-        Log::error('Error in Infofamilies method: ' . $e->getMessage());
-
-        // Handle the exception as needed
-        return redirect()->back()->with('error', 'An error occurred. Please try again.');
     }
-}
+    
 
 
     public function siblings(request $request)
@@ -500,9 +513,10 @@ public function Infofamilies(Request $request)
 
 
         $user->sibling_fullname = trim($request->sibling_fullname);
-        $user->sibling_age = trim($request->sibling_age);
+        $user->sibling_age = $request->has('sibling_age') ? (int) $request->input('sibling_age') : null;
+
         $user->sibling_sex = trim($request->sibling_sex);
-        $user->sibling_date_of_birth = trim($request->sibling_date_of_birth);
+        $user->sibling_date_of_birth = $request->input('sibling_date_of_birth') ? trim($request->input('sibling_date_of_birth')) : null;
         $user->sibling_educational_attainment = trim($request->sibling_educational_attainment);
         $user->sibling_relationship = trim($request->sibling_relationship);
         if ($request->has('children_id')) {
@@ -555,7 +569,8 @@ public function Infofamilies(Request $request)
         }
 
         $user->guardian_name = trim($request->guardian_name);
-        $user->guardian_age = trim($request->guardian_age);
+        $user->guardian_age = $request->has('guardian_age') ? (int) $request->input('guardian_age') : null;
+
         $user->guardian_sex = trim($request->guardian_sex);
         $user->guardian_occupation = trim($request->guardian_occupation);
         $user->guardian_circumstances_of_guardian = trim($request->guardian_circumstances_of_guardian);
@@ -608,7 +623,7 @@ public function Infofamilies(Request $request)
         }
 
         $user->finder_fullname = trim($request->finder_fullname);
-        $user->finder_age = trim($request->finder_age);
+        $user->finder_age = $request->has('finder_age') ? (int) $request->input('finder_age') : null;
         $user->finder_sex = trim($request->finder_sex);
         $user->finder_occupation = trim($request->finder_occupation);
         $user->finder_civil_status = trim($request->finder_civil_status);
@@ -663,8 +678,10 @@ public function Infofamilies(Request $request)
         }
 
         $user->development_birth_history = trim($request->development_birth_history);
-        $user->development_birth_weight = trim($request->development_birth_weight);
-        $user->development_birth_height = trim($request->development_birth_height);
+        $user->development_birth_weight = is_numeric($request->development_birth_weight) ? trim($request->development_birth_weight) : null;
+        $user->development_birth_height = is_numeric($request->development_birth_height) ? trim($request->development_birth_height) : null;
+        
+
         $user->development_describe_abnormalities = trim($request->development_describe_abnormalities);
 
         if ($request->has('children_id')) {
@@ -712,7 +729,7 @@ public function Infofamilies(Request $request)
         $existingHabit = Habit::where('children_id', $request->input('children_id'))->first();
 
         if ($existingHabit) {
-            return redirect()->back()->with('error', 'Family for this child already exists');
+            return redirect()->back()->with('error', 'Habits for this child already exists');
         }
 
         $user->habit_bedwetting = trim($request->habit_bedwetting);
@@ -737,7 +754,7 @@ public function Infofamilies(Request $request)
 
         $user->save();
 
-        return redirect()->back()->wisiblingsth('success', 'Habits successfully added');
+        return redirect()->back()->with('success', 'Habits successfully added');
     }
     public function Addrehabilitations()
     {

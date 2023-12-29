@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('habits', function (Blueprint $table) {
             $table->id();
-            $table->string('bedwetting')->nullable();
-            $table->string('thumb_sucking')->nullable();
-            $table->string('nail_biting')->nullable();
+            $table->char('bedwetting',30)->nullable();
+            $table->char('thumb_sucking',30)->nullable();
+            $table->char('nail_biting',30)->nullable();
             $table->text('others')->nullable();
-            $table->string('measles')->nullable();
-            $table->string('chickenpox')->nullable();
-            $table->string('mumps')->nullable();
-            $table->string('allergy')->nullable();
-            $table->string('convulsions')->nullable();
-            $table->string('primary_complex')->nullable();
+            $table->char('measles',30)->nullable();
+            $table->char('chickenpox',30)->nullable();
+            $table->char('mumps',30)->nullable();
+            $table->char('allergy',30)->nullable();
+            $table->char('convulsions',30)->nullable();
+            $table->char('primary_complex',30)->nullable();
             $table->text('other_specify')->nullable();
             $table->text('motor_development')->nullable();
             $table->text('toilet_training')->nullable();

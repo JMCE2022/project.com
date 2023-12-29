@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('developments', function (Blueprint $table) {
             $table->id();
-            $table->string('birth_history')->nullable();
-            $table->string('birth_weight')->nullable();
-            $table->string('birth_height')->nullable();
+            $table->char('birth_history',30)->nullable();
+            $table->tinyInteger('birth_weight')->nullable();
+            $table->tinyInteger('birth_height')->nullable();
             $table->text('describe_abnormalities')->nullable();
             $table->foreignId('children_id')->constrained('childrens')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();

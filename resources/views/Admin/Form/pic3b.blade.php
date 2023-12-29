@@ -12,7 +12,7 @@
     <div class="container-fluid pt-4 px-4 text-dark">
         <div class="container bg-white rounded">
             <div class="row pt-4">
-                <div class="col-md-3">
+            <div class="col-md-4">
 
 
                     <div class="clickable-box">
@@ -25,7 +25,7 @@
                 </div>
                 <div class="col-12 ">
                     <div class="table-responsive">
-                        <table id="myTable" class="table table-hover text-dark">
+                        <table id="myTable" class="table table-form table-hover text-dark">
                             <thead>
                                 <tr>
                                     <th class="text-center" colspan="16">DEPARTMENT OF SOCIAL WELFARE AND

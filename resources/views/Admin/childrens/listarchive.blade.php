@@ -44,7 +44,7 @@
                         @foreach($getRecord as $children)
                         <tr>
                             <td>{{ $children->id }}</td>
-                            <td>{{ $children->full_name }}</td>
+                            <td>{{ $children->firstname }} {{ $children->lastname }}</td>
                             <td>{{ $children->age }}</td>
                             <td>{{ $children->sex }}</td>
                             <td>{{ $children->created_by }}</td>

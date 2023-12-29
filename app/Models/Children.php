@@ -13,7 +13,8 @@ class Children extends Model
 
     protected $fillable = [
         'case_number',
-        'full_name',
+        'firstname',
+        'lastname',
         'sex',
         'age',
         'religion',

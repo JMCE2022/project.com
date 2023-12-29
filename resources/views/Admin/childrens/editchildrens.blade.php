@@ -6,7 +6,7 @@
 <div class=" m-4">
 
     <div class="d-flex align-items-center justify-content-between">
-        <h2 class="text-dark text-capitalize">{{$getRecord->full_name}} Profile</h2>
+        <h2 class="text-dark text-capitalize">{{$getRecord->firstname}} {{$getRecord->lastname}} Profile</h2>
     </div>
     @include('layouts._message')
 
@@ -17,12 +17,20 @@
                     <form method="post" action="" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
-                            <label class="form-label ">Full Name</label>
-                            <input type="text" name="full_name" class="custom-input bg-transparent"
-                                value="{{$getRecord->full_name  ?? ''}}">
+                            <label class="form-label ">First Name</label>
+                            <input type="text" name="firstname" class="custom-input bg-transparent"
+                                value="{{$getRecord->firstname  ?? ''}}">
                         </div>
-                        @if($errors->has('full_name'))
-                        <span class="text-danger">{{ $errors->first('full_name') }}</span>
+                        @if($errors->has('firstname'))
+                        <span class="text-danger">{{ $errors->first('firstname') }}</span>
+                        @endif
+                        <div class="mb-3">
+                            <label class="form-label ">Last Name</label>
+                            <input type="text" name="lastname" class="custom-input bg-transparent"
+                                value="{{$getRecord->lastname  ?? ''}}">
+                        </div>
+                        @if($errors->has('lastname'))
+                        <span class="text-danger">{{ $errors->first('lastname') }}</span>
                         @endif
                         <div class="mb-3">
                             <label class="form-label ">Age</label>

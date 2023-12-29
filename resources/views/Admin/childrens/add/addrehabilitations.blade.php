@@ -22,7 +22,7 @@
                         <select name="children_id" class="custom-input mb-2">
                             <option value="" disabled selected>Select a child</option>
                             @foreach($getRecord as $child)
-                            <option value="{{ $child->id }}">{{ $child->id }} - {{ $child->full_name }}</option>
+                            <option value="{{ $child->id }}">{{ $child->id }} - {{ $child->firstname }} {{ $child->lastname }}</option>
                             @endforeach
                         </select>
                 </div>

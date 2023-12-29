@@ -12,7 +12,7 @@
     <div class="container-fluid pt-4 px-4 text-dark">
         <div class="container bg-white rounded">
             <div class="row pt-4">
-                <div class="col-md-3">
+                <div class="col-md-4">
 
                
                         <div class="clickable-box">
@@ -25,7 +25,7 @@
                 </div>
                 <div class="col-12 ">
                     <div class="table-responsive">
-                        <table id="myTable" class="table table-hover text-dark">
+                        <table id="myTable" class=" table table-form table-hover text-dark">
                             <thead>
                                 <tr>
                                     <th class="text-center" colspan="17">DEPARTMENT OF SOCIAL WELFARE AND
@@ -45,42 +45,40 @@
                                 </tr>
                                 <tr>
 
-                                    <th class="text-start" colspan="17"> Period Covered: </th>
+                                    <th class="text-start" rowspan="" colspan="17"> Period Covered: </th>
                                 </tr>
+                               
                                 <tr>
 
-                                    <th class="text-start" colspan="17"> </th>
-                                </tr>
-                                <tr>
-
-                                    <th class="text-center" colspan="1">Client Days of Care</th>
-                                    <th class="text-center" colspan="1">Bed Capacity</th>
-                                    <th class="text-center" colspan="1">Client Bed Days Available</th>
-                                    <th class="text-center" colspan="3">Total Number of Clients Served</th>
-                                    <th class="text-center" colspan="1">Total Number of Discharged Clients </th>
-                                    <th class="text-center" colspan="1">Total Discharge Days</th>
-                                    <th class="text-center" colspan="1">Total Number of Rehabilitated Clients</th>
-                                    <th class="text-center" colspan="1">Total Rehab Days</th>
-                                    <th class="text-center" colspan="1">Total Admission</th>
-                                    <th class="text-center" colspan="1">Occupancy Rate</th>
-                                    <th class="text-center" colspan="1">Client - Social Worker Ratio</th>
-                                    <th class="text-center" colspan="1">Client - House Parent Ratio</th>
+                                    <th class="text-center" rowspan="3" colspan="1">Client Days of Care</th>
+                                    <th class="text-center" rowspan="3" colspan="1">Bed Capacity</th>
+                                    <th class="text-center" rowspan="3" colspan="1">Client Bed Days Available</th>
+                                    <th class="text-center" rowspan="2" colspan="3">Total Number of Clients Served</th>
+                                    <th class="text-center" rowspan="3" colspan="1">Total Number of Discharged Clients </th>
+                                    <th class="text-center" rowspan="3" colspan="1">Total Discharge Days</th>
+                                    <th class="text-center" rowspan="3" colspan="1">Total Number of Rehabilitated Clients</th>
+                                    <th class="text-center" rowspan="3" colspan="1">Total Rehab Days</th>
+                                    <th class="text-center" rowspan="3" colspan="1">Total Admission</th>
+                                    <th class="text-center" rowspan="3" colspan="1">Occupancy Rate</th>
+                                    <th class="text-center" rowspan="3" colspan="1">Client - Social Worker Ratio</th>
+                                    <th class="text-center" rowspan="3" colspan="1">Client - House Parent Ratio</th>
                                     <th class="text-center" colspan="3">Calculations</th>
                                 </tr>
                                 <tr>
 
-                                    <th class="text-center" colspan="1"></th>
-                                    <th class="text-center" colspan="13"></th>
+                                 
+                                    
                                     <th class="text-center" colspan="3">Average Length of Stay</th>
                                 </tr>
                                 <tr>
 
-                                    <th class="text-center" colspan="3"></th>
+                                 
+
+                               
                                     <th class="text-center" colspan="1">M</th>
                                     <th class="text-center" colspan="1">F</th>
                                     <th class="text-center" colspan="1">Total</th>
 
-                                    <th class="text-center" colspan="8"></th>
                                     <th class="text-center" colspan="1">Discharge Based</th>
                                     <th class="text-center" colspan="1">Rehabilation Based</th>
                                     <th class="text-center" colspan="1">Admission Based</th>

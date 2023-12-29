@@ -70,7 +70,7 @@
 </div>
 @endif
 @elseif(Auth::user()->user_type == 'Staff')
-@if(Request::segment(3)== 'Addchildrens')
+@if(in_array(Request::segment(3), ['Addchildrens', 'Addinfofamilies','Addsiblings','Addguardians']))
 <a href="{{url('Staff/Listchildrens/Addchildrens')}}" class="text-decoration-none">
     <div class="clickable-box shadow p-3 mb-5 bg-info rounded " style="height: 120px;">
         <span class="font-weight-bold text-white text-center fs-6">I. Identification Information</span>
@@ -85,7 +85,7 @@
 </a>
 </div>
 @endif
-@if(Request::segment(3)== 'Addfinders')
+@if(in_array(Request::segment(3), ['Addfinders', 'Adddevelopments','Addhabits']))
 <div class="col-md-3">
     <a href="{{url('Staff/Listchildrens/Addfinders')}}" class="text-decoration-none">
         <div class="clickable-box shadow p-3 mb-5 bg-warning rounded " style="height: 120px;">

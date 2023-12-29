@@ -104,8 +104,7 @@
                         <div class="row">
                             <div class="col-8 col-md-8">
                                 <span class="text-bold text-dark">Name of Child: <span
-                                        class="text-dark text-decoration-underline">{{ $getRecord->full_name
-                                        }}</span></span>
+                                        class="text-dark text-decoration-underline">{{ $getRecord->firstname}} {{ $getRecord->lastname}}</span></span>
                             </div>
 
                             <div class="col-4 col-md-4 ">

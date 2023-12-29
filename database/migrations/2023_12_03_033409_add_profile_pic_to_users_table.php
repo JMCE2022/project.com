@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->string('profile_pic', 100)->nullable()->collation('utf8mb4_unicode_ci');
+            $table->char('profile_pic', 100)->nullable()->collation('utf8mb4_unicode_ci');
         });
     }
 

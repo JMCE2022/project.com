@@ -13,23 +13,23 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->char('middle_initial', 1)->nullable();
-            $table->string('suffix')->nullable();
-            $table->string('sex')->nullable();
-            $table->string('place_of_birth')->nullable();
-            $table->char('date_of_birth', 100)->nullable();
-            $table->string('religion')->nullable();
-            $table->char('age', 3)->nullable();
-            $table->string('civil_status')->nullable();
-            $table->char('height', 5)->nullable();
-            $table->char('weight', 5)->nullable();
-            $table->string('phone_number')->nullable();
-            $table->string('email_address')->nullable();
-            $table->string('region')->nullable();
-            $table->string('province')->nullable();
-            $table->string('city')->nullable();
-            $table->string('barangay')->nullable();
-            $table->string('street_address')->nullable(); // You mentioned 'No./Sition/Purok'
-            $table->char('zip_code', 11)->nullable();
+            $table->char('suffix',10)->nullable();
+            $table->char('sex',10)->nullable();
+            $table->char('place_of_birth',100)->nullable();
+            $table->date('date_of_birth')->nullable();
+            $table->char('religion',50)->nullable();
+            $table->tinyInteger('age')->nullable()->change();
+            $table->char('civil_status',10)->nullable();
+            $table->tinyInteger('height')->nullable(); // height in CM
+            $table->tinyInteger('weight')->nullable(); // weight in Kilogram
+            $table->tinyInterger('phone_number', 13)->nullable();
+            $table->char('email_address',50)->nullable();
+            $table->char('region',20)->nullable();
+            $table->char('province',50)->nullable();
+            $table->char('city',50)->nullable();
+            $table->char('barangay',50)->nullable();
+            $table->char('street_address',50)->nullable(); // You mentioned 'No./Sition/Purok'
+            $table->char('zip_code', 4)->nullable();
         });
     }
 

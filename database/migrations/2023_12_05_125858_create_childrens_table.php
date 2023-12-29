@@ -12,21 +12,22 @@ return new class extends Migration {
     {
         Schema::create('childrens', function (Blueprint $table) {
             $table->id();
-            $table->string('full_name');
-            $table->string('sex');
-            $table->char('age');
-            $table->string('religion')->nullable();
-            $table->char('date_of_birth')->nullable();
-            $table->string('place_of_birth')->nullable();
-            $table->string('educational_attainment')->nullable();
-            $table->string('region')->nullable();
-            $table->string('province')->nullable();
-            $table->string('city')->nullable();
-            $table->string('barangay')->nullable();
-            $table->string('street_address')->nullable();
+            $table->char('firstname',50);
+            $table->char('lastname',30);
+            $table->char('sex',10);
+            $table->tinyInteger('age')->nullable()->change();
+            $table->char('religion',50)->nullable();
+            $table->date('date_of_birth')->nullable();
+            $table->char('place_of_birth',100)->nullable();
+            $table->char('educational_attainment',100)->nullable();
+            $table->char('region',20)->nullable();
+            $table->char('province',50)->nullable();
+            $table->char('city',50)->nullable();
+            $table->char('barangay',50)->nullable();
+            $table->char('street_address',50)->nullable();
             $table->text('present_health_condition')->nullable();
             $table->text('physical_characteristic')->nullable();
-            $table->string('created_by')->nullable();
+            $table->char('created_by',100)->nullable();
             $table->tinyInteger('is_deleted')->default('0');
             $table->timestamps();
         });
