@@ -52,8 +52,8 @@
                             <select class="form-select bg-white text-dark custom-input" name="sex"
                                 aria-label="Floating label select example">
                                 <option disabled selected class="text-dark">Select</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
+                                <option value="Male" @if($getRecord->sex == 'Male') selected @endif>Male</option>
+                                <option value="Female" @if($getRecord->sex == 'Female') selected @endif>Female</option>
                             </select>
                             <label for="floatingSelect">Sex</label>
                         </div>
@@ -258,9 +258,11 @@
                                         value="{{ $sibling->sibling_fullname }}"></td>
                                 <td><input class="text-center input_table" name="sibling_age[{{ $sibling->id }}]"
                                         value="{{ $sibling->sibling_age }}"></td>
-                                <td><input class="text-center input_table" name="sibling_sex[{{ $sibling->id }}]"
-                                        value="{{ $sibling->sibling_sex }}"></td>
-                                <td><input class="text-center input_table"
+                                <td>
+                                    <input class="text-center input_table" name="sibling_sex[{{ $sibling->id }}]"
+                                        value="{{ $sibling->sibling_sex }}">
+                                </td>
+                                <td><input class="text-center input_table" type="date"
                                         name="sibling_date_of_birth[{{ $sibling->id }}]"
                                         value="{{ $sibling->sibling_date_of_birth }}"></td>
                                 <td><input class="text-center input_table"
@@ -304,8 +306,10 @@
                             <select class="form-select bg-white text-dark custom-input" name="guardian_sex"
                                 aria-label="Floating label select example">
                                 <option value="" disabled selected class="text-dark">Select</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
+                                <option value="Male" @if($getRecord->guardian->guardian_sex == 'Male') selected
+                                    @endif>Male</option>
+                                <option value="Female" @if($getRecord->guardian->guardian_sex == 'Female') selected
+                                    @endif>Female</option>
                             </select>
                         </div>
                         @if($errors->has('sex'))
@@ -372,8 +376,10 @@
                                 aria-label="Floating label select example">
                                 <option value="" disabled selected class="text-dark">Select
                                 </option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
+                                <option value="Male" @if($getRecord->finder->finder_sex == 'Male') selected @endif>Male
+                                </option>
+                                <option value="Female" @if($getRecord->finder->finder_sex == 'Female') selected
+                                    @endif>Female</option>
                             </select>
                         </div>
                         @if($errors->has('finder_sex'))
@@ -498,255 +504,263 @@
                     <h5 class="text-center text-dark">Habit</h5>
                     <div class="col-sm-12 col-xl-12">
                         <div class="form-check mr-sm-2">
-                            <input value="Yes" name="habit_bedwetting" type="checkbox" class="form-check-input" />
+                            <input value="Yes" name="habit_bedwetting" type="checkbox" class="form-check-input" {{
+                                $getRecord->habit->habit_bedwetting =='Yes' ? 'checked' : '' }} />
                             <label class="form-check-label mb-0">Bedwetting</label>
                         </div>
                         @if($errors->has('habit_bedwetting'))
-                        <span class="text-danger">{{
-                            $errors->first('habit_bedwetting') }}</span>
+                        <span class="text-danger">{{ $errors->first('habit_bedwetting') }}</span>
                         @endif
-                        <div class="form-check mr-sm-2">
-                            <input value="Yes" name="habit_thumb_sucking" type="checkbox" class="form-check-input" />
-                            <label class="form-check-label mb-0">Thumb
-                                Sucking</label>
-                        </div>
-                        @if($errors->has('habit_bedwetting'))
-                        <span class="text-danger">{{
-                            $errors->first('habit_bedwetting') }}</span>
-                        @endif
-                        <div class="form-check mr-sm-2">
-                            <input value="Yes" name="habit_nail_biting" type="checkbox" class="form-check-input" />
-                            <label class="form-check-label mb-0">Nail
-                                Biting</label>
-                        </div>
-                        @if($errors->has('habit_nail_biting'))
-                        <span class="text-danger">{{
-                            $errors->first('habit_nail_biting') }}</span>
-                        @endif
-                        <div class=" mb-3">
-                            <label>Others</label>
-                            <input type="text" name="habit_others" class="custom-input bg-white" style="height:100px;"
-                                value="{{$getRecord->habit->habit_others  ?? ''}}">
-                        </div>
-                        @if($errors->has('habit_others'))
-                        <span class="text-danger">{{
-                            $errors->first('habit_others') }}</span>
-                        @endif
-                        <h6 class="text-dark text-center my-4">Disease During
-                            Childhood</h6>
-                        <div class="form-check mr-sm-2">
-                            <input value="Yes" name="habit_measles" type="checkbox" class="form-check-input" />
-                            <label class="form-check-label mb-0">Measles</label>
-                        </div>
-                        @if($errors->has('habit_measles'))
-                        <span class="text-danger">{{
-                            $errors->first('habit_measles') }}</span>
-                        @endif
-                        <div class="form-check mr-sm-2">
-                            <input value="Yes" name="habit_chickenpox" type="checkbox" class="form-check-input" />
-                            <label class="form-check-label mb-0">Chickenpox</label>
-                        </div>
-                        @if($errors->has('habit_chickenpox'))
-                        <span class="text-danger">{{
-                            $errors->first('habit_chickenpox') }}</span>
-                        @endif
-                        <div class="form-check mr-sm-2">
-                            <input value="Yes" name="habit_mumps" type="checkbox" class="form-check-input" />
-                            <label class="form-check-label mb-0">Mumps</label>
-                        </div>
-                        @if($errors->has('habit_mumps'))
-                        <span class="text-danger">{{
-                            $errors->first('habit_mumps') }}</span>
-                        @endif
-                        <div class="form-check mr-sm-2">
-                            <input value="Yes" name="habit_allergy" type="checkbox" class="form-check-input" />
-                            <label class="form-check-label mb-0">Allergy</label>
-                        </div>
-                        @if($errors->has('habit_allergy'))
-                        <span class="text-danger">{{
-                            $errors->first('habit_allergy') }}</span>
-                        @endif
-                        <div class="form-check mr-sm-2">
-                            <input value="Yes" name="habit_convulsions" type="checkbox" class="form-check-input" />
-                            <label class="form-check-label mb-0">Convulsions</label>
-                        </div>
-                        @if($errors->has('habit_convulsions'))
-                        <span class="text-danger">{{
-                            $errors->first('habit_convulsions') }}</span>
-                        @endif
-                        <div class="form-check mr-sm-2">
-                            <input value="Yes" name="habit_primary_complex" type="checkbox" class="form-check-input" />
-                            <label class="form-check-label mb-0">Primary
-                                Complex</label>
-                        </div>
-                        @if($errors->has('habit_primary_complex'))
-                        <span class="text-danger">{{
-                            $errors->first('habit_primary_complex') }}</span>
-                        @endif
-                        <div class=" mb-3">
-                            <label>Others and Specify</label>
-                            <input type="text" name="habit_other_specify" class="custom-input bg-white"
-                                style="height:100px;" value="{{$getRecord->habit->habit_other_specify  ?? ''}}">
-                        </div>
-                        @if($errors->has('habit_other_specify'))
-                        <span class="text-danger">{{
-                            $errors->first('habit_other_specify') }}</span>
-                        @endif
-                        <div class=" mb-3">
-                            <label>Motor Development (describe, when, include
-                                problems, if any)</label>
-                            <input type="text" name="habit_motor_development" class="custom-input bg-white"
-                                style="height:100px;" value="{{$getRecord->habit->habit_motor_development  ?? ''}}">
-                        </div>
-                        @if($errors->has('habit_motor_development'))
-                        <span class="text-danger">{{
-                            $errors->first('habit_motor_development') }}</span>
-                        @endif
-                        <div class=" mb-3">
-                            <label>Toilet Training (describe, when, include
-                                problems, if any)</label>
-                            <input type="text" name="habit_toilet_training" class="custom-input bg-white"
-                                style="height:100px;" value="{{$getRecord->habit->habit_toilet_training  ?? ''}}">
-                        </div>
-                        @if($errors->has('habit_toilet_training'))
-                        <span class="text-danger">{{
-                            $errors->first('habit_toilet_training') }}</span>
-                        @endif
+                    
+
+                    <div class="form-check mr-sm-2">
+                        <input value="Yes" name="habit_thumb_sucking" type="checkbox" class="form-check-input" 
+                        {{$getRecord->habit->habit_thumb_sucking =='Yes' ? 'checked' : '' }}/>
+                        <label class="form-check-label mb-0">Thumb
+                            Sucking</label>
                     </div>
-                </div>
-                @endif
-                @if($getRecord->rehabilitation)
-                <div class="row pt-4">
-                    <h5 class="text-center text-dark">Rehabilitation
-                        Goal & Objective</h5>
-                    <div class="col-sm-12 col-xl-12">
-                        <div class=" mb-3">
-                            <label>1. To restore/develop social
-                                functioning of the child.</label>
-                            <input type="text" name="rehabilitation_restore_develop" class="custom-input bg-white"
-                                style="height:100px;"
-                                value=" {{$getRecord->rehabilitation->rehabilitation_restore_develop  ?? ''}}">
-                        </div>
-                        @if($errors->has('rehabilitation_restore_develop'))
-                        <span class="text-danger">{{
-                            $errors->first('rehabilitation_restore_develop')
-                            }}</span>
-                        @endif
-                        <div class="mb-3">
-                            <label>2. To improve the nutritional and
-                                health status of the child.</label>
-                            <input type="text" name="rehabilitation_improve" class="custom-input bg-white "
-                                style="height:100px;"
-                                value=" {{$getRecord->rehabilitation->rehabilitation_improve  ?? ''}}">
-                        </div>
-                        @if($errors->has('rehabilitation_improve'))
-                        <span class="text-danger">{{
-                            $errors->first('rehabilitation_improve')
-                            }}</span>
-                        @endif
-                        <div class="">
-                            <label>3. To reintegrate child to parents
-                                and/ or relatives.</label>
-                            <input type="text" name="rehabilitation_reintegrate" class="custom-input bg-white my-1 me-1"
-                                style="height:100px;"
-                                value=" {{$getRecord->rehabilitation->rehabilitation_reintegrate  ?? ''}}">
-                        </div>
-                        @if($errors->has('rehabilitation_reintegrate'))
-                        <span class="text-danger">{{
-                            $errors->first('rehabilitation_reintegrate')
-                            }}</span>
-                        @endif
-                        <div class="">
-                            <label>4. To placed out child for
-                                adoption.</label>
-                            <input type="text" name="rehabilitation_placed" class="custom-input bg-white my-1 me-1"
-                                style="height:100px;"
-                                value=" {{$getRecord->rehabilitation->rehabilitation_placed  ?? ''}}">
-                        </div>
-                        @if($errors->has('rehabilitation_placed'))
-                        <span class="text-danger">{{
-                            $errors->first('rehabilitation_placed')
-                            }}</span>
-                        @endif
-                        <div class="">
-                            <label>5. To refer child to foster care
-                                placement.</label>
-                            <input type="text" name="rehabilitation_refer" class="custom-input bg-white my-1 me-1"
-                                style="height:100px;"
-                                value=" {{$getRecord->rehabilitation->rehabilitation_refer  ?? ''}}">
-                        </div>
-                        @if($errors->has('rehabilitation_refer'))
-                        <span class="text-danger">{{
-                            $errors->first('rehabilitation_refer')
-                            }}</span>
-                        @endif
-                        <div class="">
-                            <label>6. To transfer child to other
-                                institution that can provide the
-                                necessary services needed by the
-                                child.</label>
-                            <input type="text" name="rehabilitation_transfer" class="custom-input bg-white my-1 me-1"
-                                style="height:100px;"
-                                value=" {{$getRecord->rehabilitation->rehabilitation_transfer  ?? ''}}">
-                        </div>
-                        @if($errors->has('rehabilitation_transfer'))
-                        <span class="text-danger">{{
-                            $errors->first('rehabilitation_transfer')
-                            }}</span>
-                        @endif
+                    @if($errors->has('habit_thumb_sucking'))
+                    <span class="text-danger">{{
+                        $errors->first('habit_thumb_sucking') }}</span>
+                    @endif
+                    <div class="form-check mr-sm-2">
+                        <input value="Yes" name="habit_nail_biting" type="checkbox" class="form-check-input"
+                        {{$getRecord->habit->habit_nail_biting =='Yes' ? 'checked' : '' }} />
+                        <label class="form-check-label mb-0">Nail
+                            Biting</label>
                     </div>
-                </div>
-                @endif
-                @if($getRecord->recommendation)
-                <div class="row pt-4">
-                    <h5 class="text-center text-dark">
-                        Recommendation</h5>
-                    <div class="col-sm-12 col-xl-12">
-                        <div class=" mb-3">
-                            <input type="text" name="recommendation_recommendation" class="custom-input bg-white"
-                                style="height:100px;"
-                                value=" {{$getRecord->recommendation->recommendation_recommendation  ?? ''}}">
-                        </div>
-                        @if($errors->has('recommendation_recommendation'))
-                        <span class="text-danger">{{
-                            $errors->first('recommendation_recommendation')
-                            }}</span>
-                        @endif
-                        <div class="mb-3">
-                            <h5 class="text-center text-dark">
-                                Plan of Action</h5>
-                            <input type="text" name="recommendation_plan_of_action" class="custom-input bg-white "
-                                style="height:100px;"
-                                value=" {{$getRecord->recommendation->recommendation_plan_of_action  ?? ''}}">
-                        </div>
-                        @if($errors->has('recommendation_plan_of_action'))
-                        <span class="text-danger">{{
-                            $errors->first('recommendation_plan_of_action')
-                            }}</span>
-                        @endif
-                        <div class="">
-                            <h5 class="text-center text-dark">
-                                Action Taken</h5>
-                            <input type="text" name="recommendation_action_taken"
-                                class="custom-input bg-white my-1 me-1" style="height:100px;"
-                                value=" {{$getRecord->recommendation->recommendation_action_taken  ?? ''}}">
-                        </div>
-                        @if($errors->has('recommendation_action_taken'))
-                        <span class="text-danger">{{
-                            $errors->first('recommendation_action_taken')
-                            }}</span>
-                        @endif
+                    @if($errors->has('habit_nail_biting'))
+                    <span class="text-danger">{{
+                        $errors->first('habit_nail_biting') }}</span>
+                    @endif
+                    <div class=" mb-3">
+                        <label>Others</label>
+                        <input type="text" name="habit_others" class="custom-input bg-white" style="height:100px;"
+                            value="{{$getRecord->habit->habit_others  ?? ''}}">
                     </div>
+                    @if($errors->has('habit_others'))
+                    <span class="text-danger">{{
+                        $errors->first('habit_others') }}</span>
+                    @endif
+                    <h6 class="text-dark text-center my-4">Disease During
+                        Childhood</h6>
+                    <div class="form-check mr-sm-2">
+                        <input value="Yes" name="habit_measles" type="checkbox" class="form-check-input" 
+                        {{$getRecord->habit->habit_measles =='Yes' ? 'checked' : '' }}/>
+                        <label class="form-check-label mb-0">Measles</label>
+                    </div>
+                    @if($errors->has('habit_measles'))
+                    <span class="text-danger">{{
+                        $errors->first('habit_measles') }}</span>
+                    @endif
+                    <div class="form-check mr-sm-2">
+                        <input value="Yes" name="habit_chickenpox" type="checkbox" class="form-check-input" 
+                        {{$getRecord->habit->habit_chickenpox =='Yes' ? 'checked' : '' }}/>
+                        <label class="form-check-label mb-0">Chickenpox</label>
+                    </div>
+                    @if($errors->has('habit_chickenpox'))
+                    <span class="text-danger">{{
+                        $errors->first('habit_chickenpox') }}</span>
+                    @endif
+                    <div class="form-check mr-sm-2">
+                        <input value="Yes" name="habit_mumps" type="checkbox" class="form-check-input" 
+                        {{$getRecord->habit->habit_mumps =='Yes' ? 'checked' : '' }}/>
+                        <label class="form-check-label mb-0">Mumps</label>
+                    </div>
+                    @if($errors->has('habit_mumps'))
+                    <span class="text-danger">{{
+                        $errors->first('habit_mumps') }}</span>
+                    @endif
+                    <div class="form-check mr-sm-2">
+                        <input value="Yes" name="habit_allergy" type="checkbox" class="form-check-input" 
+                        {{$getRecord->habit->habit_allergy =='Yes' ? 'checked' : '' }}/>
+                        <label class="form-check-label mb-0">Allergy</label>
+                    </div>
+                    @if($errors->has('habit_allergy'))
+                    <span class="text-danger">{{
+                        $errors->first('habit_allergy') }}</span>
+                    @endif
+                    <div class="form-check mr-sm-2">
+                        <input value="Yes" name="habit_convulsions" type="checkbox" class="form-check-input" 
+                        {{$getRecord->habit->habit_convulsions =='Yes' ? 'checked' : '' }}/>
+                        <label class="form-check-label mb-0">Convulsions</label>
+                    </div>
+                    @if($errors->has('habit_convulsions'))
+                    <span class="text-danger">{{
+                        $errors->first('habit_convulsions') }}</span>
+                    @endif
+                    <div class="form-check mr-sm-2">
+                        <input value="Yes" name="habit_primary_complex" type="checkbox" class="form-check-input" 
+                        {{$getRecord->habit->habit_primary_complex =='Yes' ? 'checked' : '' }}/>
+                        <label class="form-check-label mb-0">Primary
+                            Complex</label>
+                    </div>
+                    @if($errors->has('habit_primary_complex'))
+                    <span class="text-danger">{{
+                        $errors->first('habit_primary_complex') }}</span>
+                    @endif
+                    <div class=" mb-3">
+                        <label>Others and Specify</label>
+                        <input type="text" name="habit_other_specify" class="custom-input bg-white"
+                            style="height:100px;" value="{{$getRecord->habit->habit_other_specify  ?? ''}}">
+                    </div>
+                    @if($errors->has('habit_other_specify'))
+                    <span class="text-danger">{{
+                        $errors->first('habit_other_specify') }}</span>
+                    @endif
+                    <div class=" mb-3">
+                        <label>Motor Development (describe, when, include
+                            problems, if any)</label>
+                        <input type="text" name="habit_motor_development" class="custom-input bg-white"
+                            style="height:100px;" value="{{$getRecord->habit->habit_motor_development  ?? ''}}">
+                    </div>
+                    @if($errors->has('habit_motor_development'))
+                    <span class="text-danger">{{
+                        $errors->first('habit_motor_development') }}</span>
+                    @endif
+                    <div class=" mb-3">
+                        <label>Toilet Training (describe, when, include
+                            problems, if any)</label>
+                        <input type="text" name="habit_toilet_training" class="custom-input bg-white"
+                            style="height:100px;" value="{{$getRecord->habit->habit_toilet_training  ?? ''}}">
+                    </div>
+                    @if($errors->has('habit_toilet_training'))
+                    <span class="text-danger">{{
+                        $errors->first('habit_toilet_training') }}</span>
+                    @endif
                 </div>
-                @endif
-                <div class="d-flex align-items-center justify-content-between">
-                    <button type="submit" class="btn btn-success">Add</button>
-                    <a class=" btn btn-outline-primary  m-2" href="{{url('Admin/Listchildrens')}}">Done</a>
-                </div>
-                </form>
             </div>
+            @endif
+            @if($getRecord->rehabilitation)
+            <div class="row pt-4">
+                <h5 class="text-center text-dark">Rehabilitation
+                    Goal & Objective</h5>
+                <div class="col-sm-12 col-xl-12">
+                    <div class=" mb-3">
+                        <label>1. To restore/develop social
+                            functioning of the child.</label>
+                        <input type="text" name="rehabilitation_restore_develop" class="custom-input bg-white"
+                            style="height:100px;"
+                            value=" {{$getRecord->rehabilitation->rehabilitation_restore_develop  ?? ''}}">
+                    </div>
+                    @if($errors->has('rehabilitation_restore_develop'))
+                    <span class="text-danger">{{
+                        $errors->first('rehabilitation_restore_develop')
+                        }}</span>
+                    @endif
+                    <div class="mb-3">
+                        <label>2. To improve the nutritional and
+                            health status of the child.</label>
+                        <input type="text" name="rehabilitation_improve" class="custom-input bg-white "
+                            style="height:100px;"
+                            value=" {{$getRecord->rehabilitation->rehabilitation_improve  ?? ''}}">
+                    </div>
+                    @if($errors->has('rehabilitation_improve'))
+                    <span class="text-danger">{{
+                        $errors->first('rehabilitation_improve')
+                        }}</span>
+                    @endif
+                    <div class="">
+                        <label>3. To reintegrate child to parents
+                            and/ or relatives.</label>
+                        <input type="text" name="rehabilitation_reintegrate" class="custom-input bg-white my-1 me-1"
+                            style="height:100px;"
+                            value=" {{$getRecord->rehabilitation->rehabilitation_reintegrate  ?? ''}}">
+                    </div>
+                    @if($errors->has('rehabilitation_reintegrate'))
+                    <span class="text-danger">{{
+                        $errors->first('rehabilitation_reintegrate')
+                        }}</span>
+                    @endif
+                    <div class="">
+                        <label>4. To placed out child for
+                            adoption.</label>
+                        <input type="text" name="rehabilitation_placed" class="custom-input bg-white my-1 me-1"
+                            style="height:100px;" value=" {{$getRecord->rehabilitation->rehabilitation_placed  ?? ''}}">
+                    </div>
+                    @if($errors->has('rehabilitation_placed'))
+                    <span class="text-danger">{{
+                        $errors->first('rehabilitation_placed')
+                        }}</span>
+                    @endif
+                    <div class="">
+                        <label>5. To refer child to foster care
+                            placement.</label>
+                        <input type="text" name="rehabilitation_refer" class="custom-input bg-white my-1 me-1"
+                            style="height:100px;" value=" {{$getRecord->rehabilitation->rehabilitation_refer  ?? ''}}">
+                    </div>
+                    @if($errors->has('rehabilitation_refer'))
+                    <span class="text-danger">{{
+                        $errors->first('rehabilitation_refer')
+                        }}</span>
+                    @endif
+                    <div class="">
+                        <label>6. To transfer child to other
+                            institution that can provide the
+                            necessary services needed by the
+                            child.</label>
+                        <input type="text" name="rehabilitation_transfer" class="custom-input bg-white my-1 me-1"
+                            style="height:100px;"
+                            value=" {{$getRecord->rehabilitation->rehabilitation_transfer  ?? ''}}">
+                    </div>
+                    @if($errors->has('rehabilitation_transfer'))
+                    <span class="text-danger">{{
+                        $errors->first('rehabilitation_transfer')
+                        }}</span>
+                    @endif
+                </div>
+            </div>
+            @endif
+            @if($getRecord->recommendation)
+            <div class="row pt-4">
+                <h5 class="text-center text-dark">
+                    Recommendation</h5>
+                <div class="col-sm-12 col-xl-12">
+                    <div class=" mb-3">
+                        <input type="text" name="recommendation_recommendation" class="custom-input bg-white"
+                            style="height:100px;"
+                            value=" {{$getRecord->recommendation->recommendation_recommendation  ?? ''}}">
+                    </div>
+                    @if($errors->has('recommendation_recommendation'))
+                    <span class="text-danger">{{
+                        $errors->first('recommendation_recommendation')
+                        }}</span>
+                    @endif
+                    <div class="mb-3">
+                        <h5 class="text-center text-dark">
+                            Plan of Action</h5>
+                        <input type="text" name="recommendation_plan_of_action" class="custom-input bg-white "
+                            style="height:100px;"
+                            value=" {{$getRecord->recommendation->recommendation_plan_of_action  ?? ''}}">
+                    </div>
+                    @if($errors->has('recommendation_plan_of_action'))
+                    <span class="text-danger">{{
+                        $errors->first('recommendation_plan_of_action')
+                        }}</span>
+                    @endif
+                    <div class="">
+                        <h5 class="text-center text-dark">
+                            Action Taken</h5>
+                        <input type="text" name="recommendation_action_taken" class="custom-input bg-white my-1 me-1"
+                            style="height:100px;"
+                            value=" {{$getRecord->recommendation->recommendation_action_taken  ?? ''}}">
+                    </div>
+                    @if($errors->has('recommendation_action_taken'))
+                    <span class="text-danger">{{
+                        $errors->first('recommendation_action_taken')
+                        }}</span>
+                    @endif
+                </div>
+            </div>
+            @endif
+            <div class="d-flex align-items-center justify-content-between">
+                <button type="submit" class="btn btn-success">Update</button>
+                <a class=" btn btn-outline-primary  m-2" href="{{url('Admin/Listchildrens')}}">Done</a>
+            </div>
+            </form>
         </div>
     </div>
+</div>
 
 </div>
 @endsection

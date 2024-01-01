@@ -70,7 +70,7 @@ Route::group(['middleware' => 'admin'], function () {
 
     
 
-    Route::get('/Admin/Listarchivechildren', [ChildrenController::class, 'childrenlistarchive']);
+    Route::get('/Admin/Listdischargedchildren', [ChildrenController::class, 'childrenlistdischarged']);
     Route::get('/Admin/Listchildrens/Edit/{id}', [ChildrenController::class, 'edit']);
     Route::get('/Admin/Listchildrens/Preview/{id}', [ChildrenController::class, 'preview']);
     Route::post('/Admin/Listchildrens/Edit/{id}', [ChildrenController::class, 'update']);
@@ -117,7 +117,7 @@ Route::group(['middleware' => 'staff'], function () {
 
     
 
-    Route::get('/Staff/Listarchivechildren', [ChildrenController::class, 'childrenlistarchive']);
+    Route::get('/Staff/Listdischarhedchildren', [ChildrenController::class, 'childrendischarged']);
     Route::get('/Staff/Listchildrens/Edit/{id}', [ChildrenController::class, 'edit']);
     Route::get('/Staff/Listchildrens/Preview/{id}', [ChildrenController::class, 'preview']);
     Route::post('/Staff/Listchildrens/Edit/{id}', [ChildrenController::class, 'update']);

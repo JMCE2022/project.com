@@ -308,7 +308,7 @@ class ChildrenController extends Controller
         return redirect()->back()->with('success', 'Children Profile successfully updated');
 
     }
-    public function childrenlistarchive(Request $request)
+    public function childrenlistdischarged(Request $request)
     {
         if (Auth::user()->user_type == 'Admin') {
             $data = [
@@ -334,7 +334,7 @@ class ChildrenController extends Controller
             $data['getRecord'] = $query->orderBy('id', 'desc')->paginate(10);
 
             // Pass data to the view
-            return view("admin.childrens.listarchive", $data);
+            return view("admin.childrens.listdischarged", $data);
         } else if (Auth::user()->user_type == 'Staff') {
             $data = [
                 'Header_title' => "Admin List",
@@ -360,7 +360,7 @@ class ChildrenController extends Controller
             $data['getRecord'] = $query->orderBy('id', 'desc')->paginate(10);
 
             // Pass data to the view
-            return view("staff.childrens.listarchive", $data);
+            return view("staff.childrens.listdischarged", $data);
         }
 
         // Initial data
