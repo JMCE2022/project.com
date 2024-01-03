@@ -464,6 +464,8 @@ class ChildrenController extends Controller
     {
         $request->validate([
             'children_id' => 'required|integer',
+            'infofamily_age_of_father' => 'required|integer',
+            'infofamily_age_of_mother' => 'required|integer',
             // Add other validation rules if needed
         ], [
             'children_id.required' => 'Please select a child.',
@@ -517,6 +519,8 @@ class ChildrenController extends Controller
         //dd($request->all());
         $request->validate([
             'children_id' => 'required|integer', // Add any other validation rules you need
+            'sibling_sex' => 'required|string',
+            'sibling_age' => 'required|integer',
         ], [
             'children_id.required' => 'Please select a child.',
             'children_id.integer' => 'Invalid value for child.',
@@ -567,7 +571,9 @@ class ChildrenController extends Controller
         $user = new Guardian;
         //dd($request->all());
         $request->validate([
-            'children_id' => 'required|integer', // Add any other validation rules you need
+            'children_id' => 'required|integer',
+            'guardian_sex' => 'required|string',
+            'guardian_age' => 'required|string', // Add any other validation rules you need
         ], [
             'children_id.required' => 'Please select a child.',
             'children_id.integer' => 'Invalid value for child.',
@@ -621,7 +627,9 @@ class ChildrenController extends Controller
         $user = new Finder;
         //dd($request->all());
         $request->validate([
-            'children_id' => 'required|integer', // Add any other validation rules you need
+            'children_id' => 'required|integer',
+            'finder_sex' => 'required|string', // Add any other validation rules you need
+            'finder_age' => 'required|integer',
         ], [
             'children_id.required' => 'Please select a child.',
             'children_id.integer' => 'Invalid value for child.',

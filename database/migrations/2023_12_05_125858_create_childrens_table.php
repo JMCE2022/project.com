@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->char('firstname',50);
             $table->char('lastname',30);
             $table->char('sex',10);
-            $table->tinyInteger('age')->nullable()->change();
+            $table->tinyInteger('age')->nullable()->default(0)->change();
             $table->char('religion',50)->nullable();
             $table->date('date_of_birth')->nullable();
             $table->char('place_of_birth',100)->nullable();
