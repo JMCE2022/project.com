@@ -103,7 +103,6 @@
             // Get table data
             var table = document.getElementById('myTable');
             var sheet = XLSX.utils.table_to_sheet(table);
-
             // Create a workbook with a single sheet
             var wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, sheet, 'Sheet1');

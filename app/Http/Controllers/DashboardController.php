@@ -31,16 +31,29 @@ class DashboardController extends Controller
         $ageLabelsFemale = ['Unknown', '1-5 Years old', '6-10 Years old', '11-15 Years old', '16-17 Years old', '18+ Years old'];
         $ageCountsFemale = [$ageCount00, $ageCount11, $ageCount22, $ageCount33, $ageCount44, $ageCount55];
 
+        
+        $dischargeCount11 = Children::where('is_deleted', '=', 1)->where('sex', '=', 'Male')->count();
+        $dischargeCount22 = Children::where('is_deleted', '=', 1)->where('sex', '=', 'Female')->count();
+       
+        $dischargeLabels = ['Male', 'Female'];
+        $dischargeCounts = [$dischargeCount11, $dischargeCount22];
+
+        $clientCount11 = Children::all()->where('sex', '=', 'Male')->count();
+        $clientCount22 = Children::all()->where('sex', '=', 'Female')->count();
+       
+        $clientLabels = ['Male', 'Female'];
+        $clientCounts = [$clientCount11, $clientCount22];
+
         $childrenCount = Children::all()->count();
         $maleCount = Children::where('Sex', 'Male')->count();
         $femaleCount = Children::where('Sex', 'Female')->count();
         $dischargedCount = Children::where('is_deleted', '1')->count();
 
-
+ 
         if (Auth::user()->user_type == 'Admin') {
-            return view('admin.dashboard', compact('maleCount', 'femaleCount', 'dischargedCount', 'childrenCount', 'ageLabels', 'ageCounts', 'ageLabelsFemale', 'ageCountsFemale'));
+            return view('admin.dashboard', compact('maleCount', 'femaleCount', 'dischargedCount', 'childrenCount', 'ageLabels', 'ageCounts', 'ageLabelsFemale', 'ageCountsFemale', 'dischargeLabels', 'dischargeCounts','clientLabels','clientCounts'));
         } else if (Auth::user()->user_type == 'Staff') {
-            return view('staff.dashboard', compact('maleCount', 'femaleCount', 'dischargedCount', 'childrenCount', 'ageLabels', 'ageCounts', 'ageLabelsFemale', 'ageCountsFemale'));
+            return view('staff.dashboard', compact('maleCount', 'femaleCount', 'dischargedCount', 'childrenCount', 'ageLabels', 'ageCounts', 'ageLabelsFemale', 'ageCountsFemale', 'dischargeLabels', 'dischargeCounts','clientLabels','clientCounts'));
         }
     }
 
