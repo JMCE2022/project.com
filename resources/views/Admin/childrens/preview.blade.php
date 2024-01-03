@@ -56,8 +56,12 @@
         }
     }
 </style>
-
+@if(Auth::user()->user_type == 'Admin')
 <body class="bg-white" onclick="window.location='{{ url('Admin/Listchildrens') }}'" style="cursor: pointer;">
+@elseif(Auth::user()->user_type == 'Staff')
+<body class="bg-white" onclick="window.location='{{ url('Staff/Listchildrens') }}'" style="cursor: pointer;">
+@endif
+
     <div class="container d-flex justify-content-center">
         <div class="row">
             <!-- First A4 Box -->

@@ -468,7 +468,7 @@
                             $errors->first('development_birth_history') }}</span>
                         @endif
                         <div class=" mb-3">
-                            <label>Birth Weight</label>
+                            <label>Birth Weight in KG</label>
                             <input type="number" name="development_birth_weight" class="custom-input bg-white"
                                 value="{{$getRecord->development->development_birth_weight  ?? ''}}">
                         </div>
@@ -477,7 +477,7 @@
                             $errors->first('development_birth_weight') }}</span>
                         @endif
                         <div class="mb-3">
-                            <label>Birth Height</label>
+                            <label>Birth Height in CM</label>
                             <input type="number" name="development_birth_height" class="custom-input bg-white"
                                 value="{{$getRecord->development->development_birth_height ?? ''}}">
                         </div>
@@ -755,7 +755,11 @@
             @endif
             <div class="d-flex align-items-center justify-content-between">
                 <button type="submit" class="btn btn-success">Update</button>
+                @if(Auth::user()->user_type == 'Admin')
                 <a class=" btn btn-outline-primary  m-2" href="{{url('Admin/Listchildrens')}}">Done</a>
+                @elseif(Auth::user()->user_type == 'Staff')
+                <a class=" btn btn-outline-primary  m-2" href="{{url('Staff/Listchildrens')}}">Done</a>
+                @endif
             </div>
             </form>
         </div>

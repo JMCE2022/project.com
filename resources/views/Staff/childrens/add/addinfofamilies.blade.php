@@ -33,7 +33,7 @@
                             <select name="children_id" class="custom-input">
                                 <option value="" disabled selected>Select a child</option>
                                 @foreach($getRecord as $child)
-                                <option value="{{ $child->id }}">{{ $child->id }} - {{ $child->full_name }}</option>
+                                <option value="{{ $child->id }}">{{ $child->id }} - {{ $child->firstname }} {{ $child->lastname }}</option>
                                 @endforeach
                             </select>
 
@@ -41,10 +41,13 @@
                     </div>
 
                     @if($errors->has('children_id'))
-                    <div class="col-sm-12 col-xl-12">
+                    
                         <span class="text-danger">{{ $errors->first('children_id') }}</span>
+                        <div class="col-sm-12 col-xl-12">
                     </div>
+                    
                     @endif
+                    
                     <div class="col-md-6 ">
 
 

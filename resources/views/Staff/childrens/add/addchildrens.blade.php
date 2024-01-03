@@ -31,11 +31,18 @@
 
 
                             <div class="mb-3">
-                                <label class="form-label ">Full Name</label>
-                                <input type="text" name="full_name" class="custom-input bg-transparent">
+                                <label class="form-label ">First Name</label>
+                                <input type="text" name="firstname" class="custom-input bg-transparent">
                             </div>
-                            @if($errors->has('full_name'))
-                            <span class="text-danger">{{ $errors->first('full_name') }}</span>
+                            @if($errors->has('firstname'))
+                            <span class="text-danger">{{ $errors->first('firstname') }}</span>
+                            @endif
+                            <div class="mb-3">
+                                <label class="form-label ">Last Name</label>
+                                <input type="text" name="lastname" class="custom-input bg-transparent">
+                            </div>
+                            @if($errors->has('lastname'))
+                            <span class="text-danger">{{ $errors->first('lastname') }}</span>
                             @endif
                             <div class="mb-3">
                                 <label class="form-label ">Age</label>
@@ -75,7 +82,7 @@
                         <!-- New Box Content for DOB -->
                         <div class="">
                             <label>Date of Birth</label>
-                            <input type="date" name="date_of_birth" class="custom-input bg-white my-1 me-1 text-dark">
+                            <input type="date"  name="date_of_birth" class="custom-input bg-white my-1 me-1 text-dark">
                         </div>
                         @if($errors->has('date_of_birth'))
                         <span class="text-danger">{{ $errors->first('date_of_birth') }}</span>

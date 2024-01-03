@@ -3,9 +3,9 @@
     <nav class="sidebar navbar  navbar-dark ">
         <a class="navbar-brand mx-4">
        
-        <img class=" rounded my-3 mt-5" src="{{ asset('public/accountprofile/' . Auth::user()->profile_pic) }}"
+        <img class=" rounded my-3 mt-5 ms-3 " src="{{ asset('public/accountprofile/' . Auth::user()->profile_pic) }}"
                     style="width: 100%; height:23vh;">
-                    <div class="ms-3  text-center">
+                    <div class="ms-4  text-center">
                 <h4 class="ext-white text-capitalize">Hi, {{Auth::user()->firstname}}!</h4>
                 <span class="text-white">{{Auth::user()->user_type}}</span>
             </div>

@@ -7,7 +7,7 @@
     <div class="col-sm-12 col-xl-12">
     @include('layouts._message')
         <div class="bg-white rounded h-100 p-4">
-            <h6 class="mb-4 text-dark text-center">List of Archived</h6>
+            <h6 class="mb-4 text-dark text-center">List of Discharged</h6>
             <div class="d-flex align-items-center justify-content-between">
             <form action="" class="d-flex">
                     @csrf
@@ -36,15 +36,15 @@
                             <th scope="col">Sex</th>
                             <th scope="col">Created By</th>
                             <th scope="col">Date of Admission</th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
+                            <th scope="col">Restore</th>
+                            <th scope="col">Permanent Delete</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($getRecord as $children)
                         <tr>
                             <td>{{ $children->id }}</td>
-                            <td>{{ $children->full_name }}</td>
+                            <td>{{ $children->firstname }} {{ $children->lastname }}</td>
                             <td>{{ $children->age }}</td>
                             <td>{{ $children->sex }}</td>
                             <td>{{ $children->created_by }}</td>

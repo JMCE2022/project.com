@@ -117,7 +117,7 @@ Route::group(['middleware' => 'staff'], function () {
 
     
 
-    Route::get('/Staff/Listdischarhedchildren', [ChildrenController::class, 'childrendischarged']);
+    Route::get('/Staff/Listdischargedchildren', [ChildrenController::class, 'childrenlistdischarged']);
     Route::get('/Staff/Listchildrens/Edit/{id}', [ChildrenController::class, 'edit']);
     Route::get('/Staff/Listchildrens/Preview/{id}', [ChildrenController::class, 'preview']);
     Route::post('/Staff/Listchildrens/Edit/{id}', [ChildrenController::class, 'update']);

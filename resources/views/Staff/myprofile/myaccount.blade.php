@@ -27,7 +27,7 @@
 
                         <div class="mb-3">
                             <label class="form-label ">First Name</label>
-                            <input type="text" name="firstname" class="form-control bg-transparent"
+                            <input type="text" name="firstname" class="custom-input bg-transparent"
                                 value="{{$getRecord->firstname}}">
                         </div>
                         @if($errors->has('firstname'))
@@ -35,7 +35,7 @@
                         @endif
                         <div class="mb-3">
                             <label class="form-label ">Last Name</label>
-                            <input type="text" name="lastname" class="form-control bg-transparent"
+                            <input type="text" name="lastname" class="custom-input bg-transparent"
                                 value="{{$getRecord->lastname}}">
                         </div>
                         @if($errors->has('lastname'))
@@ -44,13 +44,13 @@
                         <div class="">
                             <label>Midile Initial</label>
                             <input rows="1" name="middle_initial" value="{{$getRecord->middle_initial}}"
-                                class="form-control bg-white my-1 me-1" ></input>
+                                class="custom-input bg-white my-1 me-1" ></input>
                         </div>
                         @if($errors->has('middle_initial'))
                         <span class="text-danger">{{ $errors->first('middle_initial') }}</span>
                         @endif
                         <div class="form-floating mb-3">
-                            <select class="form-select bg-white text-dark" name="suffix"
+                            <select class="form-select bg-white text-dark custom-input" name="suffix"
                                 aria-label="Floating label select example">
                                 <option disabled selected class="text-dark">Select</option>
                                 <option value="Jr" @if($getRecord->suffix == 'Jr') selected @endif>Jr</option>
@@ -66,7 +66,7 @@
                 <div class="col-md-4">
                     <!-- New Box Content for Case ID -->
                     <div class="form-floating mb-3">
-                        <select class="form-select bg-white text-dark" name="sex"
+                        <select class="form-select bg-white text-dark custom-input" name="sex"
                             aria-label="Floating label select example">
                             <option disabled selected class="text-dark">Select a Gender</option>
                             <option value="Male" @if( $getRecord->sex == 'Male') selected @endif >Male</option>
@@ -83,7 +83,7 @@
                     <div class="">
                         <label>Place of Birth</label>
                         <input rows="1" name="place_of_birth" value="{{$getRecord->place_of_birth}}"
-                            class="form-control bg-white my-1 me-1" ></input>
+                            class="custom-input bg-white my-1 me-1" ></input>
                     </div>
                     @if($errors->has('place_of_birth'))
                     <span class="text-danger">{{ $errors->first('place_of_birth') }}</span>
@@ -92,7 +92,7 @@
                     <div class="">
                         <label>Date of Birth</label>
                         <input type="date" name="date_of_birth" value="{{$getRecord->date_of_birth}}"
-                            class="form-control bg-white my-1 me-1 text-dark" >
+                            class="custom-input bg-white my-1 me-1 text-dark" >
                     </div>
                     @if($errors->has('date_of_birth'))
                     <span class="text-danger">{{ $errors->first('date_of_birth') }}</span>
@@ -103,7 +103,7 @@
                     <div class="">
                         <label>Religion</label>
                         <input rows="1"  name="religion" value="{{$getRecord->religion}}"
-                            class="form-control bg-white my-1 me-1" ></input>
+                            class="custom-input bg-white my-1 me-1" ></input>
                     </div>
                     @if($errors->has('religion'))
                     <span class="text-danger">{{ $errors->first('religion') }}</span>
@@ -111,14 +111,14 @@
                     <!-- New Box Content for Things brought in the center -->
                     <div class=" ">
                         <label>Age</label>
-                        <input rows="1" type="number" name="age" value="{{$getRecord->age}}" class="form-control bg-white my-1 me-1"
+                        <input rows="1" type="number" name="age" value="{{$getRecord->age}}" class="custom-input bg-white my-1 me-1"
                          ></input>
                     </div>
                     @if($errors->has('age'))
                     <span class="text-danger">{{ $errors->first('age') }}</span>
                     @endif
                     <div class="form-floating mb-3">
-                        <select class="form-select bg-white text-dark" name="civil_status"
+                        <select class="form-select bg-white text-dark custom-input" name="civil_status"
                             aria-label="Floating label select example">
                             <option disabled selected class="text-dark">Select a Status</option>
                             <option value="Single" @if($getRecord->civil_status == 'Single') selected @endif >Single
@@ -138,7 +138,7 @@
                     <div class=" ">
                         <label>Height</label>
                         <input rows="1"  type="number" name="height" value="{{$getRecord->height}}"
-                            class="form-control bg-white my-1 me-1" ></input>
+                            class="custom-input bg-white my-1 me-1" ></input>
                     </div>
                     @if($errors->has('height'))
                     <span class="text-danger">{{ $errors->first('height') }}</span>
@@ -146,7 +146,7 @@
                     <div class=" ">
                         <label>Weight</label>
                         <input rows="1" type="number" name="weight" value="{{$getRecord->weight}}"
-                            class="form-control bg-white my-1 me-1" ></input>
+                            class="custom-input bg-white my-1 me-1" ></input>
                     </div>
                     @if($errors->has('weight'))
                     <span class="text-danger">{{ $errors->first('weight') }}</span>
@@ -158,7 +158,7 @@
                     <div class=" ">
                         <label>Phone Number</label>
                         <input rows="1" type="number" name="phone_number" value="{{$getRecord->phone_number}}"
-                            class="form-control bg-white my-1 me-1" ></input>
+                            class="custom-input bg-white my-1 me-1" ></input>
                     </div>
                     @if($errors->has('phone_number'))
                     <span class="text-danger">{{ $errors->first('phone_number') }}</span>
@@ -166,7 +166,7 @@
                     <div class=" ">
                         <label>Email Address</label>
                         <input rows="1" name="email_address" value="{{$getRecord->email_address}}"
-                            class="form-control bg-white my-1 me-1" ></input>
+                            class="custom-input bg-white my-1 me-1" ></input>
                     </div>
                     @if($errors->has('email_address'))
                     <span class="text-danger">{{ $errors->first('email_address') }}</span>
@@ -174,7 +174,7 @@
                     <div class=" ">
                         <label>Region</label>
                         <input rows="1" name="region" value="{{$getRecord->region}}"
-                            class="form-control bg-white my-1 me-1" ></input>
+                            class="custom-input bg-white my-1 me-1" ></input>
                     </div>
                     @if($errors->has('region'))
                     <span class="text-danger">{{ $errors->first('region') }}</span>
@@ -182,7 +182,7 @@
                     <div class=" ">
                         <label>Province</label>
                         <input rows="1" name="province" value="{{$getRecord->province}}"
-                            class="form-control bg-white my-1 me-1" ></input>
+                            class="custom-input bg-white my-1 me-1" ></input>
                     </div>
                     @if($errors->has('province'))
                     <span class="text-danger">{{ $errors->first('province') }}</span>
@@ -190,7 +190,7 @@
                     <div class=" ">
                         <label>City</label>
                         <input rows="1" name="city" value="{{$getRecord->city}}"
-                            class="form-control bg-white my-1 me-1"></input>
+                            class="custom-input bg-white my-1 me-1"></input>
                     </div>
                     @if($errors->has('city'))
                     <span class="text-danger">{{ $errors->first('city') }}</span>
@@ -198,7 +198,7 @@
                     <div class=" ">
                         <label>Barangay</label>
                         <input rows="1" name="barangay" value="{{$getRecord->barangay}}"
-                            class="form-control bg-white my-1 me-1" ></input>
+                            class="custom-input bg-white my-1 me-1" ></input>
                     </div>
                     @if($errors->has('barangay'))
                     <span class="text-danger">{{ $errors->first('barangay') }}</span>
@@ -206,7 +206,7 @@
                     <div class=" ">
                         <label>Street Address</label>
                         <input rows="1" name="street_address" value="{{$getRecord->street_address}}"
-                            class="form-control bg-white my-1 me-1"></input>
+                            class="custom-input bg-white my-1 me-1"></input>
                     </div>
                     @if($errors->has('street_address'))
                     <span class="text-danger">{{ $errors->first('street_address') }}</span>
@@ -214,7 +214,7 @@
                     <div class=" ">
                         <label>Zip</label>
                         <input rows="1" type="number" name="zip_code" value="{{$getRecord->zip_code}}"
-                            class="form-control bg-white my-1 me-1" ></input>
+                            class="custom-input bg-white my-1 me-1" ></input>
                     </div>
                     @if($errors->has('zip_code'))
                     <span class="text-danger">{{ $errors->first('zip_code') }}</span>
@@ -228,17 +228,35 @@
 
                         <div class="mb-3">
                             <label class="form-label ">Upload Profile</label>
-                            <input type="file" name="profile_pic" class="form-control bg-transparent"
+                            <input type="file" name="profile_pic" class="custom-input bg-transparent"
                                 value="{{$getRecord->profile_pic}}">
                         </div>
                         @if($errors->has('profile_pic'))
                         <span class="text-danger">{{ $errors->first('profile_pic') }}</span>
                         @endif
 
-                       
+                        
+                        <div class="form-floating mb-3">
+                            <select class="form-select bg-transparent custom-input" name="user_type"
+                                aria-label="Floating label select example">
+                                <option disabled selected class="text-dark">Open this select menu</option>
+                                <option value="Staff" @if($getRecord->user_type == 'Staff') selected @endif>Staff
+                                </option>
+                                <option value="Admin" @if($getRecord->user_type == 'Admin') selected @endif>Admin
+                                </option>
+                            </select>
+                            <label for="floatingSelect">Role of this Account</label>
+                        </div>
+
+                        @if($errors->has('user_type'))
+                        <span class="text-danger">{{ $errors->first('user_type') }}</span>
+                        @endif
+
+                        
+
                         <div class="mb-3">
                             <label class="form-label ">Username</label>
-                            <input type="text" class="form-control bg-transparent" name="username"
+                            <input type="text" class="custom-input bg-transparent" name="username"
                                 value="{{$getRecord->username}}">
                         </div>
                         @if($errors->has('username'))
@@ -247,7 +265,7 @@
 
                         <div class="mb-3">
                             <label class="form-label">Password</label>
-                            <input type="text" class="form-control bg-transparent" name="password">
+                            <input type="text" class="custom-input bg-transparent" name="password">
                             <p>Do you want to change password so Please add new password</p>
                         </div>
                         @if($errors->has('password'))
@@ -256,7 +274,11 @@
 
                         <div class="d-flex align-items-center justify-content-between">
                             <button type="submit" class="btn btn-success">Update</button>
-                            <a class=" btn btn-outline-primary  m-2" href="{{url('Staff/Dashboard')}}">Cancel</a>
+                            @if(Auth::user()->user_type == 'Admin')
+                            <a class=" btn btn-outline-primary  m-2" href="{{url('Admin/Dashboard')}}">Done</a>
+                            @elseif(Auth::user()->user_type == 'Staff')
+                            <a class=" btn btn-outline-primary  m-2" href="{{url('Staff/Dashboard')}}">Done</a>
+                            @endif
                         </div>
                         </form>
 

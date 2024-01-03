@@ -4,9 +4,7 @@
 
 
 <div class=" m-4">
-    <div class="d-flex align-items-center justify-content-between">
-        <h2 class="text-dark">Add Children</h2>
-    </div>
+   
     @include('layouts._message')
 
     <div class="container-fluid pt-4 px-4 text-dark">
@@ -603,7 +601,7 @@
                         </table>
 
 
-                        <button id="exportButton">Export to Excel</button>
+                        <button id="exportButton" class="btn btn-success ">Export to Excel</button>
                     </div>
 
                 </div>
