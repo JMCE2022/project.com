@@ -53,7 +53,7 @@ class GeneralController extends Controller
         $admin->place_of_birth = trim($request->place_of_birth);
         $admin->date_of_birth = $request->input('date_of_birth') ? trim($request->input('date_of_birth')) : null;
         $admin->religion = trim($request->religion);
-        $admin->age = trim($request->age);
+        $admin->age = $request->has('age') ? (int) $request->input('age') : null;
         $admin->civil_status = trim($request->civil_status);
         $admin->height = trim($request->height);
         $admin->weight = trim($request->weight);
@@ -96,7 +96,7 @@ class GeneralController extends Controller
         $admin->place_of_birth = trim($request->place_of_birth);
         $admin->date_of_birth = $request->input('date_of_birth') ? trim($request->input('date_of_birth')) : null;
         $admin->religion = trim($request->religion);
-        $admin->age = trim($request->age);
+        $admin->age = $request->has('age') ? (int) $request->input('age') : null;
         $admin->civil_status = trim($request->civil_status);
         $admin->height = trim($request->height);
         $admin->weight = trim($request->weight);

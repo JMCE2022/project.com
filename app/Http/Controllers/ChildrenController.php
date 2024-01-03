@@ -102,29 +102,34 @@ class ChildrenController extends Controller
 
         $user = new Children;
         $request->validate([
-            'firstname' => 'required|string|max:50',
+            'firstname' => 'required|string|max:30',
             'lastname' => 'required|string|max:30',
             'sex' => 'required|string|max:1',
-            'age' => 'nullable|string|max:2',
+            'age' => 'nullable|integer|max:100',
             'religion' => 'nullable|string|max:50',
             'date_of_birth' => 'nullable|date',
-            'place_of_birth' => 'nullable|string|max:100',
-            'educational_attainment' => 'nullable|string|max:100',
+            'place_of_birth' => 'nullable|string|max:30',
+            'educational_attainment' => 'nullable|string|max:20',
             'region' => 'nullable|string|max:20',
-            'province' => 'nullable|string|max:50',
-            'city' => 'nullable|string|max:50',
-            'barangay' => 'nullable|string|max:50',
-            'street_address' => 'nullable|string|max:50',
+            'province' => 'nullable|string|max:30',
+            'city' => 'nullable|string|max:30',
+            'barangay' => 'nullable|string|max:30',
+            'street_address' => 'nullable|string|max:30',
             'present_health_condition' => 'nullable|string',
             'physical_characteristic' => 'nullable|string',
             'initial_assessment' => 'nullable|string',
+        ], [
+            'age.integer' => 'Invalid value for age.',
+            'age.max' => 'The age cannot exceed 100.',
+            // Add other custom error messages if needed 
         ]);
+        
 
 
         $user->firstname = trim($request->firstname);
         $user->lastname = trim($request->lastname);
         $user->sex = trim($request->sex);
-        $user->age = trim($request->age);
+        $user->age = $request->has('age') ? (int) $request->input('age') : null;
         $user->religion = trim($request->religion);
         $user->date_of_birth = $request->input('date_of_birth') ? trim($request->input('date_of_birth')) : null;
         $user->place_of_birth = trim($request->place_of_birth);
@@ -172,23 +177,28 @@ class ChildrenController extends Controller
 
         $user = Children::getSingle($id);
         $request->validate([
-            'firstname' => 'required|string|max:50',
+            'firstname' => 'required|string|max:30',
             'lastname' => 'required|string|max:30',
             'sex' => 'required|string|max:1',
-            'age' => 'nullable|string|max:3',
-            'religion' => 'nullable|string|max:50',
+            'age' => 'nullable|integer|max:100',
+            'religion' => 'nullable|string|max:30',
             'date_of_birth' => 'nullable|date',
-            'place_of_birth' => 'nullable|string|max:100',
-            'educational_attainment' => 'nullable|string|max:100',
-            'region' => 'nullable|string|max:20',
-            'province' => 'nullable|string|max:50',
-            'city' => 'nullable|string|max:50',
-            'barangay' => 'nullable|string|max:50',
-            'street_address' => 'nullable|string|max:50',
+            'place_of_birth' => 'nullable|string|max:30',
+            'educational_attainment' => 'nullable|string|max:20',
+            'region' => 'nullable|string|max:30',
+            'province' => 'nullable|string|max:30',
+            'city' => 'nullable|string|max:30',
+            'barangay' => 'nullable|string|max:30',
+            'street_address' => 'nullable|string|max:30',
             'present_health_condition' => 'nullable|string',
             'physical_characteristic' => 'nullable|string',
             'initial_assessment' => 'nullable|string',
+        ], [
+            'age.integer' => 'Invalid value for age.',
+            'age.max' => 'The age cannot exceed 100.',
+            // Add other custom error messages if needed 
         ]);
+        
 
 
 
@@ -473,12 +483,18 @@ class ChildrenController extends Controller
     {
         $request->validate([
             'children_id' => 'required|integer',
-            'infofamily_age_of_father' => 'required|string|max:3',
-            'infofamily_age_of_mother' => 'required|string|max:3',
+            'infofamily_age_of_father' => 'required|integer|max:100',
+            'infofamily_age_of_mother' => 'required|integer|max:100',
             // Add other validation rules if needed
         ], [
             'children_id.required' => 'Please select a child.',
             'children_id.integer' => 'Invalid value for child.',
+            'infofamily_age_of_father.required' => 'Please enter the age of the father.',
+            'infofamily_age_of_father.integer' => 'Invalid value for age of the father.',
+            'infofamily_age_of_father.max' => 'The age of the father cannot exceed 100.',
+            'infofamily_age_of_mother.required' => 'Please enter the age of the mother.',
+            'infofamily_age_of_mother.integer' => 'Invalid value for age of the mother.',
+            'infofamily_age_of_mother.max' => 'The age of the mother cannot exceed 100.',
             // Add other custom error messages if needed 
         ]);
 
@@ -529,12 +545,19 @@ class ChildrenController extends Controller
         $request->validate([
             'children_id' => 'required|integer', // Add any other validation rules you need
             'sibling_sex' => 'required|string|max:1',
-            'sibling_age' => 'required|string|max:3',
+            'sibling_age' => 'required|integer|max:100',
         ], [
             'children_id.required' => 'Please select a child.',
             'children_id.integer' => 'Invalid value for child.',
+            'sibling_sex.required' => 'Please select the sex of the sibling.',
+            'sibling_sex.string' => 'Invalid value for sibling sex.',
+            'sibling_sex.max' => 'The length of sibling sex cannot exceed 1.',
+            'sibling_age.required' => 'Please enter the age of the sibling.',
+            'sibling_age.integer' => 'Invalid value for sibling age.',
+            'sibling_age.max' => 'The age of the sibling cannot exceed 100.',
             // Add other custom error messages if needed 
         ]);
+        
 
 
         $user->sibling_fullname = trim($request->sibling_fullname);
@@ -582,12 +605,19 @@ class ChildrenController extends Controller
         $request->validate([
             'children_id' => 'required|integer',
             'guardian_sex' => 'required|string|max:1',
-            'guardian_age' => 'required|string|max:3', // Add any other validation rules you need
+            'guardian_age' => 'required|integer|max:100', // Add any other validation rules you need
         ], [
             'children_id.required' => 'Please select a child.',
             'children_id.integer' => 'Invalid value for child.',
+            'guardian_sex.required' => 'Please select the sex of the guardian.',
+            'guardian_sex.string' => 'Invalid value for guardian sex.',
+            'guardian_sex.max' => 'The length of guardian sex cannot exceed 1.',
+            'guardian_age.required' => 'Please enter the age of the guardian.',
+            'guardian_age.integer' => 'Invalid value for guardian age.',
+            'guardian_age.max' => 'The age of the guardian cannot exceed 100.',
             // Add other custom error messages if needed 
         ]);
+        
 
         $existingGuardian = Guardian::where('children_id', $request->input('children_id'))->first();
 
@@ -637,13 +667,20 @@ class ChildrenController extends Controller
         //dd($request->all());
         $request->validate([
             'children_id' => 'required|integer',
-            'finder_sex' => 'required|string|max:1', // Add any other validation rules you need
-            'finder_age' => 'required|string|max:3',
+            'finder_sex' => 'required|string|max:1',
+            'finder_age' => 'required|integer|max:100', // Add any other validation rules you need
         ], [
             'children_id.required' => 'Please select a child.',
             'children_id.integer' => 'Invalid value for child.',
+            'finder_sex.required' => 'Please select the sex of the finder.',
+            'finder_sex.string' => 'Invalid value for finder sex.',
+            'finder_sex.max' => 'The length of finder sex cannot exceed 1.',
+            'finder_age.required' => 'Please enter the age of the finder.',
+            'finder_age.integer' => 'Invalid value for finder age.',
+            'finder_age.max' => 'The age of the finder cannot exceed 100.',
             // Add other custom error messages if needed 
         ]);
+        
 
         $existingFinder = Finder::where('children_id', $request->input('children_id'))->first();
 
@@ -894,7 +931,4 @@ class ChildrenController extends Controller
 
         return redirect()->back()->with('success', 'Recomendation, Plan of Action & Action Taken/Date successfully added');
     }
-
-
-
 }
