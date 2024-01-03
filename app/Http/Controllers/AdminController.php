@@ -58,7 +58,7 @@ class AdminController extends Controller
         // Use Eloquent to filter data based on the search input
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('firstname', 'LIKE', "%$search%")
+                $q->whereRaw("CONCAT(firstname, ' ', lastname) LIKE ?", ["%$search%"])
                     ->orWhere('lastname', 'LIKE', "%$search%")
                     ->orWhere('user_type', 'LIKE', "%$search%")
                     ->orWhere('username', 'LIKE', "%$search%");
