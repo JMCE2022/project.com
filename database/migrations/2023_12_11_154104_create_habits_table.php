@@ -13,19 +13,19 @@ return new class extends Migration
     {
         Schema::create('habits', function (Blueprint $table) {
             $table->id();
-            $table->char('bedwetting',30)->nullable();
-            $table->char('thumb_sucking',30)->nullable();
-            $table->char('nail_biting',30)->nullable();
-            $table->text('others')->nullable();
-            $table->char('measles',30)->nullable();
-            $table->char('chickenpox',30)->nullable();
-            $table->char('mumps',30)->nullable();
-            $table->char('allergy',30)->nullable();
-            $table->char('convulsions',30)->nullable();
-            $table->char('primary_complex',30)->nullable();
-            $table->text('other_specify')->nullable();
-            $table->text('motor_development')->nullable();
-            $table->text('toilet_training')->nullable();
+            $table->char('habit_bedwetting',30)->nullable();
+            $table->char('habit_thumb_sucking',30)->nullable();
+            $table->char('habit_nail_biting',30)->nullable();
+            $table->text('habit_others')->nullable();
+            $table->char('habit_measles',30)->nullable();
+            $table->char('habit_chickenpox',30)->nullable();
+            $table->char('habit_mumps',30)->nullable();
+            $table->char('habit_allergy',30)->nullable();
+            $table->char('habit_convulsions',30)->nullable();
+            $table->char('habit_primary_complex',30)->nullable();
+            $table->text('habit_other_specify')->nullable();
+            $table->text('habit_motor_development')->nullable();
+            $table->text('habit_toilet_training')->nullable();
             $table->foreignId('children_id')->constrained('childrens')->onDelete('cascade')->onUpdate('cascade');
         
             $table->timestamps();

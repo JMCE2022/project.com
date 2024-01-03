@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('recommendations', function (Blueprint $table) {
             $table->id();
-            $table->text('recommendation')->nullable();
-            $table->text('plan_of_action')->nullable();
-            $table->text('action_taken')->nullable();
+            $table->text('recommendation_recommendation')->nullable();
+            $table->text('recommendation_plan_of_action')->nullable();
+            $table->text('recommendation_action_taken')->nullable();
             $table->foreignId('children_id')->constrained('childrens')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });

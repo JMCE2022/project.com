@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('siblings', function (Blueprint $table) {
             $table->id();
-            $table->char('fullname',100)->nullable();
-            $table->tinyInteger('age')->nullable()->change();
-            $table->char('sex',10)->nullable();
-            $table->date('date_of_birth')->nullable();
-            $table->char('educational_attainment',100)->nullable();
-            $table->char('relationship',30)->nullable();
+            $table->char('sibling_fullname',100)->nullable();
+            $table->tinyInteger('sibling_age')->nullable()->change();
+            $table->char('sibling_sex',10)->nullable();
+            $table->date('sibling_date_of_birth')->nullable();
+            $table->char('sibling_educational_attainment',100)->nullable();
+            $table->char('sibling_relationship',30)->nullable();
             $table->ForeignId('children_id')->constrained('childrens')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });

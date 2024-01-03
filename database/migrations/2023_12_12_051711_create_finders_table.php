@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('finders', function (Blueprint $table) {
             $table->id();
-            $table->char('fullname',100)->nullable();
-            $table->tinyInteger('age')->nullable()->change();
-            $table->char('sex',10)->nullable();
-            $table->char('civil_status',10)->nullable();
-            $table->char('relationship',20)->nullable();
-            $table->char('occupation',50)->nullable();
-            $table->text('others')->nullable();
-            $table->text('problem_presented')->nullable();
-            $table->text('background_information')->nullable();
+            $table->char('finder_fullname',100)->nullable();
+            $table->tinyInteger('finder_age')->nullable()->change();
+            $table->char('finder_sex',10)->nullable();
+            $table->char('finder_civil_status',10)->nullable();
+            $table->char('finder_relationship',20)->nullable();
+            $table->char('finder_occupation',50)->nullable();
+            $table->text('finder_others')->nullable();
+            $table->text('finder_problem_presented')->nullable();
+            $table->text('finder_background_information')->nullable();
 
             $table->foreignId('children_id')->constrained('childrens')->onDelete('cascade')->onUpdate('cascade');
             

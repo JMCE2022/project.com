@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('rehabilitations', function (Blueprint $table) {
             $table->id();
-            $table->text('restore_develop')->nullable();    
-            $table->text('improve')->nullable();    
-            $table->text('reintegrate')->nullable();    
-            $table->text('placed')->nullable();    
-            $table->text('refer')->nullable();    
-            $table->text('transfer')->nullable();    
+            $table->text('rehabilitation_restore_develop')->nullable();    
+            $table->text('rehabilitation_improve')->nullable();    
+            $table->text('rehabilitation_reintegrate')->nullable();    
+            $table->text('rehabilitation_placed')->nullable();    
+            $table->text('rehabilitation_refer')->nullable();    
+            $table->text('rehabilitation_transfer')->nullable();    
             $table->foreignId('children_id')->constrained('childrens')->onDelete('cascade')->onUpdate('cascade');  
 
             $table->timestamps();

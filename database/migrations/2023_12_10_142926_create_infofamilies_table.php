@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('infofamilies', function (Blueprint $table) {
             $table->id();
-            $table->char('name_of_father',100)->nullable();
-            $table->char('name_of_mother',100)->nullable();
-            $table->tinyInteger('age_of_father')->change();
-            $table->tinyInteger('age_of_mother')->change();
-            $table->char('address',150)->nullable();
-            $table->char('occupation',50)->nullable();
+            $table->char('infofamily_name_of_father',100)->nullable();
+            $table->char('infofamily_name_of_mother',100)->nullable();
+            $table->tinyInteger('infofamily_age_of_father')->change();
+            $table->tinyInteger('infofamily_age_of_mother')->change();
+            $table->char('infofamily_address',150)->nullable();
+            $table->char('infofamily_occupation',50)->nullable();
             $table->ForeignId('children_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
