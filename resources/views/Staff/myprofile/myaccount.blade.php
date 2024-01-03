@@ -44,7 +44,7 @@
                         <div class="">
                             <label>Midile Initial</label>
                             <input rows="1" name="middle_initial" value="{{$getRecord->middle_initial}}"
-                                class="custom-input bg-white my-1 me-1" ></input>
+                                class="custom-input bg-white my-1 me-1"></input>
                         </div>
                         @if($errors->has('middle_initial'))
                         <span class="text-danger">{{ $errors->first('middle_initial') }}</span>
@@ -83,7 +83,7 @@
                     <div class="">
                         <label>Place of Birth</label>
                         <input rows="1" name="place_of_birth" value="{{$getRecord->place_of_birth}}"
-                            class="custom-input bg-white my-1 me-1" ></input>
+                            class="custom-input bg-white my-1 me-1"></input>
                     </div>
                     @if($errors->has('place_of_birth'))
                     <span class="text-danger">{{ $errors->first('place_of_birth') }}</span>
@@ -92,7 +92,7 @@
                     <div class="">
                         <label>Date of Birth</label>
                         <input type="date" name="date_of_birth" value="{{$getRecord->date_of_birth}}"
-                            class="custom-input bg-white my-1 me-1 text-dark" >
+                            class="custom-input bg-white my-1 me-1 text-dark">
                     </div>
                     @if($errors->has('date_of_birth'))
                     <span class="text-danger">{{ $errors->first('date_of_birth') }}</span>
@@ -102,8 +102,8 @@
                     <!-- New Box Content for Religion -->
                     <div class="">
                         <label>Religion</label>
-                        <input rows="1"  name="religion" value="{{$getRecord->religion}}"
-                            class="custom-input bg-white my-1 me-1" ></input>
+                        <input rows="1" name="religion" value="{{$getRecord->religion}}"
+                            class="custom-input bg-white my-1 me-1"></input>
                     </div>
                     @if($errors->has('religion'))
                     <span class="text-danger">{{ $errors->first('religion') }}</span>
@@ -111,8 +111,8 @@
                     <!-- New Box Content for Things brought in the center -->
                     <div class=" ">
                         <label>Age</label>
-                        <input rows="1" type="number" name="age" value="{{$getRecord->age}}" class="custom-input bg-white my-1 me-1"
-                         ></input>
+                        <input rows="1" type="number" name="age" value="{{$getRecord->age}}"
+                            class="custom-input bg-white my-1 me-1"></input>
                     </div>
                     @if($errors->has('age'))
                     <span class="text-danger">{{ $errors->first('age') }}</span>
@@ -137,8 +137,8 @@
                     @endif
                     <div class=" ">
                         <label>Height</label>
-                        <input rows="1"  type="number" name="height" value="{{$getRecord->height}}"
-                            class="custom-input bg-white my-1 me-1" ></input>
+                        <input rows="1" type="number" name="height" value="{{$getRecord->height}}"
+                            class="custom-input bg-white my-1 me-1"></input>
                     </div>
                     @if($errors->has('height'))
                     <span class="text-danger">{{ $errors->first('height') }}</span>
@@ -146,7 +146,7 @@
                     <div class=" ">
                         <label>Weight</label>
                         <input rows="1" type="number" name="weight" value="{{$getRecord->weight}}"
-                            class="custom-input bg-white my-1 me-1" ></input>
+                            class="custom-input bg-white my-1 me-1"></input>
                     </div>
                     @if($errors->has('weight'))
                     <span class="text-danger">{{ $errors->first('weight') }}</span>
@@ -158,7 +158,7 @@
                     <div class=" ">
                         <label>Phone Number</label>
                         <input rows="1" type="number" name="phone_number" value="{{$getRecord->phone_number}}"
-                            class="custom-input bg-white my-1 me-1" ></input>
+                            class="custom-input bg-white my-1 me-1"></input>
                     </div>
                     @if($errors->has('phone_number'))
                     <span class="text-danger">{{ $errors->first('phone_number') }}</span>
@@ -166,39 +166,77 @@
                     <div class=" ">
                         <label>Email Address</label>
                         <input rows="1" name="email_address" value="{{$getRecord->email_address}}"
-                            class="custom-input bg-white my-1 me-1" ></input>
+                            class="custom-input bg-white my-1 me-1"></input>
                     </div>
                     @if($errors->has('email_address'))
                     <span class="text-danger">{{ $errors->first('email_address') }}</span>
                     @endif
+                    @if($getRecord->region != null)
                     <div class=" ">
                         <label>Region</label>
-                        <input rows="1" name="region" value="{{$getRecord->region}}"
-                            class="custom-input bg-white my-1 me-1" ></input>
+                        <input type="text" rows="1" name="region" class="custom-input text-dark bg-white my-1 me-1"
+                            value="{{$getRecord->region}}" >
                     </div>
-                    @if($errors->has('region'))
-                    <span class="text-danger">{{ $errors->first('region') }}</span>
+                    @else
+                    <div class="">
+                        <label for="region">Region</label>
+                        <select class="custom-input" id="region-dropdown" onchange="updateHiddenInput('region')">
+                            <option value="">Select Region</option>
+
+                            @foreach ($regions as $region)
+                            <option value="{{$region->id}}">
+                                {{$region->name}}
+                            </option>
+                            @endforeach
+                        </select>
+                        @if($errors->has('region'))
+                        <span class="text-danger">{{ $errors->first('region') }}</span>
+                        @endif
+                        <input type="hidden" name="region" id="sample-column-region-input" value="">
+                    </div>
                     @endif
+                    @if($getRecord->province != null)
                     <div class=" ">
                         <label>Province</label>
-                        <input rows="1" name="province" value="{{$getRecord->province}}"
-                            class="custom-input bg-white my-1 me-1" ></input>
+                        <input type="text" rows="1" name="province" class="custom-input text-dark bg-white my-1 me-1"
+                            value="{{$getRecord->province}}" >
                     </div>
-                    @if($errors->has('province'))
-                    <span class="text-danger">{{ $errors->first('province') }}</span>
+                    @else
+                    <div class=" ">
+                        <label for="province">Province</label>
+                        <select class="custom-input" id="province-dropdown" onchange="updateHiddenInput('province')">
+                            <!-- Options for provinces go here -->
+                        </select>
+                        @if($errors->has('province'))
+                        <span class="text-danger">{{ $errors->first('province') }}</span>
+                        @endif
+                        <input type="hidden" name="province" id="sample-column-province-input" value="">
+                    </div>
                     @endif
+                    
+
+                    @if($getRecord->city != null)
                     <div class=" ">
                         <label>City</label>
-                        <input rows="1" name="city" value="{{$getRecord->city}}"
-                            class="custom-input bg-white my-1 me-1"></input>
+                        <input type="text" rows="1" name="city" class="custom-input text-dark bg-white my-1 me-1"
+                            value="{{$getRecord->city}}" >
                     </div>
-                    @if($errors->has('city'))
-                    <span class="text-danger">{{ $errors->first('city') }}</span>
+                    @else
+                    <div class=" ">
+                        <label for="city">City/Municipality</label>
+                        <select class="custom-input" id="city-dropdown" onchange="updateHiddenInput('city')">
+                            <!-- Options for cities go here -->
+                        </select>
+                        @if($errors->has('City'))
+                        <span class="text-danger">{{ $errors->first('province') }}</span>
+                        @endif
+                        <input type="hidden" name="city" id="sample-column-city-input" value="">
+                    </div>
                     @endif
                     <div class=" ">
                         <label>Barangay</label>
                         <input rows="1" name="barangay" value="{{$getRecord->barangay}}"
-                            class="custom-input bg-white my-1 me-1" ></input>
+                            class="custom-input bg-white my-1 me-1"></input>
                     </div>
                     @if($errors->has('barangay'))
                     <span class="text-danger">{{ $errors->first('barangay') }}</span>
@@ -214,7 +252,7 @@
                     <div class=" ">
                         <label>Zip</label>
                         <input rows="1" type="number" name="zip_code" value="{{$getRecord->zip_code}}"
-                            class="custom-input bg-white my-1 me-1" ></input>
+                            class="custom-input bg-white my-1 me-1"></input>
                     </div>
                     @if($errors->has('zip_code'))
                     <span class="text-danger">{{ $errors->first('zip_code') }}</span>
@@ -235,7 +273,7 @@
                         <span class="text-danger">{{ $errors->first('profile_pic') }}</span>
                         @endif
 
-                        
+
                         <div class="form-floating mb-3">
                             <select class="form-select bg-transparent custom-input" name="user_type"
                                 aria-label="Floating label select example">
@@ -252,7 +290,7 @@
                         <span class="text-danger">{{ $errors->first('user_type') }}</span>
                         @endif
 
-                        
+
 
                         <div class="mb-3">
                             <label class="form-label ">Username</label>

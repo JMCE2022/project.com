@@ -11,6 +11,9 @@ use App\Models\Guardian;
 use App\Models\Sibling;
 use App\Models\Children;
 use App\Models\Infofamily;
+use App\Models\Region;
+use App\Models\Province;
+use App\Models\City;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Log;
@@ -85,16 +88,33 @@ class ChildrenController extends Controller
     }
 
     public function addChildrens()
+
+
     {
-        if (Auth::user()->user_type == 'Admin') {
-            $data['Header_title'] = "Add Users";
-            return view("admin.childrens.add.addchildrens", $data);
-        } else if (Auth::user()->user_type == 'Staff') {
-            $data['Header_title'] = "Add Users";
-            return view("staff.childrens.add.addchildrens", $data);
-        }
+       
+
+        $data['regions'] = Region::get(["name", "id"]);
+        
+
+        $viewPath = Auth::user()->user_type == 'Admin'
+            ? 'admin.childrens.add.addchildrens'
+            : 'staff.childrens.add.addchildrens';
+    
+        return view($viewPath, $data);
 
 
+    }
+    public function getProvince(Request $request)
+    {
+        $data['provinces'] = Province::where("region_id",$request->region_id)
+                    ->get(["name","id"]);
+        return response()->json($data);
+    }
+    public function getCity(Request $request)
+    {
+        $data['cities'] = City::where("province_id",$request->province_id)
+                    ->get(["name","id"]);
+        return response()->json($data);
     }
 
     public function add(Request $request)
@@ -110,9 +130,9 @@ class ChildrenController extends Controller
             'date_of_birth' => 'nullable|date',
             'place_of_birth' => 'nullable|string|max:30',
             'educational_attainment' => 'nullable|string|max:20',
-            'region' => 'nullable|string|max:20',
-            'province' => 'nullable|string|max:30',
-            'city' => 'nullable|string|max:30',
+            'region' => 'required|string|max:45',
+            'province' => 'required|string|max:30',
+            'city' => 'required|string|max:30',
             'barangay' => 'nullable|string|max:30',
             'street_address' => 'nullable|string|max:30',
             'present_health_condition' => 'nullable|string',

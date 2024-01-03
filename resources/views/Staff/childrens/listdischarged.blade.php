@@ -41,7 +41,7 @@
                             <th scope="col">Sex</th>
                             <th scope="col">Created By</th>
                             <th scope="col">Date of Admission</th>
-                          <!--  <th scope="col">Discharge Date</th> Add this column -->
+                         <th scope="col">Discharge Date</th> <!--   Add this column -->
                             <th scope="col">Restore</th>
                         </tr>
                     </thead>
@@ -55,7 +55,7 @@
                             <td>{{ $children->sex }}</td>
                             <td>{{ $children->created_by }}</td>
                             <td>{{ $children->created_at }}</td>
-                            <!--<td>{{ $children->formatted_discharge_date }}</td> Display discharge date -->
+                            <td>{{ $children->discharge_date }}</td> <!--Display discharge date -->
                             @if(Auth::user()->user_type == 'Admin' || Auth::user()->user_type == 'Staff')
                             <td class="text-center">
                                 <a href="{{ url(Auth::user()->user_type.'/Listchildrens/Archive/'.$children->id) }}"><i

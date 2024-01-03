@@ -111,7 +111,69 @@
             XLSX.writeFile(wb, 'table_data.xlsx');
         });
     </script>
-    
+    <script>
+
+$(document).ready(function() {
+
+    $('#region-dropdown').on('change', function() {
+            var region_id = this.value;
+             $("#province-dropdown").html('');
+            $.ajax({
+                url:"{{url('get-provinces-by-region')}}",
+                type: "POST",
+                data: {
+                    region_id: region_id,
+                     _token: '{{csrf_token()}}' 
+                },
+                dataType : 'json',
+                success: function(result){
+                    $('#province-dropdown').html('<option value="">Select Province</option>'); 
+                    $.each(result.provinces,function(key,value){
+                    $("#province-dropdown").append('<option value="'+value.id+'">'+value.name+'</option>');
+                    });
+                    $('#city-dropdown').html('<option value="">Select Province First</option>'); 
+                }
+            });
+        
+        
+    });    
+
+    $('#province-dropdown').on('change', function() {
+            var province_id = this.value;
+             $("#city-dropdown").html('');
+            $.ajax({
+                url:"{{url('get-cities-by-province')}}",
+                type: "POST",
+                data: {
+                    province_id: province_id,
+                     _token: '{{csrf_token()}}' 
+                },
+                dataType : 'json',
+                success: function(result){
+                    $('#city-dropdown').html('<option value="">Select City/Municipality</option>'); 
+                    $.each(result.cities,function(key,value){
+                    $("#city-dropdown").append('<option value="'+value.id+'">'+value.name+'</option>');
+                    });
+
+                }
+            });
+        
+        
+    });
+});
+</script>
+
+<script>
+    function updateHiddenInput(type) {
+        var selectedDropdown = document.getElementById(type + '-dropdown');
+        var hiddenInput = document.getElementById('sample-column-' + type + '-input');
+        
+        // Update the hidden input value with the selected option's text
+        hiddenInput.value = selectedDropdown.options[selectedDropdown.selectedIndex].text;
+    }
+</script>
+
+
     
 </body>
 

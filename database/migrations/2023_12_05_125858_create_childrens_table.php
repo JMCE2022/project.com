@@ -20,9 +20,9 @@ return new class extends Migration {
             $table->date('date_of_birth')->nullable();
             $table->char('place_of_birth',30)->nullable();
             $table->char('educational_attainment',20)->nullable();
-            $table->char('region',30)->nullable();
-            $table->char('province',30)->nullable();
-            $table->char('city',30)->nullable();
+            $table->char('region',45)->nullable();
+            $table->char('province',40)->nullable();
+            $table->char('city',40)->nullable();
             $table->char('barangay',30)->nullable();
             $table->char('street_address',30)->nullable();
             $table->text('present_health_condition')->nullable();

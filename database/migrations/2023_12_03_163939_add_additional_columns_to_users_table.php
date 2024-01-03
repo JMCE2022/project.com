@@ -20,13 +20,13 @@ return new class extends Migration
             $table->char('religion',30)->nullable();
             $table->char('age',2)->nullable()->change();
             $table->char('civil_status',10)->nullable();
-            $table->char('height',5)->nullable(); // height in CM
-            $table->char('weight',5)->nullable(); // weight in Kilogram
+            $table->tinyInteger('height',250)->nullable(); // height in CM
+            $table->tinyInteger('weight',200)->nullable(); // weight in Kilogram
             $table->char('phone_number', 12)->nullable();
             $table->char('email_address',50)->nullable();
-            $table->char('region',30)->nullable();
-            $table->char('province',30)->nullable();
-            $table->char('city',30)->nullable();
+            $table->char('region',45)->nullable();
+            $table->char('province',40)->nullable();
+            $table->char('city',40)->nullable();
             $table->char('barangay',30)->nullable();
             $table->char('street_address',30)->nullable(); // You mentioned 'No./Sition/Purok'
             $table->char('zip_code', 4)->nullable();

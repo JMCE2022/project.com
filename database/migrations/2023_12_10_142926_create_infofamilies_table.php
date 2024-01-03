@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->char('infofamily_name_of_father',60)->nullable();
             $table->char('infofamily_name_of_mother',60)->nullable();
-            $table->char('infofamily_age_of_father',2)->change();
-            $table->char('infofamily_age_of_mother',2)->change();
+            $table->tinyInteger('infofamily_age_of_father',100)->change();
+            $table->tinyInteger('infofamily_age_of_mother',100)->change();
             $table->char('infofamily_address',150)->nullable();
             $table->char('infofamily_occupation',20)->nullable();
             $table->ForeignId('children_id')->constrained()->onDelete('cascade')->onUpdate('cascade');

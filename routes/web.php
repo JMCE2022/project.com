@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\ChildrenController;
 use App\Http\Controllers\FormController;
+use App\Http\Controllers\RegionProvinceCityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,13 +25,7 @@ Route::post('login', [LoginDashboardController::class, 'AuthLogin']);
 
 
 
-Route::get('/Admin/Addchildren', function () {
-    return view('admin.addchildren');
-});
 
-Route::get('/Admin/Formpicreports', function () {
-    return view('admin.Formpicreports');
-});
 
 Route::group(['middleware' => 'admin'], function () {
     Route::get('/Admin/Dashboard', [DashboardController::class, 'dashboard']);
@@ -69,7 +64,9 @@ Route::group(['middleware' => 'admin'], function () {
     Route::post('/Admin/Listchildrens/Addrecommendations', [ChildrenController::class, 'recommendations']);
 
     
-
+    Route::get('region-province-city', [ChildrenController::class, 'region']);
+    Route::post('get-provinces-by-region', [ChildrenController::class, 'getProvince']);
+    Route::post('get-cities-by-province', [ChildrenController::class, 'getCity']);
     Route::get('/Admin/Listdischargedchildren', [ChildrenController::class, 'childrenlistdischarged']);
     Route::get('/Admin/Listchildrens/Edit/{id}', [ChildrenController::class, 'edit']);
     Route::get('/Admin/Listchildrens/Preview/{id}', [ChildrenController::class, 'preview']);
@@ -87,6 +84,8 @@ Route::group(['middleware' => 'admin'], function () {
 
     Route::get('/Admin/Myprofile/Myaccount', [GeneralController::class, 'myAccount']);
     Route::post('/Admin/Myprofile/Myaccount', [GeneralController::class, 'updateMyAccount']);
+
+    
 
 
 });

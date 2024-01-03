@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->tinyInteger('is_deleted',1)->default('0');
-            //
+        Schema::create('provinces', function (Blueprint $table) {
+            $table->increments('id');
+            $table->char('name',40);
+            $table->integer('region_id'); 
+            $table->timestamps();
         });
     }
 
@@ -22,9 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-            $table->dropColumn('is_deleted');
-        });
+        Schema::dropIfExists('provinces');
     }
 };

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('finders', function (Blueprint $table) {
             $table->id();
             $table->char('finder_fullname',60)->nullable();
-            $table->char('finder_age',2)->nullable()->change();
+            $table->tinyInteger('finder_age',100)->nullable()->change();
             $table->char('finder_sex',1)->nullable();
             $table->char('finder_civil_status',10)->nullable();
             $table->char('finder_relationship',20)->nullable();

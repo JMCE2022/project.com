@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Region;
+use App\Models\Province;
+use App\Models\City;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -14,14 +17,27 @@ class GeneralController extends Controller
     public function myaccount()
     {
         $data['getRecord'] = User::getSingle(Auth::user()->id);
-        $data['header_title'] = "My Account";
+        $data['regions'] = Region::get(["name", "id"]);
+        
 
-        if (Auth::user()->user_type == 'Admin') {
-            return view('admin.myprofile.myaccount', $data);
-        } else if (Auth::user()->user_type == 'Staff') {
-            return view('Staff.myprofile.myaccount', $data);
-        }
+        $viewPath = Auth::user()->user_type == 'Admin'
+            ? 'admin.myprofile.myaccount'
+            : 'staff.myprofile.myaccount';
+    
+        return view($viewPath, $data);
 
+    }
+    public function getProvince(Request $request)
+    {
+        $data['provinces'] = Province::where("region_id",$request->region_id)
+                    ->get(["name","id"]);
+        return response()->json($data);
+    }
+    public function getCity(Request $request)
+    {
+        $data['cities'] = City::where("province_id",$request->province_id)
+                    ->get(["name","id"]);
+        return response()->json($data);
     }
     public function updateMyAccount(Request $request)
     {
