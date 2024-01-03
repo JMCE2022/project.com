@@ -348,9 +348,7 @@ class ChildrenController extends Controller
             }
 
             // Paginate the results
-            $data['getRecord'] = $query->select('*', DB::raw('DATE_FORMAT(discharge_date, "%Y-%m-%d") as formatted_discharge_date'))
-            ->orderBy('id', 'asc')
-            ->paginate(10);
+            $data['getRecord'] = $query->orderBy('id', 'asc')->paginate(10);
 
             // Pass data to the view
             return view("admin.childrens.listdischarged", $data);
@@ -378,9 +376,7 @@ class ChildrenController extends Controller
 
 
             // Paginate the results
-            $data['getRecord'] = $query->select('*', DB::raw('DATE_FORMAT(discharge_date, "%Y-%m-%d") as formatted_discharge_date'))
-            ->orderBy('id', 'asc')
-            ->paginate(10);
+            $data['getRecord'] = $query->orderBy('id', 'asc')->paginate(10);
 
             // Pass data to the view
             return view("staff.childrens.listdischarged", $data);
@@ -394,17 +390,19 @@ class ChildrenController extends Controller
     {
         $user = Children::getSingle($id);
         $user->is_deleted = 1;
+        $user->discharge_date = now()->format('Y/m/d H:i:s');
         $user->save();
 
-        return redirect()->back()->with('success', 'Users successfully add to Archived');
+        return redirect()->back()->with('success', 'Child successfully Discharged');
     }
     public function archive($id)
     {
         $user = Children::getSingle($id);
         $user->is_deleted = 0;
+        $user->discharge_date = null; // Set discharge_date to null
         $user->save();
 
-        return redirect()->back()->with('success', 'Users successfully restore');
+        return redirect()->back()->with('success', 'Child successfully Restore');
     }
     public function deletePermanentChildren($id)
     {

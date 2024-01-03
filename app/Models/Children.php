@@ -85,4 +85,5 @@ public static function getChildren()
     {
         return $this->hasOne(Recommendation::class);
     }
+    
 }
