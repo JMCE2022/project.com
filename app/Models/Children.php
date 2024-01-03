@@ -30,6 +30,7 @@ class Children extends Model
         'physical_characteristic',
         'created_by',
         'is_deleted',
+        'discharge_date',
     ];
     
 

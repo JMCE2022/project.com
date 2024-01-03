@@ -348,7 +348,9 @@ class ChildrenController extends Controller
             }
 
             // Paginate the results
-            $data['getRecord'] = $query->orderBy('id', 'asc')->paginate(10);
+            $data['getRecord'] = $query->select('*', DB::raw('DATE_FORMAT(discharge_date, "%Y-%m-%d") as formatted_discharge_date'))
+            ->orderBy('id', 'asc')
+            ->paginate(10);
 
             // Pass data to the view
             return view("admin.childrens.listdischarged", $data);
@@ -376,7 +378,9 @@ class ChildrenController extends Controller
 
 
             // Paginate the results
-            $data['getRecord'] = $query->orderBy('id', 'asc')->paginate(10);
+            $data['getRecord'] = $query->select('*', DB::raw('DATE_FORMAT(discharge_date, "%Y-%m-%d") as formatted_discharge_date'))
+            ->orderBy('id', 'asc')
+            ->paginate(10);
 
             // Pass data to the view
             return view("staff.childrens.listdischarged", $data);

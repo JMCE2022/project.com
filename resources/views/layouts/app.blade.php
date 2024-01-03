@@ -54,7 +54,7 @@
             @yield('content')
 
             <!-- Dashboard end -->
-            @include('layouts.footer')
+            
         </div>
 
     </div>
@@ -111,6 +111,7 @@
             XLSX.writeFile(wb, 'table_data.xlsx');
         });
     </script>
+    
     
 </body>
 

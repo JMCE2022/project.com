@@ -34,43 +34,33 @@
                 <table class="table table-hover text-dark">
                     <thead>
                         <tr>
-                        <th scope="col">ID</th>
+                            <th scope="col">ID</th>
                             <th scope="col">Case #</th>
                             <th scope="col">Full Name</th>
                             <th scope="col">Age</th>
                             <th scope="col">Sex</th>
                             <th scope="col">Created By</th>
                             <th scope="col">Date of Admission</th>
+                          <!--  <th scope="col">Discharge Date</th> Add this column -->
                             <th scope="col">Restore</th>
-
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($getRecord as $children)
                         <tr>
-                        <td>{{ $counter++ }}</td>
+                            <td>{{ $counter++ }}</td>
                             <td>{{ $children->id }}</td>
                             <td>{{ $children->firstname }} {{ $children->lastname }}</td>
                             <td>{{ $children->age }}</td>
                             <td>{{ $children->sex }}</td>
                             <td>{{ $children->created_by }}</td>
                             <td>{{ $children->created_at }}</td>
-                            @if(Auth::user()->user_type == 'Admin')
+                            <!--<td>{{ $children->formatted_discharge_date }}</td> Display discharge date -->
+                            @if(Auth::user()->user_type == 'Admin' || Auth::user()->user_type == 'Staff')
                             <td class="text-center">
-
-                                <a href="{{ url('Admin/Listchildrens/Archive/'.$children->id) }}"><i
+                                <a href="{{ url(Auth::user()->user_type.'/Listchildrens/Archive/'.$children->id) }}"><i
                                         class="fas fa-trash-restore" style="color: #198754;"></i></a>
-
                             </td>
-
-                            @elseif(Auth::user()->user_type == 'Staff')
-                            <td class="text-center">
-
-                                <a href="{{ url('Staff/Listchildrens/Archive/'.$children->id) }}"><i
-                                        class="fas fa-trash-restore" style="color: #198754;"></i></a>
-
-                            </td>
-
                             @endif
                         </tr>
                         @endforeach

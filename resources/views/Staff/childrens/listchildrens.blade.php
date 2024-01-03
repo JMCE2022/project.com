@@ -90,8 +90,8 @@
                             </td>
                             <td class="text-center">
 
-                                <a href="{{ url('Staff/Listchildrens/Archived/'.$children->id) }}"><i
-                                        class="fas fa-archive" style="color: #dc3545;"></i></a>
+                                <a href="{{ url('Staff/Listchildrens/Archived/'.$children->id) }}"><i class="fas fa-running"
+                            style="color: #dc3545;"></i></a>
 
                             </td>
                             <td class="text-center">

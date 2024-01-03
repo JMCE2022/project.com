@@ -46,7 +46,7 @@
                             @endif
                             <div class="mb-3">
                                 <label class="form-label ">Age</label>
-                                <input type="text" name="age" class="custom-input bg-transparent">
+                                <input type="number" name="age" class="custom-input bg-transparent">
                             </div>
                             @if($errors->has('age'))
                             <span class="text-danger">{{ $errors->first('age') }}</span>
