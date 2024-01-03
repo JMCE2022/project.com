@@ -76,7 +76,7 @@
 
                                 </div>
                                 <div class="col-4 col-md-4 text-center">
-                                    <img src="{{asset('images/Login/Logo.png')}}" width="180px" alt="logo">
+                                    <img src="{{asset('images/Admin/Logo2.png')}}" width="180px" alt="logo">
                                 </div>
                                 <div class="col-4 col-md-4 ">
                                 </div>

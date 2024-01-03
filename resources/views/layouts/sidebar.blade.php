@@ -66,9 +66,9 @@
                         @if(in_array(Request::segment(2), ['Listchildrens', 'Listarchivechildren']))
 
                         <a class=" custom-active text-white " href="{{url('Staff/Listchildrens')}}"><i
-                                class="fas fa-child" style="color: #000000;"></i> &nbsp; List of Children</a>
+                                class="fas fa-child" ></i> &nbsp; List of Children</a>
                         @else
-                        <a class="  " href="{{url('Staff/Listchildrens')}}"><i class="fas fa-child"></i> &nbsp; List of
+                        <a class="  " href="{{url('Staff/Listchildrens')}}"><i class="fas fa-child" ></i> &nbsp; List of
                             Children</a>
                         @endif
 
