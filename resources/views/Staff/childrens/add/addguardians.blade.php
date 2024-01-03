@@ -67,11 +67,11 @@
                 <div class="col-md-6">
                 <div class=" mb-3">
                 <label>Sex</label>
-                            <select class="form-select bg-white text-dark custom-input" name="guardian_sex"
+                            <select class="form-select bg-white text-dark custom-input" name="guardian_sex required"
                                 aria-label="Floating label select example">
                                 <option value="" disabled selected class="text-dark">Select</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
                             </select>
                         </div>
                         @if($errors->has('sex'))

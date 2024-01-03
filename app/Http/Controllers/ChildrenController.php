@@ -39,12 +39,14 @@ class ChildrenController extends Controller
                 $query->where(function ($q) use ($search) {
                     $q->whereRaw("CONCAT(firstname, ' ', lastname) LIKE ?", ["%$search%"])
                         ->orWhere('id', 'LIKE', "%$search%")
+                        ->orWhere('age', 'LIKE', "%$search%")
+                        ->orWhere('sex', 'LIKE', "%$search%")
                         ->orWhere('created_by', 'LIKE', "%$search%");
                 });
             }
 
             // Paginate the results
-            $data['getRecord'] = $query->orderBy('id', 'desc')->paginate(10);
+            $data['getRecord'] = $query->orderBy('id', 'asc')->paginate(10);
 
             // Pass data to the view
             return view("admin.childrens.listchildrens", $data);
@@ -64,12 +66,15 @@ class ChildrenController extends Controller
                 $query->where(function ($q) use ($search) {
                     $q->whereRaw("CONCAT(firstname, ' ', lastname) LIKE ?", ["%$search%"])
                         ->orWhere('id', 'LIKE', "%$search%")
+                        ->orWhere('age', 'LIKE', "%$search%")
+                        ->orWhere('sex', 'LIKE', "%$search%")
                         ->orWhere('created_by', 'LIKE', "%$search%");
                 });
             }
 
             // Paginate the results
-            $data['getRecord'] = $query->orderBy('id', 'desc')->paginate(10);
+            $data['getRecord'] = $query->orderBy('id', 'asc')->paginate(10);
+           
 
             // Pass data to the view
             return view("staff.childrens.listchildrens", $data);
@@ -99,8 +104,8 @@ class ChildrenController extends Controller
         $request->validate([
             'firstname' => 'required|string|max:50',
             'lastname' => 'required|string|max:30',
-            'sex' => 'required|string|max:10',
-            'age' => 'nullable|integer|max:150',
+            'sex' => 'required|string|max:1',
+            'age' => 'nullable|string|max:2',
             'religion' => 'nullable|string|max:50',
             'date_of_birth' => 'nullable|date',
             'place_of_birth' => 'nullable|string|max:100',
@@ -119,7 +124,7 @@ class ChildrenController extends Controller
         $user->firstname = trim($request->firstname);
         $user->lastname = trim($request->lastname);
         $user->sex = trim($request->sex);
-        $user->age = $request->input('age') ? (int) $request->input('age') : null;
+        $user->age = trim($request->age);
         $user->religion = trim($request->religion);
         $user->date_of_birth = $request->input('date_of_birth') ? trim($request->input('date_of_birth')) : null;
         $user->place_of_birth = trim($request->place_of_birth);
@@ -136,7 +141,7 @@ class ChildrenController extends Controller
         $user->save();
 
 
-        return redirect()->back()->with('success', 'Users successfully created');
+        return redirect()->back()->with('success', 'Child Record successfully added');
 
 
     }
@@ -169,8 +174,8 @@ class ChildrenController extends Controller
         $request->validate([
             'firstname' => 'required|string|max:50',
             'lastname' => 'required|string|max:30',
-            'sex' => 'required|string|max:10',
-            'age' => 'nullable|integer|max:150',
+            'sex' => 'required|string|max:1',
+            'age' => 'nullable|string|max:3',
             'religion' => 'nullable|string|max:50',
             'date_of_birth' => 'nullable|date',
             'place_of_birth' => 'nullable|string|max:100',
@@ -326,12 +331,14 @@ class ChildrenController extends Controller
                 $query->where(function ($q) use ($search) {
                     $q->where('firstname', 'LIKE', "%$search%")
                         ->orWhere('id', 'LIKE', "%$search%")
+                        ->orWhere('age', 'LIKE', "%$search%")
+                        ->orWhere('sex', 'LIKE', "%$search%")
                         ->orWhere('created_by', 'LIKE', "%$search%");
                 });
             }
 
             // Paginate the results
-            $data['getRecord'] = $query->orderBy('id', 'desc')->paginate(10);
+            $data['getRecord'] = $query->orderBy('id', 'asc')->paginate(10);
 
             // Pass data to the view
             return view("admin.childrens.listdischarged", $data);
@@ -351,13 +358,15 @@ class ChildrenController extends Controller
                 $query->where(function ($q) use ($search) {
                     $q->where('firstname', 'LIKE', "%$search%")
                         ->orWhere('id', 'LIKE', "%$search%")
+                        ->orWhere('age', 'LIKE', "%$search%")
+                        ->orWhere('sex', 'LIKE', "%$search%")
                         ->orWhere('created_by', 'LIKE', "%$search%");
                 });
             }
 
 
             // Paginate the results
-            $data['getRecord'] = $query->orderBy('id', 'desc')->paginate(10);
+            $data['getRecord'] = $query->orderBy('id', 'asc')->paginate(10);
 
             // Pass data to the view
             return view("staff.childrens.listdischarged", $data);
@@ -464,8 +473,8 @@ class ChildrenController extends Controller
     {
         $request->validate([
             'children_id' => 'required|integer',
-            'infofamily_age_of_father' => 'required|integer',
-            'infofamily_age_of_mother' => 'required|integer',
+            'infofamily_age_of_father' => 'required|string|max:3',
+            'infofamily_age_of_mother' => 'required|string|max:3',
             // Add other validation rules if needed
         ], [
             'children_id.required' => 'Please select a child.',
@@ -519,8 +528,8 @@ class ChildrenController extends Controller
         //dd($request->all());
         $request->validate([
             'children_id' => 'required|integer', // Add any other validation rules you need
-            'sibling_sex' => 'required|string',
-            'sibling_age' => 'required|integer',
+            'sibling_sex' => 'required|string|max:1',
+            'sibling_age' => 'required|string|max:3',
         ], [
             'children_id.required' => 'Please select a child.',
             'children_id.integer' => 'Invalid value for child.',
@@ -572,8 +581,8 @@ class ChildrenController extends Controller
         //dd($request->all());
         $request->validate([
             'children_id' => 'required|integer',
-            'guardian_sex' => 'required|string',
-            'guardian_age' => 'required|string', // Add any other validation rules you need
+            'guardian_sex' => 'required|string|max:1',
+            'guardian_age' => 'required|string|max:3', // Add any other validation rules you need
         ], [
             'children_id.required' => 'Please select a child.',
             'children_id.integer' => 'Invalid value for child.',
@@ -628,8 +637,8 @@ class ChildrenController extends Controller
         //dd($request->all());
         $request->validate([
             'children_id' => 'required|integer',
-            'finder_sex' => 'required|string', // Add any other validation rules you need
-            'finder_age' => 'required|integer',
+            'finder_sex' => 'required|string|max:1', // Add any other validation rules you need
+            'finder_age' => 'required|string|max:3',
         ], [
             'children_id.required' => 'Please select a child.',
             'children_id.integer' => 'Invalid value for child.',

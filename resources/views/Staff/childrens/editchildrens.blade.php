@@ -52,8 +52,8 @@
                             <select class="form-select bg-white text-dark custom-input" name="sex"
                                 aria-label="Floating label select example">
                                 <option disabled selected class="text-dark">Select</option>
-                                <option value="Male" @if($getRecord->sex == 'Male') selected @endif>Male</option>
-                                <option value="Female" @if($getRecord->sex == 'Female') selected @endif>Female</option>
+                                <option value="M" @if($getRecord->sex == 'M') selected @endif>Male</option>
+                                <option value="F" @if($getRecord->sex == 'F') selected @endif>Female</option>
                             </select>
                             <label for="floatingSelect">Sex</label>
                         </div>
@@ -306,9 +306,9 @@
                             <select class="form-select bg-white text-dark custom-input" name="guardian_sex"
                                 aria-label="Floating label select example">
                                 <option value="" disabled selected class="text-dark">Select</option>
-                                <option value="Male" @if($getRecord->guardian->guardian_sex == 'Male') selected
+                                <option value="M" @if($getRecord->guardian->guardian_sex == 'M') selected
                                     @endif>Male</option>
-                                <option value="Female" @if($getRecord->guardian->guardian_sex == 'Female') selected
+                                <option value="F" @if($getRecord->guardian->guardian_sex == 'F') selected
                                     @endif>Female</option>
                             </select>
                         </div>
@@ -376,9 +376,9 @@
                                 aria-label="Floating label select example">
                                 <option value="" disabled selected class="text-dark">Select
                                 </option>
-                                <option value="Male" @if($getRecord->finder->finder_sex == 'Male') selected @endif>Male
+                                <option value="M" @if($getRecord->finder->finder_sex == 'M') selected @endif>Male
                                 </option>
-                                <option value="Female" @if($getRecord->finder->finder_sex == 'Female') selected
+                                <option value="F" @if($getRecord->finder->finder_sex == 'F') selected
                                     @endif>Female</option>
                             </select>
                         </div>
@@ -755,13 +755,11 @@
             @endif
             <div class="d-flex align-items-center justify-content-between">
                 <button type="submit" class="btn btn-success">Update</button>
-
                 @if(Auth::user()->user_type == 'Admin')
                 <a class=" btn btn-outline-primary  m-2" href="{{url('Admin/Listchildrens')}}">Done</a>
                 @elseif(Auth::user()->user_type == 'Staff')
                 <a class=" btn btn-outline-primary  m-2" href="{{url('Staff/Listchildrens')}}">Done</a>
                 @endif
-                
             </div>
             </form>
         </div>

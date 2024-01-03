@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('finders', function (Blueprint $table) {
             $table->id();
-            $table->char('finder_fullname',100)->nullable();
-            $table->tinyInteger('finder_age')->nullable()->change();
-            $table->char('finder_sex',10)->nullable();
+            $table->char('finder_fullname',60)->nullable();
+            $table->char('finder_age',2)->nullable()->change();
+            $table->char('finder_sex',1)->nullable();
             $table->char('finder_civil_status',10)->nullable();
             $table->char('finder_relationship',20)->nullable();
-            $table->char('finder_occupation',50)->nullable();
+            $table->char('finder_occupation',20)->nullable();
             $table->text('finder_others')->nullable();
             $table->text('finder_problem_presented')->nullable();
             $table->text('finder_background_information')->nullable();

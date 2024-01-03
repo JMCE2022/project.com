@@ -28,12 +28,12 @@ class GeneralController extends Controller
         $id = Auth::user()->id;
 
         $request->validate([
-            'firstname' => 'required|string|max:255',
-            'lastname' => 'required|string|max:255',
-            'user_type' => 'nullable|string|max:255',
-            'username' => 'required|string|max:255|unique:users,username,' . $id,
+            'firstname' => 'required|string|max:30',
+            'lastname' => 'required|string|max:30',
+            'user_type' => 'nullable|string|max:5',
+            'username' => 'required|string|max:30|unique:users,username,' . $id,
             'password' => 'nullable|string|min:6|confirmed',
-            'profile_pic' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'profile_pic' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:100',
             'middle_initial' => 'nullable|string|max:1',
             
             
@@ -51,7 +51,7 @@ class GeneralController extends Controller
         $admin->suffix = trim($request->suffix);
         $admin->sex = trim($request->sex);
         $admin->place_of_birth = trim($request->place_of_birth);
-        $admin->date_of_birth = trim($request->date_of_birth);
+        $admin->date_of_birth = $request->input('date_of_birth') ? trim($request->input('date_of_birth')) : null;
         $admin->religion = trim($request->religion);
         $admin->age = trim($request->age);
         $admin->civil_status = trim($request->civil_status);
@@ -94,7 +94,7 @@ class GeneralController extends Controller
         $admin->suffix = trim($request->suffix);
         $admin->sex = trim($request->sex);
         $admin->place_of_birth = trim($request->place_of_birth);
-        $admin->date_of_birth = trim($request->date_of_birth);
+        $admin->date_of_birth = $request->input('date_of_birth') ? trim($request->input('date_of_birth')) : null;
         $admin->religion = trim($request->religion);
         $admin->age = trim($request->age);
         $admin->civil_status = trim($request->civil_status);

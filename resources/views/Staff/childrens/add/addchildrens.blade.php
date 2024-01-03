@@ -62,8 +62,8 @@
                                 <select class="form-select bg-white text-dark custom-input" name="sex"
                                     aria-label="Floating label select example">
                                     <option disabled selected class="text-dark">Select</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
+                                    <option value="M">Male</option>
+                                    <option value="F">Female</option>
                                 </select>
                                 <label for="floatingSelect">Sex</label>
                             </div>

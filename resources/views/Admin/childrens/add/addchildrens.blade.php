@@ -46,7 +46,7 @@
                             @endif
                             <div class="mb-3">
                                 <label class="form-label ">Age</label>
-                                <input type="text" name="age" class="custom-input bg-transparent">
+                                <input type="number" name="age" class="custom-input bg-transparent">
                             </div>
                             @if($errors->has('age'))
                             <span class="text-danger">{{ $errors->first('age') }}</span>
@@ -62,8 +62,8 @@
                                 <select class="form-select bg-white text-dark custom-input" name="sex"
                                     aria-label="Floating label select example">
                                     <option disabled selected class="text-dark">Select</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
+                                    <option value="M">Male</option>
+                                    <option value="F">Female</option>
                                 </select>
                                 <label for="floatingSelect">Sex</label>
                             </div>

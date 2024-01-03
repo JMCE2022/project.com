@@ -35,7 +35,7 @@ class AdminController extends Controller
         }
 
         // Paginate the results
-        $data['getRecord'] = $query->orderBy('id', 'desc')->paginate(10);
+        $data['getRecord'] = $query->orderBy('id', 'asc')->paginate(10);
 
         // Pass data to the view
         return view("admin.users.listarchive", $data);
@@ -66,7 +66,7 @@ class AdminController extends Controller
         }
 
         // Paginate the results
-        $data['getRecord'] = $query->orderBy('id', 'desc')->paginate(10);
+        $data['getRecord'] = $query->orderBy('id', 'asc')->paginate(10);
 
         // Pass data to the view
         return view("admin.users.listusers", $data);

@@ -16,21 +16,24 @@
                     <button class="btn btn-success m-1" type="submit">Search</button>
                     <button type="button" class="btn btn-success m-1" onclick="clearSearch()">Clear</button>
                 </form>
+                @php
+                $counter = 1;
+                @endphp
                 <div>
                     @if(Auth::user()->user_type == 'Admin')
                     <a class="text-dark text-center me-2 rounded border-bottom border-success"
                         href="{{ url('Admin/Listchildrens/Addchildrens') }}"> <i class="fas fa-user-plus"
                             style="color: #198754;"></i> Add Children</a>
-                            <a class="text-dark me-2 rounded border-bottom border-danger"
+                    <a class="text-dark me-2 rounded border-bottom border-danger"
                         href="{{url('Admin/Listdischargedchildren')}}"><i class="fas fa-running"
-                                    style="color: #dc3545;"></i> File Discharged</a>
+                            style="color: #dc3545;"></i> File Discharged</a>
                     @elseif(Auth::user()->user_type == 'Staff')
                     <a class="text-dark text-center me-2 rounded border-bottom border-success"
                         href="{{ url('Staff/Listchildrens/Addchildrens') }}"> <i class="fas fa-user-plus"
                             style="color: #198754;"></i> Add Children</a>
                     <a class="text-dark me-2 rounded border-bottom border-danger"
                         href="{{url('Staff/Listdischargedchildren')}}"><i class="fas fa-running"
-                                    style="color: #dc3545;"></i> File Discharged</a>
+                            style="color: #dc3545;"></i> File Discharged</a>
                     @endif
                 </div>
 
@@ -42,6 +45,7 @@
                 <table id="myTable" class="table table-hover text-dark">
                     <thead>
                         <tr>
+                        <th class="text-center" scope="col">ID</th>
                             <th class="text-center" scope="col">Case #</th>
                             <th class="text-center" scope="col">Full Name</th>
                             <th class="text-center" scope="col">Age</th>
@@ -56,6 +60,8 @@
                     <tbody>
                         @foreach($getRecord as $children)
                         <tr>
+                        
+                        <td class="text-center">{{ $counter++ }}</td>
                             <td class="text-center">{{ $children->id }}</td>
                             <td class="text-center">{{ $children->firstname }} {{ $children->lastname }}</td>
                             <td class="text-center">{{ $children->age }}</td>
@@ -69,8 +75,7 @@
                             <td class="text-center">
 
                                 <a href="{{ url('Admin/Listchildrens/Archived/'.$children->id) }}">
-                                        <i class="fas fa-running"
-                                    style="color: #dc3545;"></i></a>
+                                    <i class="fas fa-running" style="color: #dc3545;"></i></a>
 
                             </td>
                             <td class="text-center">
