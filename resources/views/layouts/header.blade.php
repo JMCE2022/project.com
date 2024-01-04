@@ -5,11 +5,9 @@
     </a>
     <div class="row">
         <div class="col-md-6">
-            <h3 class="text-primary"><img src="{{asset('images/Admin/Logo2.png')}}" width="180px" alt="logo"></h3>
+            <h3 class="text-primary"><img src="{{asset('images/Admin/logoheader.png')}}" width="220px" alt="logo"></h3>
         </div>
-        <div class="col-md-6">
-            <img src="{{asset('images/Admin/bagongpilipinas.png')}}" width="180px" height="60px" alt="logo">
-        </div>
+       
     </div>
     <div class=" ms-auto row text-center align-items-center ">
        

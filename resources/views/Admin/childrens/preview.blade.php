@@ -221,8 +221,14 @@
                         </div>
                         <div class="row">
                             <div class="col-12 col-md-12">
-                                <span class="text-bold text-dark">Occupation: <span
+                                <span class="text-bold text-dark">Occupation of Father: <span
                                         class="text-dark text-decoration-underline"></span>{{$getRecord->infofamily->infofamily_occupation}}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-12">
+                                <span class="text-bold text-dark">Occupation of Mother: <span
+                                        class="text-dark text-decoration-underline"></span>{{$getRecord->infofamily->infofamily_occupation_mother}}</span>
                             </div>
                         </div>
 

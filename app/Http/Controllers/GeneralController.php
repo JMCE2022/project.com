@@ -49,7 +49,7 @@ class GeneralController extends Controller
             'user_type' => 'nullable|string|max:5',
             'username' => 'required|string|max:30|unique:users,username,' . $id,
             'password' => 'nullable|string|min:6|confirmed',
-            'profile_pic' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:100',
+            'profile_pic' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10000',
             'middle_initial' => 'nullable|string|max:1',
             
             
@@ -71,8 +71,8 @@ class GeneralController extends Controller
         $admin->religion = trim($request->religion);
         $admin->age = $request->has('age') ? (int) $request->input('age') : null;
         $admin->civil_status = trim($request->civil_status);
-        $admin->height = trim($request->height);
-        $admin->weight = trim($request->weight);
+        $admin->weight = is_numeric($request->weight) ? trim($request->weight) : null;
+        $admin->height = is_numeric($request->height) ? trim($request->height) : null;
         $admin->phone_number = trim($request->phone_number);
         $admin->email_address = trim($request->email_address);
         $admin->region = trim($request->region);
@@ -114,8 +114,8 @@ class GeneralController extends Controller
         $admin->religion = trim($request->religion);
         $admin->age = $request->has('age') ? (int) $request->input('age') : null;
         $admin->civil_status = trim($request->civil_status);
-        $admin->height = trim($request->height);
-        $admin->weight = trim($request->weight);
+        $admin->weight = is_numeric($request->weight) ? trim($request->weight) : null;
+        $admin->height = is_numeric($request->height) ? trim($request->height) : null;
         $admin->phone_number = trim($request->phone_number);
         $admin->email_address = trim($request->email_address);
         $admin->region = trim($request->region);

@@ -69,8 +69,8 @@
                         <select class="form-select bg-white text-dark custom-input" name="sex"
                             aria-label="Floating label select example">
                             <option disabled selected class="text-dark">Select a Gender</option>
-                            <option value="Male" @if( $getRecord->sex == 'Male') selected @endif >Male</option>
-                            <option value="Female" @if($getRecord->sex == 'Female') selected @endif >Female</option>
+                            <option value="M" @if( $getRecord->sex == 'M') selected @endif >Male</option>
+                            <option value="F" @if($getRecord->sex == 'F') selected @endif >Female</option>
                         </select>
                         <label for="floatingSelect">Sex</label>
                     </div>
