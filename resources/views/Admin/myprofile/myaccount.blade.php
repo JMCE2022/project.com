@@ -136,30 +136,16 @@
                     <span class="text-danger">{{ $errors->first('civil_status') }}</span>
                     @endif
                     <div class=" ">
-                        <label>Height</label>
-                        <input rows="1" type="number" name="height" value="{{$getRecord->height}}"
-                            class="custom-input bg-white my-1 me-1"></input>
-                    </div>
-                    @if($errors->has('height'))
-                    <span class="text-danger">{{ $errors->first('height') }}</span>
-                    @endif
-                    <div class=" ">
-                        <label>Weight</label>
-                        <input rows="1" type="number" name="weight" value="{{$getRecord->weight}}"
-                            class="custom-input bg-white my-1 me-1"></input>
-                    </div>
-                    @if($errors->has('weight'))
-                    <span class="text-danger">{{ $errors->first('weight') }}</span>
-                    @endif
-
-                </div>
-                <div class="col-md-4">
-
-                    <div class=" ">
                         <label>Phone Number</label>
                         <input rows="1" type="number" name="phone_number" value="{{$getRecord->phone_number}}"
                             class="custom-input bg-white my-1 me-1"></input>
                     </div>
+                    
+
+                </div>
+                <div class="col-md-4">
+
+                    
                     @if($errors->has('phone_number'))
                     <span class="text-danger">{{ $errors->first('phone_number') }}</span>
                     @endif

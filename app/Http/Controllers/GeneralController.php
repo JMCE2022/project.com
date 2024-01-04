@@ -51,6 +51,7 @@ class GeneralController extends Controller
             'password' => 'nullable|string|min:6|confirmed',
             'profile_pic' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10000',
             'middle_initial' => 'nullable|string|max:1',
+            'height' => 'nullable|integer|max:250',
             
             
              // Adjust mime types and max size as needed
