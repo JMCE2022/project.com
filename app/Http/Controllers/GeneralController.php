@@ -51,7 +51,6 @@ class GeneralController extends Controller
             'password' => 'nullable|string|min:6|confirmed',
             'profile_pic' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10000',
             'middle_initial' => 'nullable|string|max:1',
-            'height' => 'nullable|integer|max:250',
             
             
              // Adjust mime types and max size as needed
@@ -72,8 +71,6 @@ class GeneralController extends Controller
         $admin->religion = trim($request->religion);
         $admin->age = $request->has('age') ? (int) $request->input('age') : null;
         $admin->civil_status = trim($request->civil_status);
-        $admin->weight = is_numeric($request->weight) ? trim($request->weight) : null;
-        $admin->height = is_numeric($request->height) ? trim($request->height) : null;
         $admin->phone_number = trim($request->phone_number);
         $admin->email_address = trim($request->email_address);
         $admin->region = trim($request->region);
@@ -93,12 +90,10 @@ class GeneralController extends Controller
             $randomStr = date('Ymdhis').Str::random(20);
             $filename = strtolower($randomStr) . '.' . $ext;
             $file->move('public/accountprofile/', $filename);
-
             $admin->profile_pic = $filename;
         }
 
         $admin->save();
-
         return redirect()->back()->with('success', 'Account successfully updated');
         } else if (Auth::user()->user_type == 'Staff') {
             // ... Existing code ...
@@ -115,8 +110,6 @@ class GeneralController extends Controller
         $admin->religion = trim($request->religion);
         $admin->age = $request->has('age') ? (int) $request->input('age') : null;
         $admin->civil_status = trim($request->civil_status);
-        $admin->weight = is_numeric($request->weight) ? trim($request->weight) : null;
-        $admin->height = is_numeric($request->height) ? trim($request->height) : null;
         $admin->phone_number = trim($request->phone_number);
         $admin->email_address = trim($request->email_address);
         $admin->region = trim($request->region);

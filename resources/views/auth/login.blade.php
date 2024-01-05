@@ -90,7 +90,7 @@
             @endif
             @include('layouts._message')
 
-            @if (!session('privacy_agreement'))
+        
                 
                 <form id="login_form" method="post" action="{{ url('login') }}">
                     @csrf
@@ -106,47 +106,18 @@
                         <span class="input-group-text" id="basic-addon2"></span>
                     </div>
                     <input type="hidden" name="privacy_agreement" id="privacy_agreement" value="0">
-                    <button type="button" class="btn btn-btn-primary btn-block" onclick="showPrivacyConfirmation()">Login</button>
-                </form>
+                   
                 <p class="mt-3">
                     <span data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Click to view Data Privacy Statement">
                         By continuing to use the Profiling and Monitoring System,
                         you agree to the <a class="text-danger" href="#" onclick="openDataPrivacyStatement()">DSWD-RSCC Data Privacy Statement</a>.
                     </span>
                 </p>
-                <script>
-                    // Enable Bootstrap popover
-                    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
-                    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-                        return new bootstrap.Popover(popoverTriggerEl)
-                    });
-
-                    function showPrivacyConfirmation() {
-                        if (confirm('By continuing to use the Profiling and Monitoring System, you agree to the DSWD-RSCC Data Privacy Statement.')) {
-                            // Set a hidden input field to indicate agreement
-                            document.getElementById('privacy_agreement').value = '1';
-                            // Submit the form
-                            document.getElementById('login_form').submit();
-                        }
-                    }
-                </script>
-            @else
-                <form method="post" action="{{ url('login') }}">
-                    @csrf
-                    <div class="mb-3 input-group">
-                        <input type="text" name="username" class="form-control" placeholder="Username" aria-label="Username"
-                            aria-describedby="basic-addon1">
-                        <span class="input-group-text" id="basic-addon1"></span>
-                    </div>
-
-                    <div class="mb-3 input-group">
-                        <input type="password" class="form-control" placeholder="Password" aria-label="Password"
-                            aria-describedby="basic-addon2" name="password">
-                        <span class="input-group-text" id="basic-addon2"></span>
-                    </div>
+          
+                
                     <button type="submit" class="btn btn-btn-primary btn-block">Login</button>
                 </form>
-            @endif
+           
         </div>
     </div>
 

@@ -30,9 +30,7 @@ class LoginDashboardController extends Controller
     public function AuthLogin(Request $request)
     {
         // Check if the user has agreed to data privacy terms
-        if (!$request->input('privacy_agreement')) {
-            return redirect()->back()->with('error', 'You must agree to the data privacy policy.');
-        }
+       
 
         $credentials = [
             'username' => $request->username,

@@ -20,8 +20,6 @@ return new class extends Migration
             $table->char('religion',30)->nullable();
             $table->char('age',2)->nullable()->change();
             $table->char('civil_status',10)->nullable();
-            $table->tinyInteger('height',250)->nullable(); // height in CM
-            $table->tinyInteger('weight',200)->nullable(); // weight in Kilogram
             $table->char('phone_number', 12)->nullable();
             $table->char('email_address',50)->nullable();
             $table->char('region',45)->nullable();
