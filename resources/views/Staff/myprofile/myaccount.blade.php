@@ -157,6 +157,7 @@
                     @if($errors->has('email_address'))
                     <span class="text-danger">{{ $errors->first('email_address') }}</span>
                     @endif
+                    @if(Auth::user()->user_type == 'Admin')
                     @if($getRecord->region != null)
                     <div class=" ">
                         <label>Region</label>
@@ -166,7 +167,7 @@
                     @else
                     <div class="">
                         <label for="region">Region</label>
-                        <select class="custom-input" id="region-dropdown" onchange="updateHiddenInput('region')">
+                        <select class="custom-input" id="myaccount-admin-region-dropdown" onchange="updateHiddenInput('region')">
                             <option value="">Select Region</option>
 
                             @foreach ($regions as $region)
@@ -190,7 +191,7 @@
                     @else
                     <div class=" ">
                         <label for="province">Province</label>
-                        <select class="custom-input" id="province-dropdown" onchange="updateHiddenInput('province')">
+                        <select class="custom-input" id="myaccount-admin-province-dropdown" onchange="updateHiddenInput('province')">
                             <!-- Options for provinces go here -->
                         </select>
                         @if($errors->has('province'))
@@ -210,7 +211,7 @@
                     @else
                     <div class=" ">
                         <label for="city">City/Municipality</label>
-                        <select class="custom-input" id="city-dropdown" onchange="updateHiddenInput('city')">
+                        <select class="custom-input" id="myaccount-admin-city-dropdown" onchange="updateHiddenInput('city')">
                             <!-- Options for cities go here -->
                         </select>
                         @if($errors->has('City'))
@@ -218,6 +219,77 @@
                         @endif
                         <input type="hidden" name="city" id="sample-column-city-input" value="">
                     </div>
+                    @endif
+                    @elseif(Auth::user()->user_type == 'Staff')
+
+
+
+                    @if($getRecord->region != null)
+                    <div class=" ">
+                        <label>Region</label>
+                        <input type="text" rows="1" name="region" class="custom-input text-dark bg-white my-1 me-1"
+                            value="{{$getRecord->region}}" >
+                    </div>
+                    @else
+                    <div class="">
+                        <label for="region">Region</label>
+                        <select class="custom-input" id="myaccount-staff-region-dropdown" onchange="updateHiddenInput('region')">
+                            <option value="">Select Region</option>
+
+                            @foreach ($regions as $region)
+                            <option value="{{$region->id}}">
+                                {{$region->name}}
+                            </option>
+                            @endforeach
+                        </select>
+                        @if($errors->has('region'))
+                        <span class="text-danger">{{ $errors->first('region') }}</span>
+                        @endif
+                        <input type="hidden" name="region" id="sample-column-region-input" value="">
+                    </div>
+                    @endif
+                    @if($getRecord->province != null)
+                    <div class=" ">
+                        <label>Province</label>
+                        <input type="text" rows="1" name="province" class="custom-input text-dark bg-white my-1 me-1"
+                            value="{{$getRecord->province}}" >
+                    </div>
+                    @else
+                    <div class=" ">
+                        <label for="province">Province</label>
+                        <select class="custom-input" id="myaccount-staff-province-dropdown" onchange="updateHiddenInput('province')">
+                            <!-- Options for provinces go here -->
+                        </select>
+                        @if($errors->has('province'))
+                        <span class="text-danger">{{ $errors->first('province') }}</span>
+                        @endif
+                        <input type="hidden" name="province" id="sample-column-province-input" value="">
+                    </div>
+                    @endif
+                    
+
+                    @if($getRecord->city != null)
+                    <div class=" ">
+                        <label>City</label>
+                        <input type="text" rows="1" name="city" class="custom-input text-dark bg-white my-1 me-1"
+                            value="{{$getRecord->city}}" >
+                    </div>
+                    @else
+                    <div class=" ">
+                        <label for="city">City/Municipality</label>
+                        <select class="custom-input" id="myaccount-staff-city-dropdown" onchange="updateHiddenInput('city')">
+                            <!-- Options for cities go here -->
+                        </select>
+                        @if($errors->has('City'))
+                        <span class="text-danger">{{ $errors->first('province') }}</span>
+                        @endif
+                        <input type="hidden" name="city" id="sample-column-city-input" value="">
+                    </div>
+                    @endif
+
+
+
+
                     @endif
                     <div class=" ">
                         <label>Barangay</label>

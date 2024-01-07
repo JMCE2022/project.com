@@ -18,7 +18,7 @@ return new class extends Migration
             $table->char('place_of_birth',30)->nullable();
             $table->date('date_of_birth')->nullable();
             $table->char('religion',30)->nullable();
-            $table->char('age',2)->nullable()->change();
+            $table->tinyInteger('age')->nullable();
             $table->char('civil_status',10)->nullable();
             $table->char('phone_number', 12)->nullable();
             $table->char('email_address',50)->nullable();

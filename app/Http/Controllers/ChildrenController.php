@@ -186,10 +186,6 @@ class ChildrenController extends Controller
             abort(404);
         }
 
-
-
-
-
     }
 
     public function update($id, Request $request)

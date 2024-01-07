@@ -101,6 +101,7 @@
                         <!-- New Box Content for Things brought in the center -->
 
 
+                        @if(Auth::user()->user_type == 'Admin')
                         <div class="mb-3">
                             <label for="region">Region</label>
                             <select class="custom-input" id="region-dropdown" onchange="updateHiddenInput('region')">
@@ -145,6 +146,52 @@
                             @endif
                             <input type="hidden" name="city" id="sample-column-city-input" value="">
                         </div>
+                        @elseif(Auth::user()->user_type == 'Staff')
+                        <div class="mb-3">
+                            <label for="region">Region</label>
+                            <select class="custom-input" id="staff-region-dropdown" onchange="updateHiddenInput('region')">
+                                <option value="">Select Region</option>
+
+                                @foreach ($regions as $region)
+                                <option value="{{$region->id}}">
+                                    {{$region->name}}
+                                </option>
+                                @endforeach
+
+                            </select>
+                            @if($errors->has('region'))
+                            <span class="text-danger">{{ $errors->first('region') }}</span>
+                            @endif
+                            <input type="hidden" name="region" id="sample-column-region-input" value="">
+                        </div>
+
+                        <div class="mb-3 ">
+                            <label for="province">Province</label>
+                            <select class="custom-input" id="staff-province-dropdown"
+                                onchange="updateHiddenInput('province')">
+                                <!-- Options for provinces go here -->
+                            </select>
+                            @if($errors->has('province'))
+                            <span class="text-danger">{{ $errors->first('province') }}</span>
+                            @endif
+                            <input type="hidden" name="province" id="sample-column-province-input"
+                                value="">
+                        </div>
+
+                        
+                    </div>
+                    <div class="col-md-4">
+                    <div class=" mb-3">
+                            <label for="city">City/Municipality</label>
+                            <select class="custom-input" id="staff-city-dropdown" onchange="updateHiddenInput('city')">
+                                <!-- Options for cities go here -->
+                            </select>
+                            @if($errors->has('city'))
+                            <span class="text-danger">{{ $errors->first('city') }}</span>
+                            @endif
+                            <input type="hidden" name="city" id="sample-column-city-input" value="">
+                        </div>
+                        @endif
                         
                         <div class="mb-3">
                             <label>Barangay</label>

@@ -64,9 +64,9 @@ Route::group(['middleware' => 'admin'], function () {
     Route::post('/Admin/Listchildrens/Addrecommendations', [ChildrenController::class, 'recommendations']);
 
     
-    Route::get('region-province-city', [ChildrenController::class, 'region']);
-    Route::post('get-provinces-by-region', [ChildrenController::class, 'getProvince']);
-    Route::post('get-cities-by-province', [ChildrenController::class, 'getCity']);
+    Route::get('/Admin/region-province-city', [ChildrenController::class, 'region']);
+    Route::post('/Admin/get-provinces-by-region', [ChildrenController::class, 'getProvince']);
+    Route::post('/Admin/get-cities-by-province', [ChildrenController::class, 'getCity']);
     Route::get('/Admin/Listdischargedchildren', [ChildrenController::class, 'childrenlistdischarged']);
     Route::get('/Admin/Listchildrens/Edit/{id}', [ChildrenController::class, 'edit']);
     Route::get('/Admin/Listchildrens/Preview/{id}', [ChildrenController::class, 'preview']);
@@ -84,6 +84,9 @@ Route::group(['middleware' => 'admin'], function () {
 
     Route::get('/Admin/Myprofile/Myaccount', [GeneralController::class, 'myAccount']);
     Route::post('/Admin/Myprofile/Myaccount', [GeneralController::class, 'updateMyAccount']);
+    Route::get('/Admin/Myaccount/region-province-city', [GeneralController::class, 'region']);
+    Route::post('/Admin/Myaccount/get-provinces-by-region', [GeneralController::class, 'getProvince']);
+    Route::post('/Admin/Myaccount/get-cities-by-province', [GeneralController::class, 'getCity']);
 
     
 
@@ -93,7 +96,9 @@ Route::group(['middleware' => 'admin'], function () {
 Route::group(['middleware' => 'staff'], function () {
     Route::get('/Staff/Dashboard', [DashboardController::class, 'dashboard']);
     
-
+    Route::get('/Staff/region-province-city', [ChildrenController::class, 'region']);
+    Route::post('/Staff/get-provinces-by-region', [ChildrenController::class, 'getProvince']);
+    Route::post('/Staff/get-cities-by-province', [ChildrenController::class, 'getCity']);
     Route::get('/Staff/Listchildrens', [ChildrenController::class, 'listChildrens']);
     Route::get('/Staff/Listchildrens/Addchildrens', [ChildrenController::class, 'addChildrens']);
     Route::post('/Staff/Listchildrens/Addchildrens', [ChildrenController::class, 'add']);
@@ -132,6 +137,9 @@ Route::group(['middleware' => 'staff'], function () {
 
     Route::get('/Staff/Myprofile/Myaccount', [GeneralController::class, 'myAccount']);
     Route::post('/Staff/Myprofile/Myaccount', [GeneralController::class, 'updateMyAccount']);
+    Route::get('/Staff/Myaccount/region-province-city', [GeneralController::class, 'region']);
+    Route::post('/Staff/Myaccount/get-provinces-by-region', [GeneralController::class, 'getProvince']);
+    Route::post('/Staff/Myaccount/get-cities-by-province', [GeneralController::class, 'getCity']);
 });
 
 

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('siblings', function (Blueprint $table) {
             $table->id();
             $table->char('sibling_fullname',60)->nullable();
-            $table->tinyInteger('sibling_age',100)->nullable()->change();
+            $table->tinyInteger('sibling_age')->nullable();
             $table->char('sibling_sex',1)->nullable();
             $table->date('sibling_date_of_birth')->nullable();
             $table->char('sibling_educational_attainment',20)->nullable();

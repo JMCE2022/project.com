@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->char('firstname',30);
             $table->char('lastname',30);
             $table->char('sex',1);
-            $table->char('age',2)->nullable()->default(0)->change();
+            $table->tinyInteger('age')->nullable()->default(0);
             $table->char('religion',30)->nullable();
             $table->date('date_of_birth')->nullable();
             $table->char('place_of_birth',30)->nullable();
@@ -28,7 +28,8 @@ return new class extends Migration {
             $table->text('present_health_condition')->nullable();
             $table->text('physical_characteristic')->nullable();
             $table->char('created_by',60)->nullable();
-            $table->tinyInteger('is_deleted',1)->default('0');
+            $table->tinyInteger('is_deleted')->default('0');
+            $table->date('discharge_date')->nullable()->after('updated_at');
             $table->timestamps();
         });
       
