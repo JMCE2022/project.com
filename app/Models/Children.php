@@ -13,7 +13,8 @@ class Children extends Model
 
     protected $fillable = [
         'case_number',
-        'full_name',
+        'firstname',
+        'lastname',
         'sex',
         'age',
         'religion',
@@ -29,6 +30,7 @@ class Children extends Model
         'physical_characteristic',
         'created_by',
         'is_deleted',
+        'discharge_date',
     ];
     
 
@@ -83,4 +85,5 @@ public static function getChildren()
     {
         return $this->hasOne(Recommendation::class);
     }
+    
 }

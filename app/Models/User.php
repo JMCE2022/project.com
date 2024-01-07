@@ -35,8 +35,6 @@ class User extends Authenticatable
         'religion',
         'age',
         'civil_status',
-        'height',
-        'weight',
         'phone_number',
         'email_address',
         'region',

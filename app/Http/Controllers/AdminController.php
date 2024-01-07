@@ -35,7 +35,7 @@ class AdminController extends Controller
         }
 
         // Paginate the results
-        $data['getRecord'] = $query->orderBy('id', 'desc')->paginate(10);
+        $data['getRecord'] = $query->orderBy('id', 'asc')->paginate(10);
 
         // Pass data to the view
         return view("admin.users.listarchive", $data);
@@ -58,7 +58,7 @@ class AdminController extends Controller
         // Use Eloquent to filter data based on the search input
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('firstname', 'LIKE', "%$search%")
+                $q->whereRaw("CONCAT(firstname, ' ', lastname) LIKE ?", ["%$search%"])
                     ->orWhere('lastname', 'LIKE', "%$search%")
                     ->orWhere('user_type', 'LIKE', "%$search%")
                     ->orWhere('username', 'LIKE', "%$search%");
@@ -66,7 +66,7 @@ class AdminController extends Controller
         }
 
         // Paginate the results
-        $data['getRecord'] = $query->orderBy('id', 'desc')->paginate(10);
+        $data['getRecord'] = $query->orderBy('id', 'asc')->paginate(10);
 
         // Pass data to the view
         return view("admin.users.listusers", $data);

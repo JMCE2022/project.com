@@ -164,10 +164,14 @@
 
     // Pie Chart
     var ctx5 = $("#pie-chart").get(0).getContext("2d");
+
+    var ageLabels = JSON.parse($("#pie-chart").data("age-labels"));
+    var ageCounts = JSON.parse($("#pie-chart").data("age-counts"));
+
     var myChart5 = new Chart(ctx5, {
         type: "pie",
         data: {
-            labels: ["Italy", "France", "Spain", "USA", "Argentina"],
+            labels: ageLabels,
             datasets: [{
                 backgroundColor: [
                     "rgba(235, 22, 22, .7)",
@@ -176,7 +180,7 @@
                     "rgba(235, 22, 22, .4)",
                     "rgba(235, 22, 22, .3)"
                 ],
-                data: [55, 49, 44, 24, 15]
+                data: ageCounts
             }]
         },
         options: {

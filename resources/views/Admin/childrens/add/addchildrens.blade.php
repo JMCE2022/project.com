@@ -31,41 +31,49 @@
 
 
                             <div class="mb-3">
-                                <label class="form-label ">Full Name</label>
-                                <input type="text" name="full_name" class="custom-input bg-transparent">
+                                <label class="form-label ">First Name</label>
+                                <input type="text" name="firstname" class="custom-input bg-transparent">
                             </div>
-                            @if($errors->has('full_name'))
-                            <span class="text-danger">{{ $errors->first('full_name') }}</span>
+                            @if($errors->has('firstname'))
+                            <span class="text-danger">{{ $errors->first('firstname') }}</span>
+                            @endif
+                            <div class="mb-3">
+                                <label class="form-label ">Last Name</label>
+                                <input type="text" name="lastname" class="custom-input bg-transparent">
+                            </div>
+                            @if($errors->has('lastname'))
+                            <span class="text-danger">{{ $errors->first('lastname') }}</span>
                             @endif
                             <div class="mb-3">
                                 <label class="form-label ">Age</label>
-                                <input type="text" name="age" class="custom-input bg-transparent">
+                                <input type="number" name="age" class="custom-input bg-transparent">
                             </div>
                             @if($errors->has('age'))
                             <span class="text-danger">{{ $errors->first('age') }}</span>
                             @endif
-                            <div class="">
+                            <div class="mb-3">
                                 <label>Religion</label>
                                 <input rows="1" name="religion" class="custom-input bg-white my-1 me-1"></input>
                             </div>
                             @if($errors->has('religion'))
                             <span class="text-danger">{{ $errors->first('religion') }}</span>
                             @endif
-                            <div class="form-floating mb-3">
+                            <div class=" mb-3">
+                                <label>Sex</label>
                                 <select class="form-select bg-white text-dark custom-input" name="sex"
                                     aria-label="Floating label select example">
                                     <option disabled selected class="text-dark">Select</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
+                                    <option value="M">Male</option>
+                                    <option value="F">Female</option>
                                 </select>
-                                <label for="floatingSelect">Sex</label>
+
                             </div>
                             @if($errors->has('sex'))
                             <span class="text-danger">{{ $errors->first('sex') }}</span>
                             @endif
                     </div>
                     <div class="col-md-4">
-                        <div class="">
+                        <div class="mb-3">
                             <label>Place of Birth</label>
                             <input rows="1" name="place_of_birth" class="custom-input bg-white my-1 me-1"></input>
                         </div>
@@ -73,7 +81,7 @@
                         <span class="text-danger">{{ $errors->first('place_of_birth') }}</span>
                         @endif
                         <!-- New Box Content for DOB -->
-                        <div class="">
+                        <div class="mb-3">
                             <label>Date of Birth</label>
                             <input type="date" name="date_of_birth" class="custom-input bg-white my-1 me-1 text-dark">
                         </div>
@@ -83,7 +91,7 @@
                         <!-- New Box Content for sex -->
 
                         <!-- New Box Content for Religion -->
-                        <div class="">
+                        <div class="mb-3">
                             <label>Educational Attainment</label>
                             <input rows="1" name="educational_attainment" class="custom-input bg-white my-1 me-1">
                         </div>
@@ -93,51 +101,120 @@
                         <!-- New Box Content for Things brought in the center -->
 
 
-                        <div class=" ">
-                            <label>Region</label>
-                            <input rows="1" name="region" class="custom-input bg-white my-1 me-1"></input>
+                        @if(Auth::user()->user_type == 'Admin')
+                        <div class="mb-3">
+                            <label for="region">Region</label>
+                            <select class="custom-input" id="region-dropdown" onchange="updateHiddenInput('region')">
+                                <option value="">Select Region</option>
+
+                                @foreach ($regions as $region)
+                                <option value="{{$region->id}}">
+                                    {{$region->name}}
+                                </option>
+                                @endforeach
+
+                            </select>
+                            @if($errors->has('region'))
+                            <span class="text-danger">{{ $errors->first('region') }}</span>
+                            @endif
+                            <input type="hidden" name="region" id="sample-column-region-input" value="">
                         </div>
-                        @if($errors->has('region'))
-                        <span class="text-danger">{{ $errors->first('region') }}</span>
-                        @endif
-                        <div class=" ">
-                            <label>Province</label>
-                            <input rows="1" name="province" class="custom-input bg-white my-1 me-1"></input>
+
+                        <div class="mb-3 ">
+                            <label for="province">Province</label>
+                            <select class="custom-input" id="province-dropdown"
+                                onchange="updateHiddenInput('province')">
+                                <!-- Options for provinces go here -->
+                            </select>
+                            @if($errors->has('province'))
+                            <span class="text-danger">{{ $errors->first('province') }}</span>
+                            @endif
+                            <input type="hidden" name="province" id="sample-column-province-input"
+                                value="">
                         </div>
-                        @if($errors->has('province'))
-                        <span class="text-danger">{{ $errors->first('province') }}</span>
-                        @endif
+
+                        
                     </div>
                     <div class="col-md-4">
-                        <div class=" ">
-                            <label>City</label>
-                            <input rows="1" name="city" class="custom-input bg-white my-1 me-1">
+                    <div class=" mb-3">
+                            <label for="city">City/Municipality</label>
+                            <select class="custom-input" id="city-dropdown" onchange="updateHiddenInput('city')">
+                                <!-- Options for cities go here -->
+                            </select>
+                            @if($errors->has('city'))
+                            <span class="text-danger">{{ $errors->first('city') }}</span>
+                            @endif
+                            <input type="hidden" name="city" id="sample-column-city-input" value="">
                         </div>
-                        @if($errors->has('city'))
-                        <span class="text-danger">{{ $errors->first('city') }}</span>
+                        @elseif(Auth::user()->user_type == 'Staff')
+                        <div class="mb-3">
+                            <label for="region">Region</label>
+                            <select class="custom-input" id="staff-region-dropdown" onchange="updateHiddenInput('region')">
+                                <option value="">Select Region</option>
+
+                                @foreach ($regions as $region)
+                                <option value="{{$region->id}}">
+                                    {{$region->name}}
+                                </option>
+                                @endforeach
+
+                            </select>
+                            @if($errors->has('region'))
+                            <span class="text-danger">{{ $errors->first('region') }}</span>
+                            @endif
+                            <input type="hidden" name="region" id="sample-column-region-input" value="">
+                        </div>
+
+                        <div class="mb-3 ">
+                            <label for="province">Province</label>
+                            <select class="custom-input" id="staff-province-dropdown"
+                                onchange="updateHiddenInput('province')">
+                                <!-- Options for provinces go here -->
+                            </select>
+                            @if($errors->has('province'))
+                            <span class="text-danger">{{ $errors->first('province') }}</span>
+                            @endif
+                            <input type="hidden" name="province" id="sample-column-province-input"
+                                value="">
+                        </div>
+
+                        
+                    </div>
+                    <div class="col-md-4">
+                    <div class=" mb-3">
+                            <label for="city">City/Municipality</label>
+                            <select class="custom-input" id="staff-city-dropdown" onchange="updateHiddenInput('city')">
+                                <!-- Options for cities go here -->
+                            </select>
+                            @if($errors->has('city'))
+                            <span class="text-danger">{{ $errors->first('city') }}</span>
+                            @endif
+                            <input type="hidden" name="city" id="sample-column-city-input" value="">
+                        </div>
                         @endif
-                        <div class=" ">
+                        
+                        <div class="mb-3">
                             <label>Barangay</label>
                             <input rows="1" name="barangay" class="custom-input bg-white my-1 me-1">
                         </div>
                         @if($errors->has('barangay'))
                         <span class="text-danger">{{ $errors->first('barangay') }}</span>
                         @endif
-                        <div class=" ">
+                        <div class="mb-3">
                             <label>Street Address</label>
                             <input rows="1" name="street_address" class="custom-input bg-white my-1 me-1">
                         </div>
                         @if($errors->has('street_address'))
                         <span class="text-danger">{{ $errors->first('street_address') }}</span>
                         @endif
-                        <div class=" ">
+                        <div class="mb-3">
                             <label>Present Health Condition</label>
                             <input rows="1" name="present_health_condition" class="custom-input bg-white my-1 me-1">
                         </div>
                         @if($errors->has('present_health_condition'))
                         <span class="text-danger">{{ $errors->first('present_health_condition') }}</span>
                         @endif
-                        <div class=" ">
+                        <div class="mb-3">
                             <label>Physical Characteristic</label>
                             <input rows="1" name="physical_characteristic"
                                 class="custom-input bg-white my-1 me-1"></input>

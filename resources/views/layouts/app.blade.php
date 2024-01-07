@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>RSCC - {{Request::segment(2)}}</title>
+    <title>RSCC - {{Request::segment(2)}} - {{Request::segment(3)}}</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -35,9 +35,7 @@
 
 <body>
     <div class="container-fluid position-relative d-flex p-0 ">
-        <!-- Logo loading -->
-
-        <!-- logo loading End -->
+       
 
         <!-- sidebar-menu Start -->
         @include('layouts.sidebar')
@@ -56,29 +54,11 @@
             @yield('content')
 
             <!-- Dashboard end -->
-            @include('layouts.footer')
+            
         </div>
 
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
     </div>
 
     <!-- JavaScript Libraries -->
@@ -123,7 +103,6 @@
             // Get table data
             var table = document.getElementById('myTable');
             var sheet = XLSX.utils.table_to_sheet(table);
-
             // Create a workbook with a single sheet
             var wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, sheet, 'Sheet1');
@@ -132,6 +111,225 @@
             XLSX.writeFile(wb, 'table_data.xlsx');
         });
     </script>
+    <script>
+
+$(document).ready(function() {
+
+    $('#region-dropdown').on('change', function() {
+            var region_id = this.value;
+             $("#province-dropdown").html('');
+            $.ajax({
+                url:"{{url('/Admin/get-provinces-by-region')}}",
+                type: "POST",
+                data: {
+                    region_id: region_id,
+                     _token: '{{csrf_token()}}' 
+                },
+                dataType : 'json',
+                success: function(result){
+                    $('#province-dropdown').html('<option value="">Select Province</option>'); 
+                    $.each(result.provinces,function(key,value){
+                    $("#province-dropdown").append('<option value="'+value.id+'">'+value.name+'</option>');
+                    });
+                    $('#city-dropdown').html('<option value="">Select Province First</option>'); 
+                }
+            });
+        
+        
+    });    
+
+    $('#province-dropdown').on('change', function() {
+            var province_id = this.value;
+             $("#city-dropdown").html('');
+            $.ajax({
+                url:"{{url('/Admin/get-cities-by-province')}}",
+                type: "POST",
+                data: {
+                    province_id: province_id,
+                     _token: '{{csrf_token()}}' 
+                },
+                dataType : 'json',
+                success: function(result){
+                    $('#city-dropdown').html('<option value="">Select City/Municipality</option>'); 
+                    $.each(result.cities,function(key,value){
+                    $("#city-dropdown").append('<option value="'+value.id+'">'+value.name+'</option>');
+                    });
+
+                }
+            });
+        
+        
+    });
+});
+</script>
+<script>
+
+$(document).ready(function() {
+
+    $('#staff-region-dropdown').on('change', function() {
+            var region_id = this.value;
+             $("#staff-province-dropdown").html('');
+            $.ajax({
+                url:"{{url('/Staff/get-provinces-by-region')}}",
+                type: "POST",
+                data: {
+                    region_id: region_id,
+                     _token: '{{csrf_token()}}' 
+                },
+                dataType : 'json',
+                success: function(result){
+                    $('#staff-province-dropdown').html('<option value="">Select Province</option>'); 
+                    $.each(result.provinces,function(key,value){
+                    $("#staff-province-dropdown").append('<option value="'+value.id+'">'+value.name+'</option>');
+                    });
+                    $('#staff-city-dropdown').html('<option value="">Select Province First</option>'); 
+                }
+            });
+        
+        
+    });    
+
+    $('#staff-province-dropdown').on('change', function() {
+            var province_id = this.value;
+             $("#staff-city-dropdown").html('');
+            $.ajax({
+                url:"{{url('/Staff/get-cities-by-province')}}",
+                type: "POST",
+                data: {
+                    province_id: province_id,
+                     _token: '{{csrf_token()}}' 
+                },
+                dataType : 'json',
+                success: function(result){
+                    $('#staff-city-dropdown').html('<option value="">Select City/Municipality</option>'); 
+                    $.each(result.cities,function(key,value){
+                    $("#staff-city-dropdown").append('<option value="'+value.id+'">'+value.name+'</option>');
+                    });
+
+                }
+            });
+        
+        
+    });
+});
+</script>
+<script>
+
+$(document).ready(function() {
+
+    $('#myaccount-staff-region-dropdown').on('change', function() {
+            var region_id = this.value;
+             $("#myaccount-staff-province-dropdown").html('');
+            $.ajax({
+                url:"{{url('/Staff/Myaccount/get-provinces-by-region')}}",
+                type: "POST",
+                data: {
+                    region_id: region_id,
+                     _token: '{{csrf_token()}}' 
+                },
+                dataType : 'json',
+                success: function(result){
+                    $('#myaccount-staff-province-dropdown').html('<option value="">Select Province</option>'); 
+                    $.each(result.provinces,function(key,value){
+                    $("#myaccount-staff-province-dropdown").append('<option value="'+value.id+'">'+value.name+'</option>');
+                    });
+                    $('#myaccount-staff-city-dropdown').html('<option value="">Select Province First</option>'); 
+                }
+            });
+        
+        
+    });    
+
+    $('#myaccount-staff-province-dropdown').on('change', function() {
+            var province_id = this.value;
+             $("#myaccount-staff-city-dropdown").html('');
+            $.ajax({
+                url:"{{url('/Staff/Myaccount/get-cities-by-province')}}",
+                type: "POST",
+                data: {
+                    province_id: province_id,
+                     _token: '{{csrf_token()}}' 
+                },
+                dataType : 'json',
+                success: function(result){
+                    $('#myaccount-staff-city-dropdown').html('<option value="">Select City/Municipality</option>'); 
+                    $.each(result.cities,function(key,value){
+                    $("#myaccount-staff-city-dropdown").append('<option value="'+value.id+'">'+value.name+'</option>');
+                    });
+
+                }
+            });
+        
+        
+    });
+});
+</script>
+
+<script>
+
+$(document).ready(function() {
+
+    $('#myaccount-admin-region-dropdown').on('change', function() {
+            var region_id = this.value;
+             $("#myaccount-admin-province-dropdown").html('');
+            $.ajax({
+                url:"{{url('/Admin/Myaccount/get-provinces-by-region')}}",
+                type: "POST",
+                data: {
+                    region_id: region_id,
+                     _token: '{{csrf_token()}}' 
+                },
+                dataType : 'json',
+                success: function(result){
+                    $('#myaccount-admin-province-dropdown').html('<option value="">Select Province</option>'); 
+                    $.each(result.provinces,function(key,value){
+                    $("#myaccount-admin-province-dropdown").append('<option value="'+value.id+'">'+value.name+'</option>');
+                    });
+                    $('#myaccount-admin-city-dropdown').html('<option value="">Select Province First</option>'); 
+                }
+            });
+        
+        
+    });    
+
+    $('#myaccount-admin-province-dropdown').on('change', function() {
+            var province_id = this.value;
+             $("#myaccount-admin-city-dropdown").html('');
+            $.ajax({
+                url:"{{url('/Admin/Myaccount/get-cities-by-province')}}",
+                type: "POST",
+                data: {
+                    province_id: province_id,
+                     _token: '{{csrf_token()}}' 
+                },
+                dataType : 'json',
+                success: function(result){
+                    $('#myaccount-admin-city-dropdown').html('<option value="">Select City/Municipality</option>'); 
+                    $.each(result.cities,function(key,value){
+                    $("#myaccount-admin-city-dropdown").append('<option value="'+value.id+'">'+value.name+'</option>');
+                    });
+
+                }
+            });
+        
+        
+    });
+});
+</script>
+
+
+<script>
+    function updateHiddenInput(type) {
+        var selectedDropdown = document.getElementById(type + '-dropdown');
+        var hiddenInput = document.getElementById('sample-column-' + type + '-input');
+        
+        // Update the hidden input value with the selected option's text
+        hiddenInput.value = selectedDropdown.options[selectedDropdown.selectedIndex].text;
+    }
+</script>
+
+
+    
 </body>
 
 </html>

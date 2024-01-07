@@ -11,6 +11,9 @@ use App\Models\Guardian;
 use App\Models\Sibling;
 use App\Models\Children;
 use App\Models\Infofamily;
+use App\Models\Region;
+use App\Models\Province;
+use App\Models\City;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Log;
@@ -37,14 +40,16 @@ class ChildrenController extends Controller
             // Use Eloquent to filter data based on the search input
             if ($search) {
                 $query->where(function ($q) use ($search) {
-                    $q->where('full_name', 'LIKE', "%$search%")
+                    $q->whereRaw("CONCAT(firstname, ' ', lastname) LIKE ?", ["%$search%"])
                         ->orWhere('id', 'LIKE', "%$search%")
+                        ->orWhere('age', 'LIKE', "%$search%")
+                        ->orWhere('sex', 'LIKE', "%$search%")
                         ->orWhere('created_by', 'LIKE', "%$search%");
                 });
             }
 
             // Paginate the results
-            $data['getRecord'] = $query->orderBy('id', 'desc')->paginate(10);
+            $data['getRecord'] = $query->orderBy('id', 'asc')->paginate(10);
 
             // Pass data to the view
             return view("admin.childrens.listchildrens", $data);
@@ -62,14 +67,17 @@ class ChildrenController extends Controller
             // Use Eloquent to filter data based on the search input
             if ($search) {
                 $query->where(function ($q) use ($search) {
-                    $q->where('full_name', 'LIKE', "%$search%")
+                    $q->whereRaw("CONCAT(firstname, ' ', lastname) LIKE ?", ["%$search%"])
                         ->orWhere('id', 'LIKE', "%$search%")
+                        ->orWhere('age', 'LIKE', "%$search%")
+                        ->orWhere('sex', 'LIKE', "%$search%")
                         ->orWhere('created_by', 'LIKE', "%$search%");
                 });
             }
 
             // Paginate the results
-            $data['getRecord'] = $query->orderBy('id', 'desc')->paginate(10);
+            $data['getRecord'] = $query->orderBy('id', 'asc')->paginate(10);
+           
 
             // Pass data to the view
             return view("staff.childrens.listchildrens", $data);
@@ -80,362 +88,258 @@ class ChildrenController extends Controller
     }
 
     public function addChildrens()
+
+
     {
-        if (Auth::user()->user_type == 'Admin') {
-            $data['Header_title'] = "Add Users";
-            return view("admin.childrens.add.addchildrens", $data);
-        } else if (Auth::user()->user_type == 'Staff') {
-            $data['Header_title'] = "Add Users";
-            return view("staff.childrens.add.addchildrens", $data);
-        }
+       
+
+        $data['regions'] = Region::get(["name", "id"]);
+        
+
+        $viewPath = Auth::user()->user_type == 'Admin'
+            ? 'admin.childrens.add.addchildrens'
+            : 'staff.childrens.add.addchildrens';
+    
+        return view($viewPath, $data);
 
 
+    }
+    public function getProvince(Request $request)
+    {
+        $data['provinces'] = Province::where("region_id",$request->region_id)
+                    ->get(["name","id"]);
+        return response()->json($data);
+    }
+    public function getCity(Request $request)
+    {
+        $data['cities'] = City::where("province_id",$request->province_id)
+                    ->get(["name","id"]);
+        return response()->json($data);
     }
 
     public function add(Request $request)
     {
-        if (Auth::user()->user_type == 'Admin') {
-            $user = new Children;
-            $request->validate([
-                'full_name' => [
-                    'required',
-                    'string',
-                    'max:255', // Check uniqueness except for the current user
-                ],
-            ]);
+
+        $user = new Children;
+        $request->validate([
+            'firstname' => 'required|string|max:30',
+            'lastname' => 'required|string|max:30',
+            'sex' => 'required|string|max:1',
+            'age' => 'nullable|integer|max:100',
+            'religion' => 'nullable|string|max:50',
+            'date_of_birth' => 'nullable|date',
+            'place_of_birth' => 'nullable|string|max:30',
+            'educational_attainment' => 'nullable|string|max:20',
+            'region' => 'required|string|max:45',
+            'province' => 'required|string|max:30',
+            'city' => 'required|string|max:30',
+            'barangay' => 'nullable|string|max:30',
+            'street_address' => 'nullable|string|max:30',
+            'present_health_condition' => 'nullable|string',
+            'physical_characteristic' => 'nullable|string',
+            'initial_assessment' => 'nullable|string',
+        ], [
+            'age.integer' => 'Invalid value for age.',
+            'age.max' => 'The age cannot exceed 100.',
+            // Add other custom error messages if needed 
+        ]);
+        
 
 
-            $user->full_name = trim($request->full_name);
-            $user->sex = trim($request->sex);
-            $user->age = trim($request->age);
-            $user->religion = trim($request->religion);
-            $user->date_of_birth = trim($request->date_of_birth);
-            $user->place_of_birth = trim($request->place_of_birth);
-            $user->educational_attainment = trim($request->educational_attainment);
-            $user->region = trim($request->region);
-            $user->province = trim($request->province);
-            $user->city = trim($request->city);
-            $user->barangay = trim($request->barangay);
-            $user->street_address = trim($request->street_address);
-            $user->present_health_condition = trim($request->present_health_condition);
-            $user->physical_characteristic = trim($request->physical_characteristic);
-            $user->initial_assessment = trim($request->initial_assessment);
-            $user->created_by = Auth::user()->firstname . ' ' . Auth::user()->lastname;
-            $user->save();
+        $user->firstname = trim($request->firstname);
+        $user->lastname = trim($request->lastname);
+        $user->sex = trim($request->sex);
+        $user->age = $request->has('age') ? (int) $request->input('age') : null;
+        $user->religion = trim($request->religion);
+        $user->date_of_birth = $request->input('date_of_birth') ? trim($request->input('date_of_birth')) : null;
+        $user->place_of_birth = trim($request->place_of_birth);
+        $user->educational_attainment = trim($request->educational_attainment);
+        $user->region = trim($request->region);
+        $user->province = trim($request->province);
+        $user->city = trim($request->city);
+        $user->barangay = trim($request->barangay);
+        $user->street_address = trim($request->street_address);
+        $user->present_health_condition = trim($request->present_health_condition);
+        $user->physical_characteristic = trim($request->physical_characteristic);
+        $user->initial_assessment = trim($request->initial_assessment);
+        $user->created_by = Auth::user()->firstname . ' ' . Auth::user()->lastname;
+        $user->save();
 
 
-            return redirect()->back()->with('success', 'Users successfully created');
-        } else if (Auth::user()->user_type == 'Staff') {
-            $user = new Children;
-            $request->validate([
-                'full_name' => [
-                    'required',
-                    'string',
-                    'max:255', // Check uniqueness except for the current user
-                ],
-            ]);
+        return redirect()->back()->with('success', 'Child Record successfully added');
 
-
-            $user->full_name = trim($request->full_name);
-            $user->sex = trim($request->sex);
-            $user->age = trim($request->age);
-            $user->religion = trim($request->religion);
-            $user->date_of_birth = trim($request->date_of_birth);
-            $user->place_of_birth = trim($request->place_of_birth);
-            $user->educational_attainment = trim($request->educational_attainment);
-            $user->region = trim($request->region);
-            $user->province = trim($request->province);
-            $user->city = trim($request->city);
-            $user->barangay = trim($request->barangay);
-            $user->street_address = trim($request->street_address);
-            $user->present_health_condition = trim($request->present_health_condition);
-            $user->physical_characteristic = trim($request->physical_characteristic);
-            $user->initial_assessment = trim($request->initial_assessment);
-            $user->created_by = Auth::user()->firstname . ' ' . Auth::user()->lastname;
-            $user->save();
-
-
-            return redirect()->back()->with('success', 'Users successfully created');
-        }
 
     }
 
     public function edit($id)
     {
-        if (Auth::user()->user_type == 'Admin') {
-            $data['getRecord'] = Children::getSingle($id);
 
-            if (!empty($data['getRecord'])) {
-                // Retrieve siblings related to the child
-                $data['siblings'] = $data['getRecord']->sibling;
+        $data['getRecord'] = Children::getSingle($id);
 
-                $data['Header_title'] = "Edit Children";
-                return view("admin.childrens.editchildrens", $data);
-            } else {
-                abort(404);
-            }
+        if (!empty($data['getRecord'])) {
+            // Retrieve siblings related to the child
+            $data['siblings'] = $data['getRecord']->sibling;
 
-        } else if (Auth::user()->user_type == 'Staff') {
-            $data['getRecord'] = Children::getSingle($id);
-
-            if (!empty($data['getRecord'])) {
-                // Retrieve siblings related to the child
-                $data['siblings'] = $data['getRecord']->sibling;
-
-                $data['Header_title'] = "Edit Children";
-                return view("staff.childrens.editchildrens", $data);
-            } else {
-                abort(404);
-            }
-
+            $data['Header_title'] = "Edit Children";
+            return view("admin.childrens.editchildrens", $data);
+        } else {
+            abort(404);
         }
-
-
 
     }
 
     public function update($id, Request $request)
     {
-        if (Auth::user()->user_type == 'Admin') {
-            $user = Children::getSingle($id);
-            $request->validate([
-                'full_name' => [
-                    'required',
-                    'string',
-                    'max:255', // Check uniqueness except for the current user
-                ],
-            ]);
+
+        $user = Children::getSingle($id);
+        $request->validate([
+            'firstname' => 'required|string|max:30',
+            'lastname' => 'required|string|max:30',
+            'sex' => 'required|string|max:1',
+            'age' => 'nullable|integer|max:100',
+            'religion' => 'nullable|string|max:30',
+            'date_of_birth' => 'nullable|date',
+            'place_of_birth' => 'nullable|string|max:30',
+            'educational_attainment' => 'nullable|string|max:20',
+            'region' => 'nullable|string|max:30',
+            'province' => 'nullable|string|max:30',
+            'city' => 'nullable|string|max:30',
+            'barangay' => 'nullable|string|max:30',
+            'street_address' => 'nullable|string|max:30',
+            'present_health_condition' => 'nullable|string',
+            'physical_characteristic' => 'nullable|string',
+            'initial_assessment' => 'nullable|string',
+        ], [
+            'age.integer' => 'Invalid value for age.',
+            'age.max' => 'The age cannot exceed 100.',
+            // Add other custom error messages if needed 
+        ]);
+        
 
 
 
-            $user->full_name = trim($request->full_name);
-            $user->sex = trim($request->sex);
-            $user->age = trim($request->age);
-            $user->religion = trim($request->religion);
-            $user->date_of_birth = trim($request->date_of_birth);
-            $user->place_of_birth = trim($request->place_of_birth);
-            $user->educational_attainment = trim($request->educational_attainment);
-            $user->region = trim($request->region);
-            $user->province = trim($request->province);
-            $user->city = trim($request->city);
-            $user->barangay = trim($request->barangay);
-            $user->street_address = trim($request->street_address);
-            $user->present_health_condition = trim($request->present_health_condition);
-            $user->physical_characteristic = trim($request->physical_characteristic);
-            $user->initial_assessment = trim($request->initial_assessment);
-            $user->save();
+        $user->firstname = trim($request->firstname);
+        $user->lastname = trim($request->lastname);
+        $user->sex = trim($request->sex);
+        $user->age = $request->input('age') ? (int) $request->input('age') : null;
+        $user->religion = trim($request->religion);
+        $user->date_of_birth = $request->input('date_of_birth') ? trim($request->input('date_of_birth')) : null;
+        $user->place_of_birth = trim($request->place_of_birth);
+        $user->educational_attainment = trim($request->educational_attainment);
+        $user->region = trim($request->region);
+        $user->province = trim($request->province);
+        $user->city = trim($request->city);
+        $user->barangay = trim($request->barangay);
+        $user->street_address = trim($request->street_address);
+        $user->present_health_condition = trim($request->present_health_condition);
+        $user->physical_characteristic = trim($request->physical_characteristic);
+        $user->initial_assessment = trim($request->initial_assessment);
+        $user->save();
 
-            if ($user->infofamily) {
-                $user->infofamily->infofamily_name_of_father = trim($request->infofamily_name_of_father);
-                $user->infofamily->infofamily_name_of_mother = trim($request->infofamily_name_of_mother);
-                $user->infofamily->infofamily_age_of_father = trim($request->infofamily_age_of_father);
-                $user->infofamily->infofamily_age_of_mother = trim($request->infofamily_age_of_mother);
-                $user->infofamily->infofamily_address = trim($request->infofamily_address);
-                $user->infofamily->infofamily_occupation = trim($request->infofamily_occupation);
-                $user->infofamily->infofamily_occupation_mother = trim($request->infofamily_occupation_mother);
-                $user->infofamily->save();
-            }
-            if ($user->sibling) {
-                $siblings = $user->sibling;
+        if ($user->infofamily) {
+            $user->infofamily->infofamily_name_of_father = trim($request->infofamily_name_of_father);
+            $user->infofamily->infofamily_name_of_mother = trim($request->infofamily_name_of_mother);
+            $user->infofamily->infofamily_age_of_father = $request->input('infofamily_age_of_father') ? (int) $request->input('infofamily_age_of_father') : null;
+            $user->infofamily->infofamily_age_of_mother = $request->input('infofamily_age_of_mother') ? (int) $request->input('infofamily_age_of_mother') : null;
 
-                // Loop through each sibling and update
-                foreach ($siblings as $sibling) {
-                    $siblingId = $sibling->id;
-
-                    if (isset($request->sibling_fullname[$siblingId])) {
-                        $sibling->update([
-                            'sibling_fullname' => trim($request->sibling_fullname[$siblingId]),
-                            'sibling_age' => trim($request->sibling_age[$siblingId]),
-                            'sibling_sex' => trim($request->sibling_sex[$siblingId]),
-                            'sibling_date_of_birth' => trim($request->sibling_date_of_birth[$siblingId]),
-                            'sibling_educational_attainment' => trim($request->sibling_educational_attainment[$siblingId]),
-                            'sibling_relationship' => trim($request->sibling_relationship[$siblingId]),
-                        ]);
-                    }
-                }
-            }
-
-            if ($user->guardian) {
-                $user->guardian->guardian_name = trim($request->guardian_name);
-                $user->guardian->guardian_age = trim($request->guardian_age);
-                $user->guardian->guardian_sex = trim($request->guardian_sex);
-                $user->guardian->guardian_occupation = trim($request->guardian_occupation);
-                $user->guardian->guardian_circumstances_of_guardian = trim($request->guardian_circumstances_of_guardian);
-                $user->guardian->guardian_economic_situation_of_the_family = trim($request->guardian_economic_situation_of_the_family);
-
-            }
-            if ($user->finder) {
-                $user->finder->finder_fullname = trim($request->finder_fullname);
-                $user->finder->finder_age = trim($request->finder_age);
-                $user->finder->finder_sex = trim($request->finder_sex);
-                $user->finder->finder_occupation = trim($request->finder_occupation);
-                $user->finder->finder_civil_status = trim($request->finder_civil_status);
-                $user->finder->finder_relationship = trim($request->finder_relationship);
-                $user->finder->finder_others = trim($request->others);
-                $user->finder->finder_problem_presented = trim($request->finder_problem_presented);
-                $user->finder->finder_background_information = trim($request->finder_background_information);
-            }
-            if ($user->development) {
-
-                $user->development->development_birth_history = trim($request->development_birth_history);
-                $user->development->development_birth_weight = trim($request->development_birth_weight);
-                $user->development->development_birth_height = trim($request->development_birth_height);
-                $user->development->development_describe_abnormalities = trim($request->development_describe_abnormalities);
-            }
-            if ($user->habit) {
-                $user->habit->habit_bedwetting = trim($request->habit_bedwetting);
-                $user->habit->habit_thumb_sucking = trim($request->habit_thumb_sucking);
-                $user->habit->habit_nail_biting = trim($request->habit_nail_biting);
-                $user->habit->habit_others = trim($request->habit_others);
-                $user->habit->habit_measles = trim($request->habit_measles);
-                $user->habit->habit_chickenpox = trim($request->habit_chickenpox);
-                $user->habit->habit_mumps = trim($request->habit_mumps);
-                $user->habit->habit_allergy = trim($request->habit_allergy);
-                $user->habit->habit_convulsions = trim($request->habit_convulsions);
-                $user->habit->habit_primary_complex = trim($request->habit_primary_complex);
-                $user->habit->habit_other_specify = trim($request->habit_other_specify);
-                $user->habit->habit_motor_development = trim($request->habit_motor_development);
-                $user->habit->habit_toilet_training = trim($request->habit_toilet_training);
-            }
-            if ($user->rehabilitation) {
-                $user->rehabilitation->rehabilitation_restore_develop = trim($request->rehabilitation_restore_develop);
-                $user->rehabilitation->rehabilitation_improve = trim($request->rehabilitation_improve);
-                $user->rehabilitation->rehabilitation_reintegrate = trim($request->rehabilitation_reintegrate);
-                $user->rehabilitation->rehabilitation_placed = trim($request->rehabilitation_placed);
-                $user->rehabilitation->rehabilitation_refer = trim($request->rehabilitation_refer);
-                $user->rehabilitation->rehabilitation_transfer = trim($request->rehabilitation_transfer);
-            }
-            if ($user->recommendation) {
-                $user->recommendation->recommendation_recommendation = trim($request->recommendation_recommendation);
-                $user->recommendation->recommendation_plan_of_action = trim($request->recommendation_plan_of_action);
-                $user->recommendation->recommendation_action_taken = trim($request->recommendation_action_taken);
-
-            }
-            return redirect()->back()->with('success', 'Children Profile successfully updated');
-        } else if (Auth::user()->user_type == 'Staff') {
-            $user = Children::getSingle($id);
-            $request->validate([
-                'full_name' => [
-                    'required',
-                    'string',
-                    'max:255', // Check uniqueness except for the current user
-                ],
-            ]);
-
-
-
-            $user->full_name = trim($request->full_name);
-            $user->sex = trim($request->sex);
-            $user->age = trim($request->age);
-            $user->religion = trim($request->religion);
-            $user->date_of_birth = trim($request->date_of_birth);
-            $user->place_of_birth = trim($request->place_of_birth);
-            $user->educational_attainment = trim($request->educational_attainment);
-            $user->region = trim($request->region);
-            $user->province = trim($request->province);
-            $user->city = trim($request->city);
-            $user->barangay = trim($request->barangay);
-            $user->street_address = trim($request->street_address);
-            $user->present_health_condition = trim($request->present_health_condition);
-            $user->physical_characteristic = trim($request->physical_characteristic);
-            $user->initial_assessment = trim($request->initial_assessment);
-            $user->save();
-
-            if ($user->infofamily) {
-                $user->infofamily->infofamily_name_of_father = trim($request->infofamily_name_of_father);
-                $user->infofamily->infofamily_name_of_mother = trim($request->infofamily_name_of_mother);
-                $user->infofamily->infofamily_age_of_father = trim($request->infofamily_age_of_father);
-                $user->infofamily->infofamily_age_of_mother = trim($request->infofamily_age_of_mother);
-                $user->infofamily->infofamily_address = trim($request->infofamily_address);
-                $user->infofamily->infofamily_occupation = trim($request->infofamily_occupation);
-                $user->infofamily->infofamily_occupation_mother = trim($request->infofamily_occupation_mother);
-                $user->infofamily->save();
-            }
-            if ($user->sibling) {
-                $siblings = $user->sibling;
-
-                // Loop through each sibling and update
-                foreach ($siblings as $sibling) {
-                    $siblingId = $sibling->id;
-
-                    if (isset($request->sibling_fullname[$siblingId])) {
-                        $sibling->update([
-                            'sibling_fullname' => trim($request->sibling_fullname[$siblingId]),
-                            'sibling_age' => trim($request->sibling_age[$siblingId]),
-                            'sibling_sex' => trim($request->sibling_sex[$siblingId]),
-                            'sibling_date_of_birth' => trim($request->sibling_date_of_birth[$siblingId]),
-                            'sibling_educational_attainment' => trim($request->sibling_educational_attainment[$siblingId]),
-                            'sibling_relationship' => trim($request->sibling_relationship[$siblingId]),
-                        ]);
-                    }
-                }
-            }
-
-            if ($user->guardian) {
-                $user->guardian->guardian_name = trim($request->guardian_name);
-                $user->guardian->guardian_age = trim($request->guardian_age);
-                $user->guardian->guardian_sex = trim($request->guardian_sex);
-                $user->guardian->guardian_occupation = trim($request->guardian_occupation);
-                $user->guardian->guardian_circumstances_of_guardian = trim($request->guardian_circumstances_of_guardian);
-                $user->guardian->guardian_economic_situation_of_the_family = trim($request->guardian_economic_situation_of_the_family);
-
-            }
-            if ($user->finder) {
-                $user->finder->finder_fullname = trim($request->finder_fullname);
-                $user->finder->finder_age = trim($request->finder_age);
-                $user->finder->finder_sex = trim($request->finder_sex);
-                $user->finder->finder_occupation = trim($request->finder_occupation);
-                $user->finder->finder_civil_status = trim($request->finder_civil_status);
-                $user->finder->finder_relationship = trim($request->finder_relationship);
-                $user->finder->finder_others = trim($request->others);
-                $user->finder->finder_problem_presented = trim($request->finder_problem_presented);
-                $user->finder->finder_background_information = trim($request->finder_background_information);
-            }
-            if ($user->development) {
-
-                $user->development->development_birth_history = trim($request->development_birth_history);
-                $user->development->development_birth_weight = trim($request->development_birth_weight);
-                $user->development->development_birth_height = trim($request->development_birth_height);
-                $user->development->development_describe_abnormalities = trim($request->development_describe_abnormalities);
-            }
-            if ($user->habit) {
-                $user->habit->habit_bedwetting = trim($request->habit_bedwetting);
-                $user->habit->habit_thumb_sucking = trim($request->habit_thumb_sucking);
-                $user->habit->habit_nail_biting = trim($request->habit_nail_biting);
-                $user->habit->habit_others = trim($request->habit_others);
-                $user->habit->habit_measles = trim($request->habit_measles);
-                $user->habit->habit_chickenpox = trim($request->habit_chickenpox);
-                $user->habit->habit_mumps = trim($request->habit_mumps);
-                $user->habit->habit_allergy = trim($request->habit_allergy);
-                $user->habit->habit_convulsions = trim($request->habit_convulsions);
-                $user->habit->habit_primary_complex = trim($request->habit_primary_complex);
-                $user->habit->habit_other_specify = trim($request->habit_other_specify);
-                $user->habit->habit_motor_development = trim($request->habit_motor_development);
-                $user->habit->habit_toilet_training = trim($request->habit_toilet_training);
-            }
-            if ($user->rehabilitation) {
-                $user->rehabilitation->rehabilitation_restore_develop = trim($request->rehabilitation_restore_develop);
-                $user->rehabilitation->rehabilitation_improve = trim($request->rehabilitation_improve);
-                $user->rehabilitation->rehabilitation_reintegrate = trim($request->rehabilitation_reintegrate);
-                $user->rehabilitation->rehabilitation_placed = trim($request->rehabilitation_placed);
-                $user->rehabilitation->rehabilitation_refer = trim($request->rehabilitation_refer);
-                $user->rehabilitation->rehabilitation_transfer = trim($request->rehabilitation_transfer);
-            }
-            if ($user->recommendation) {
-                $user->recommendation->recommendation_recommendation = trim($request->recommendation_recommendation);
-                $user->recommendation->recommendation_plan_of_action = trim($request->recommendation_plan_of_action);
-                $user->recommendation->recommendation_action_taken = trim($request->recommendation_action_taken);
-
-            }
-            return redirect()->back()->with('success', 'Children Profile successfully updated');
+            $user->infofamily->infofamily_address = trim($request->infofamily_address);
+            $user->infofamily->infofamily_occupation = trim($request->infofamily_occupation);
+            $user->infofamily->infofamily_occupation_mother = trim($request->infofamily_occupation_mother);
+            $user->infofamily->save();
         }
+        if ($user->sibling) {
+            $siblings = $user->sibling;
 
+            // Loop through each sibling and update
+            foreach ($siblings as $sibling) {
+                $siblingId = $sibling->id;
 
+                if (isset($request->sibling_fullname[$siblingId])) {
+                    $sibling_age_input = isset($request->sibling_age[$siblingId]) ? (int) $request->sibling_age[$siblingId] : null;
+                    $sibling->update([
+                        'sibling_fullname' => trim($request->sibling_fullname[$siblingId]),
+                        'sibling_age' => $sibling_age_input,
+                        'sibling_sex' => trim($request->sibling_sex[$siblingId]),
+                        'sibling_date_of_birth' => $request->sibling_date_of_birth[$siblingId] ? trim($request->sibling_date_of_birth[$siblingId]) : null,
+                        'sibling_educational_attainment' => trim($request->sibling_educational_attainment[$siblingId]),
+                        'sibling_relationship' => trim($request->sibling_relationship[$siblingId]),
+                    ]);
+                    $sibling->save();
+                }
+            }
+        }
+        if ($user->guardian) {
+            $user->guardian->guardian_name = trim($request->guardian_name);
+            $user->guardian->guardian_age = $request->has('guardian_age') ? (int) $request->input('guardian_age') : null;
+            $user->guardian->guardian_sex = trim($request->guardian_sex);
+            $user->guardian->guardian_occupation = trim($request->guardian_occupation);
+            $user->guardian->guardian_circumstances_of_guardian = trim($request->guardian_circumstances_of_guardian);
+            $user->guardian->guardian_economic_situation_of_the_family = trim($request->guardian_economic_situation_of_the_family);
 
+            $user->guardian->save();
+        }
+        if ($user->finder) {
+            $user->finder->finder_fullname = trim($request->finder_fullname);
+            $user->finder->finder_age = $request->has('finder_age') ? (int) $request->input('finder_age') : null;
 
+            $user->finder->finder_sex = trim($request->finder_sex);
+            $user->finder->finder_occupation = trim($request->finder_occupation);
+            $user->finder->finder_civil_status = trim($request->finder_civil_status);
+            $user->finder->finder_relationship = trim($request->finder_relationship);
+            $user->finder->finder_others = trim($request->others);
+            $user->finder->finder_problem_presented = trim($request->finder_problem_presented);
+            $user->finder->finder_background_information = trim($request->finder_background_information);
+
+            $user->finder->save();
+        }
+        if ($user->development) {
+
+            $user->development->development_birth_history = trim($request->development_birth_history);
+            $user->development->development_birth_weight = $request->input('development_birth_weight') ? trim($request->input('development_birth_weight')) : null;
+            $user->development->development_birth_height = $request->input('development_birth_height') ? trim($request->input('development_birth_height')) : null;
+            $user->development->development_describe_abnormalities = trim($request->development_describe_abnormalities);
+
+            $user->development->save();
+        }
+        if ($user->habit) {
+            $user->habit->habit_bedwetting = trim($request->habit_bedwetting);
+            $user->habit->habit_thumb_sucking = trim($request->habit_thumb_sucking);
+            $user->habit->habit_nail_biting = trim($request->habit_nail_biting);
+            $user->habit->habit_others = trim($request->habit_others);
+            $user->habit->habit_measles = trim($request->habit_measles);
+            $user->habit->habit_chickenpox = trim($request->habit_chickenpox);
+            $user->habit->habit_mumps = trim($request->habit_mumps);
+            $user->habit->habit_allergy = trim($request->habit_allergy);
+            $user->habit->habit_convulsions = trim($request->habit_convulsions);
+            $user->habit->habit_primary_complex = trim($request->habit_primary_complex);
+            $user->habit->habit_other_specify = trim($request->habit_other_specify);
+            $user->habit->habit_motor_development = trim($request->habit_motor_development);
+            $user->habit->habit_toilet_training = trim($request->habit_toilet_training);
+
+            $user->habit->save();
+        }
+        if ($user->rehabilitation) {
+            $user->rehabilitation->rehabilitation_restore_develop = trim($request->rehabilitation_restore_develop);
+            $user->rehabilitation->rehabilitation_improve = trim($request->rehabilitation_improve);
+            $user->rehabilitation->rehabilitation_reintegrate = trim($request->rehabilitation_reintegrate);
+            $user->rehabilitation->rehabilitation_placed = trim($request->rehabilitation_placed);
+            $user->rehabilitation->rehabilitation_refer = trim($request->rehabilitation_refer);
+            $user->rehabilitation->rehabilitation_transfer = trim($request->rehabilitation_transfer);
+
+            $user->rehabilitation->save();
+        }
+        if ($user->recommendation) {
+            $user->recommendation->recommendation_recommendation = trim($request->recommendation_recommendation);
+            $user->recommendation->recommendation_plan_of_action = trim($request->recommendation_plan_of_action);
+            $user->recommendation->recommendation_action_taken = trim($request->recommendation_action_taken);
+
+            $user->recommendation->save();
+
+        }
+        return redirect()->back()->with('success', 'Children Profile successfully updated');
 
     }
-    public function childrenlistarchive(Request $request)
+    public function childrenlistdischarged(Request $request)
     {
         if (Auth::user()->user_type == 'Admin') {
             $data = [
@@ -451,17 +355,19 @@ class ChildrenController extends Controller
             // Use Eloquent to filter data based on the search input
             if ($search) {
                 $query->where(function ($q) use ($search) {
-                    $q->where('full_name', 'LIKE', "%$search%")
+                    $q->where('firstname', 'LIKE', "%$search%")
                         ->orWhere('id', 'LIKE', "%$search%")
+                        ->orWhere('age', 'LIKE', "%$search%")
+                        ->orWhere('sex', 'LIKE', "%$search%")
                         ->orWhere('created_by', 'LIKE', "%$search%");
                 });
             }
 
             // Paginate the results
-            $data['getRecord'] = $query->orderBy('id', 'desc')->paginate(10);
+            $data['getRecord'] = $query->orderBy('id', 'asc')->paginate(10);
 
             // Pass data to the view
-            return view("admin.childrens.listarchive", $data);
+            return view("admin.childrens.listdischarged", $data);
         } else if (Auth::user()->user_type == 'Staff') {
             $data = [
                 'Header_title' => "Admin List",
@@ -476,17 +382,20 @@ class ChildrenController extends Controller
             // Use Eloquent to filter data based on the search input
             if ($search) {
                 $query->where(function ($q) use ($search) {
-                    $q->where('full_name', 'LIKE', "%$search%")
+                    $q->where('firstname', 'LIKE', "%$search%")
                         ->orWhere('id', 'LIKE', "%$search%")
+                        ->orWhere('age', 'LIKE', "%$search%")
+                        ->orWhere('sex', 'LIKE', "%$search%")
                         ->orWhere('created_by', 'LIKE', "%$search%");
                 });
             }
 
+
             // Paginate the results
-            $data['getRecord'] = $query->orderBy('id', 'desc')->paginate(10);
+            $data['getRecord'] = $query->orderBy('id', 'asc')->paginate(10);
 
             // Pass data to the view
-            return view("staff.childrens.listarchive", $data);
+            return view("staff.childrens.listdischarged", $data);
         }
 
         // Initial data
@@ -497,30 +406,32 @@ class ChildrenController extends Controller
     {
         $user = Children::getSingle($id);
         $user->is_deleted = 1;
+        $user->discharge_date = now()->format('Y/m/d H:i:s');
         $user->save();
 
-        return redirect()->back()->with('success', 'Users successfully add to Archived');
+        return redirect()->back()->with('success', 'Child successfully Discharged');
     }
     public function archive($id)
     {
         $user = Children::getSingle($id);
         $user->is_deleted = 0;
+        $user->discharge_date = null; // Set discharge_date to null
         $user->save();
 
-        return redirect()->back()->with('success', 'Users successfully restore');
+        return redirect()->back()->with('success', 'Child successfully Restore');
     }
     public function deletePermanentChildren($id)
     {
         // Find the user by ID
-        $user = Children::getSingle($id);
+        $child = Children::getSingle($id);
 
-        if (!$user) {
+        if (!$child) {
             // Handle case where user is not found
             // You may want to redirect or display an error message
         }
 
         // Perform the permanent deletion
-        $user->forceDelete();
+        $child->forceDelete();
 
         // Redirect or return a response as needed
         return redirect()->back()->with('success', 'Users successfully Deleted');
@@ -555,55 +466,57 @@ class ChildrenController extends Controller
 
 
     }
-   
+
 
 
     public function Addsiblings()
     {
-        if (Auth::user()->user_type == 'Admin') {
-            $data['Header_title'] = "Add Users";
-            $data['getRecord'] = Children::getChildren();
-            return view("admin.childrens.add.addsiblings", $data);
+        $data['Header_title'] = "Add Siblings";
+        $data['getRecord'] = Children::all();
 
-        } else if (Auth::user()->user_type == 'Staff') {
-            $data['Header_title'] = "Add Users";
-            $data['getRecord'] = Children::getChildren();
-            return view("staff.childrens.add.addsiblings", $data);
+        $viewPath = Auth::user()->user_type == 'Admin'
+            ? 'admin.childrens.add.addsiblings'
+            : 'staff.childrens.add.addsiblings';
 
-        }
 
+        return view($viewPath, $data);
 
 
     }
     public function addInfofamilies()
-{
-    if (Auth::user()->user_type == 'Admin') {
-        $data['Header_title'] = "Add Users";
-        $data['getRecord'] = Children::getChildren();
-        // Add this line for debugging
-        return view("admin.childrens.add.addinfofamilies", $data);
-    } else if (Auth::user()->user_type == 'Staff') {
-        $data['Header_title'] = "Add Users";
-        $data['getRecord'] = Children::getChildren();
-        // Add this line for debugging
-        return view("staff.childrens.add.addinfofamilies", $data);
-    }
-}
+    {
+        $data['Header_title'] = "Add Family";
+        $data['getRecord'] = Children::all();
 
-public function Infofamilies(Request $request)
-{
-    try {
+        $viewPath = Auth::user()->user_type == 'Admin'
+            ? 'admin.childrens.add.addinfofamilies'
+            : 'staff.childrens.add.addinfofamilies';
+
+        // Add this line for debugging
+        return view($viewPath, $data);
+    }
+
+
+    public function Infofamilies(Request $request)
+    {
         $request->validate([
             'children_id' => 'required|integer',
+            'infofamily_age_of_father' => 'required|integer|max:100',
+            'infofamily_age_of_mother' => 'required|integer|max:100',
             // Add other validation rules if needed
         ], [
             'children_id.required' => 'Please select a child.',
             'children_id.integer' => 'Invalid value for child.',
+            'infofamily_age_of_father.required' => 'Please enter the age of the father.',
+            'infofamily_age_of_father.integer' => 'Invalid value for age of the father.',
+            'infofamily_age_of_father.max' => 'The age of the father cannot exceed 100.',
+            'infofamily_age_of_mother.required' => 'Please enter the age of the mother.',
+            'infofamily_age_of_mother.integer' => 'Invalid value for age of the mother.',
+            'infofamily_age_of_mother.max' => 'The age of the mother cannot exceed 100.',
             // Add other custom error messages if needed 
         ]);
 
         // Log the incoming request data for debugging
-        Log::info('Request Data:', $request->all());
 
         // Check if the record with the specified children_id already exists
         $existingInfofamily = Infofamily::where('children_id', $request->input('children_id'))->first();
@@ -613,39 +526,34 @@ public function Infofamilies(Request $request)
         }
 
         // If the record doesn't exist, proceed to create and save a new record
-        $user = new Infofamily;
-        $user->infofamily_name_of_father = trim($request->infofamily_name_of_father);
-        $user->infofamily_name_of_mother = trim($request->infofamily_name_of_mother);
-        $user->infofamily_age_of_father = trim($request->infofamily_age_of_father);
-        $user->infofamily_age_of_mother = trim($request->infofamily_age_of_mother);
-        $user->infofamily_address = trim($request->infofamily_address);
-        $user->infofamily_occupation = trim($request->infofamily_occupation);
-        $user->infofamily_occupation_mother = trim($request->infofamily_occupation_mother);
+        $infofamily = new Infofamily;
+        $infofamily->infofamily_name_of_father = trim($request->infofamily_name_of_father);
+        $infofamily->infofamily_name_of_mother = trim($request->infofamily_name_of_mother);
+        $infofamily->infofamily_age_of_father = $request->has('infofamily_age_of_father') ? (int) $request->input('infofamily_age_of_father') : null;
+        $infofamily->infofamily_age_of_mother = $request->has('infofamily_age_of_mother') ? (int) $request->input('infofamily_age_of_mother') : null;
+        $infofamily->infofamily_address = trim($request->infofamily_address);
+        $infofamily->infofamily_occupation = trim($request->infofamily_occupation);
+        $infofamily->infofamily_occupation_mother = trim($request->infofamily_occupation_mother);
+
+
 
         if ($request->has('children_id')) {
             $childrenId = $request->input('children_id');
             $children = Children::find($childrenId);
 
             if ($children) {
-                $user->children()->associate($children);
+                $infofamily->children()->associate($children);
             } else {
                 // Log the error and handle the case where the child with the specified ID is not found
                 Log::error('Child not found for ID: ' . $childrenId);
                 return redirect()->back()->with('error', 'Child not found');
             }
         }
-
-        $user->save();
+        $infofamily->save();
 
         return redirect()->back()->with('success', 'Family successfully added');
-    } catch (\Exception $e) {
-        // Log any exceptions for debugging
-        Log::error('Error in Infofamilies method: ' . $e->getMessage());
-
-        // Handle the exception as needed
-        return redirect()->back()->with('error', 'An error occurred. Please try again.');
     }
-}
+
 
 
     public function siblings(request $request)
@@ -654,17 +562,27 @@ public function Infofamilies(Request $request)
         //dd($request->all());
         $request->validate([
             'children_id' => 'required|integer', // Add any other validation rules you need
+            'sibling_sex' => 'required|string|max:1',
+            'sibling_age' => 'required|integer|max:100',
         ], [
             'children_id.required' => 'Please select a child.',
             'children_id.integer' => 'Invalid value for child.',
+            'sibling_sex.required' => 'Please select the sex of the sibling.',
+            'sibling_sex.string' => 'Invalid value for sibling sex.',
+            'sibling_sex.max' => 'The length of sibling sex cannot exceed 1.',
+            'sibling_age.required' => 'Please enter the age of the sibling.',
+            'sibling_age.integer' => 'Invalid value for sibling age.',
+            'sibling_age.max' => 'The age of the sibling cannot exceed 100.',
             // Add other custom error messages if needed 
         ]);
+        
 
 
         $user->sibling_fullname = trim($request->sibling_fullname);
-        $user->sibling_age = trim($request->sibling_age);
+        $user->sibling_age = $request->has('sibling_age') ? (int) $request->input('sibling_age') : null;
+
         $user->sibling_sex = trim($request->sibling_sex);
-        $user->sibling_date_of_birth = trim($request->sibling_date_of_birth);
+        $user->sibling_date_of_birth = $request->input('sibling_date_of_birth') ? trim($request->input('sibling_date_of_birth')) : null;
         $user->sibling_educational_attainment = trim($request->sibling_educational_attainment);
         $user->sibling_relationship = trim($request->sibling_relationship);
         if ($request->has('children_id')) {
@@ -680,15 +598,17 @@ public function Infofamilies(Request $request)
 
     public function Addguardians()
     {
-        if (Auth::user()->user_type == 'Admin') {
-            $data['Header_title'] = "Add Users";
-            $data['getRecord'] = Children::getChildren();
-            return view("admin.childrens.add.addguardians", $data);
-        } else if (Auth::user()->user_type == 'Staff') {
-            $data['Header_title'] = "Add Users";
-            $data['getRecord'] = Children::getChildren();
-            return view("staff.childrens.add.addguardians", $data);
-        }
+
+        $data['Header_title'] = "Add Guardians";
+        $data['getRecord'] = Children::all();
+
+        $viewPath = Auth::user()->user_type == 'Admin'
+            ? 'admin.childrens.add.addguardians'
+            : 'staff.childrens.add.addguardians';
+
+        // Add this line for debugging
+        return view($viewPath, $data);
+
 
 
 
@@ -701,12 +621,21 @@ public function Infofamilies(Request $request)
         $user = new Guardian;
         //dd($request->all());
         $request->validate([
-            'children_id' => 'required|integer', // Add any other validation rules you need
+            'children_id' => 'required|integer',
+            'guardian_sex' => 'required|string|max:1',
+            'guardian_age' => 'required|integer|max:100', // Add any other validation rules you need
         ], [
             'children_id.required' => 'Please select a child.',
             'children_id.integer' => 'Invalid value for child.',
+            'guardian_sex.required' => 'Please select the sex of the guardian.',
+            'guardian_sex.string' => 'Invalid value for guardian sex.',
+            'guardian_sex.max' => 'The length of guardian sex cannot exceed 1.',
+            'guardian_age.required' => 'Please enter the age of the guardian.',
+            'guardian_age.integer' => 'Invalid value for guardian age.',
+            'guardian_age.max' => 'The age of the guardian cannot exceed 100.',
             // Add other custom error messages if needed 
         ]);
+        
 
         $existingGuardian = Guardian::where('children_id', $request->input('children_id'))->first();
 
@@ -715,7 +644,8 @@ public function Infofamilies(Request $request)
         }
 
         $user->guardian_name = trim($request->guardian_name);
-        $user->guardian_age = trim($request->guardian_age);
+        $user->guardian_age = $request->has('guardian_age') ? (int) $request->input('guardian_age') : null;
+
         $user->guardian_sex = trim($request->guardian_sex);
         $user->guardian_occupation = trim($request->guardian_occupation);
         $user->guardian_circumstances_of_guardian = trim($request->guardian_circumstances_of_guardian);
@@ -732,15 +662,17 @@ public function Infofamilies(Request $request)
     }
     public function Addfinders()
     {
-        if (Auth::user()->user_type == 'Admin') {
-            $data['Header_title'] = "Add Users";
-            $data['getRecord'] = Children::getChildren();
-            return view("admin.childrens.add.addfinders", $data);
-        } else if (Auth::user()->user_type == 'Staff') {
-            $data['Header_title'] = "Add Users";
-            $data['getRecord'] = Children::getChildren();
-            return view("staff.childrens.add.addfinders", $data);
-        }
+        $data['Header_title'] = "Add Finders";
+        $data['getRecord'] = Children::all();
+
+        $viewPath = Auth::user()->user_type == 'Admin'
+            ? 'admin.childrens.add.addfinders'
+            : 'staff.childrens.add.addfinders';
+
+        // Add this line for debugging
+        return view($viewPath, $data);
+
+
 
 
 
@@ -752,12 +684,21 @@ public function Infofamilies(Request $request)
         $user = new Finder;
         //dd($request->all());
         $request->validate([
-            'children_id' => 'required|integer', // Add any other validation rules you need
+            'children_id' => 'required|integer',
+            'finder_sex' => 'required|string|max:1',
+            'finder_age' => 'required|integer|max:100', // Add any other validation rules you need
         ], [
             'children_id.required' => 'Please select a child.',
             'children_id.integer' => 'Invalid value for child.',
+            'finder_sex.required' => 'Please select the sex of the finder.',
+            'finder_sex.string' => 'Invalid value for finder sex.',
+            'finder_sex.max' => 'The length of finder sex cannot exceed 1.',
+            'finder_age.required' => 'Please enter the age of the finder.',
+            'finder_age.integer' => 'Invalid value for finder age.',
+            'finder_age.max' => 'The age of the finder cannot exceed 100.',
             // Add other custom error messages if needed 
         ]);
+        
 
         $existingFinder = Finder::where('children_id', $request->input('children_id'))->first();
 
@@ -766,7 +707,7 @@ public function Infofamilies(Request $request)
         }
 
         $user->finder_fullname = trim($request->finder_fullname);
-        $user->finder_age = trim($request->finder_age);
+        $user->finder_age = $request->has('finder_age') ? (int) $request->input('finder_age') : null;
         $user->finder_sex = trim($request->finder_sex);
         $user->finder_occupation = trim($request->finder_occupation);
         $user->finder_civil_status = trim($request->finder_civil_status);
@@ -786,15 +727,16 @@ public function Infofamilies(Request $request)
     }
     public function Adddevelopments()
     {
-        if (Auth::user()->user_type == 'Admin') {
-            $data['Header_title'] = "Add Users";
-            $data['getRecord'] = Children::getChildren();
-            return view("admin.childrens.add.adddevelopments", $data);
-        } else if (Auth::user()->user_type == 'Staff') {
-            $data['Header_title'] = "Add Users";
-            $data['getRecord'] = Children::getChildren();
-            return view("staff.childrens.add.adddevelopments", $data);
-        }
+        $data['Header_title'] = "Add Developments";
+        $data['getRecord'] = Children::all();
+
+        $viewPath = Auth::user()->user_type == 'Admin'
+            ? 'admin.childrens.add.adddevelopments'
+            : 'staff.childrens.add.adddevelopments';
+
+        // Add this line for debugging
+        return view($viewPath, $data);
+
 
 
 
@@ -820,8 +762,10 @@ public function Infofamilies(Request $request)
         }
 
         $user->development_birth_history = trim($request->development_birth_history);
-        $user->development_birth_weight = trim($request->development_birth_weight);
-        $user->development_birth_height = trim($request->development_birth_height);
+        $user->development_birth_weight = is_numeric($request->development_birth_weight) ? trim($request->development_birth_weight) : null;
+        $user->development_birth_height = is_numeric($request->development_birth_height) ? trim($request->development_birth_height) : null;
+
+
         $user->development_describe_abnormalities = trim($request->development_describe_abnormalities);
 
         if ($request->has('children_id')) {
@@ -836,15 +780,18 @@ public function Infofamilies(Request $request)
     }
     public function Addhabits()
     {
-        if (Auth::user()->user_type == 'Admin') {
-            $data['Header_title'] = "Add Users";
-            $data['getRecord'] = Children::getChildren();
-            return view("admin.childrens.add.addhabits", $data);
-        } else if (Auth::user()->user_type == 'Staff') {
-            $data['Header_title'] = "Add Users";
-            $data['getRecord'] = Children::getChildren();
-            return view("staff.childrens.add.addhabits", $data);
-        }
+        $data['Header_title'] = "Add Habits";
+        $data['getRecord'] = Children::all();
+
+        $viewPath = Auth::user()->user_type == 'Admin'
+            ? 'admin.childrens.add.addhabits'
+            : 'staff.childrens.add.addhabits';
+
+        // Add this line for debugging
+        return view($viewPath, $data);
+
+
+
 
 
 
@@ -866,7 +813,7 @@ public function Infofamilies(Request $request)
         $existingHabit = Habit::where('children_id', $request->input('children_id'))->first();
 
         if ($existingHabit) {
-            return redirect()->back()->with('error', 'Family for this child already exists');
+            return redirect()->back()->with('error', 'Habits for this child already exists');
         }
 
         $user->habit_bedwetting = trim($request->habit_bedwetting);
@@ -895,15 +842,17 @@ public function Infofamilies(Request $request)
     }
     public function Addrehabilitations()
     {
-        if (Auth::user()->user_type == 'Admin') {
-            $data['Header_title'] = "Add Users";
-            $data['getRecord'] = Children::getChildren();
-            return view("admin.childrens.add.addrehabilitations", $data);
-        } else if (Auth::user()->user_type == 'Staff') {
-            $data['Header_title'] = "Add Users";
-            $data['getRecord'] = Children::getChildren();
-            return view("staff.childrens.add.addrehabilitations", $data);
-        }
+        $data['Header_title'] = "Add Rehabilitations";
+        $data['getRecord'] = Children::all();
+
+        $viewPath = Auth::user()->user_type == 'Admin'
+            ? 'admin.childrens.add.addrehabilitations'
+            : 'staff.childrens.add.addrehabilitations';
+
+        // Add this line for debugging
+        return view($viewPath, $data);
+
+
 
 
 
@@ -948,15 +897,19 @@ public function Infofamilies(Request $request)
     }
     public function Addrecommendations()
     {
-        if (Auth::user()->user_type == 'Admin') {
-            $data['Header_title'] = "Add Users";
-            $data['getRecord'] = Children::getChildren();
-            return view("admin.childrens.add.addrecommendations", $data);
-        } else if (Auth::user()->user_type == 'Staff') {
-            $data['Header_title'] = "Add Users";
-            $data['getRecord'] = Children::getChildren();
-            return view("staff.childrens.add.addrecommendations", $data);
-        }
+
+        $data['Header_title'] = "Add Recommendations";
+        $data['getRecord'] = Children::all();
+
+        $viewPath = Auth::user()->user_type == 'Admin'
+            ? 'admin.childrens.add.addrecommendations'
+            : 'staff.childrens.add.addrecommendations';
+
+        // Add this line for debugging
+        return view($viewPath, $data);
+
+
+
 
 
 
@@ -996,7 +949,4 @@ public function Infofamilies(Request $request)
 
         return redirect()->back()->with('success', 'Recomendation, Plan of Action & Action Taken/Date successfully added');
     }
-
-
-
 }

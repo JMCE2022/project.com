@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('developments', function (Blueprint $table) {
             $table->id();
-            $table->string('birth_history')->nullable();
-            $table->string('birth_weight')->nullable();
-            $table->string('birth_height')->nullable();
-            $table->text('describe_abnormalities')->nullable();
+            $table->char('development_birth_history',23)->nullable();
+            $table->tinyInteger('development_birth_weight')->nullable();
+            $table->tinyInteger('development_birth_height')->nullable();
+            $table->text('development_describe_abnormalities')->nullable();
             $table->foreignId('children_id')->constrained('childrens')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });

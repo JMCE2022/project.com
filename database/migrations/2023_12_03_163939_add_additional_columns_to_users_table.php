@@ -13,23 +13,21 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->char('middle_initial', 1)->nullable();
-            $table->string('suffix')->nullable();
-            $table->string('sex')->nullable();
-            $table->string('place_of_birth')->nullable();
-            $table->char('date_of_birth', 100)->nullable();
-            $table->string('religion')->nullable();
-            $table->char('age', 3)->nullable();
-            $table->string('civil_status')->nullable();
-            $table->char('height', 5)->nullable();
-            $table->char('weight', 5)->nullable();
-            $table->string('phone_number')->nullable();
-            $table->string('email_address')->nullable();
-            $table->string('region')->nullable();
-            $table->string('province')->nullable();
-            $table->string('city')->nullable();
-            $table->string('barangay')->nullable();
-            $table->string('street_address')->nullable(); // You mentioned 'No./Sition/Purok'
-            $table->char('zip_code', 11)->nullable();
+            $table->char('suffix',6)->nullable();
+            $table->char('sex',1)->nullable();
+            $table->char('place_of_birth',30)->nullable();
+            $table->date('date_of_birth')->nullable();
+            $table->char('religion',30)->nullable();
+            $table->tinyInteger('age')->nullable();
+            $table->char('civil_status',10)->nullable();
+            $table->char('phone_number', 12)->nullable();
+            $table->char('email_address',50)->nullable();
+            $table->char('region',45)->nullable();
+            $table->char('province',40)->nullable();
+            $table->char('city',40)->nullable();
+            $table->char('barangay',30)->nullable();
+            $table->char('street_address',30)->nullable(); // You mentioned 'No./Sition/Purok'
+            $table->char('zip_code', 4)->nullable();
         });
     }
 

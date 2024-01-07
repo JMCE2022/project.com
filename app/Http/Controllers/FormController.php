@@ -18,32 +18,73 @@ class FormController extends Controller
 {
     public function pic1()
     {
-        $data['Header_title'] = "Forms";
+        if (Auth::user()->user_type == 'Admin') {
+            $data['Header_title'] = "Forms";
+            $data['getRecord'] = Children::getChildren();
+            return view("admin.form.pic1", $data);
+        } else if (Auth::user()->user_type == 'Staff') {
+            $data['Header_title'] = "Forms";
         $data['getRecord'] = Children::getChildren();
-        return view("admin.form.pic1", $data);
+        return view("staff.form.pic1", $data);
+        }
+        
+
+       
     }
     public function pic2()
     {
-        $data['Header_title'] = "Forms";
+        if (Auth::user()->user_type == 'Admin') {
+            $data['Header_title'] = "Forms";
         $data['getRecord'] = Children::getChildren();
         return view("admin.form.pic2", $data);
+        } else if (Auth::user()->user_type == 'Staff') {
+            $data['Header_title'] = "Forms";
+            $data['getRecord'] = Children::getChildren();
+            return view("staff.form.pic2", $data);
+        }
+       
+        
     }
     public function pic3A()
     {
-        $data['Header_title'] = "Forms";
+        if (Auth::user()->user_type == 'Admin') {
+            $data['Header_title'] = "Forms";
+            $data['getRecord'] = Children::getChildren();
+            return view("admin.form.pic3a", $data);
+        } else if (Auth::user()->user_type == 'Staff') {
+            $data['Header_title'] = "Forms";
         $data['getRecord'] = Children::getChildren();
-        return view("admin.form.pic3a", $data);
+        return view("staff.form.pic3a", $data);
+        }
+       
+       
     }
     public function pic3B()
     {
-        $data['Header_title'] = "Forms";
+        if (Auth::user()->user_type == 'Admin') {
+            $data['Header_title'] = "Forms";
         $data['getRecord'] = Children::getChildren();
         return view("admin.form.pic3b", $data);
+        } else if (Auth::user()->user_type == 'Staff') {
+            $data['Header_title'] = "Forms";
+            $data['getRecord'] = Children::getChildren();
+            return view("staff.form.pic3b", $data);
+        }
+        
+        
     }
     public function pic4()
     {
-        $data['Header_title'] = "Forms";
+        if (Auth::user()->user_type == 'Admin') {
+            $data['Header_title'] = "Forms";
         $data['getRecord'] = Children::getChildren();
         return view("admin.form.pic4", $data);
+        } else if (Auth::user()->user_type == 'Staff') {
+            $data['Header_title'] = "Forms";
+            $data['getRecord'] = Children::getChildren();
+            return view("staff.form.pic4", $data);
+        }
+       
+        
     }
 }

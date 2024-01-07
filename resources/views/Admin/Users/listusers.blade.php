@@ -5,7 +5,7 @@
 <div class="m-4">
 
     <div class="col-sm-12 col-xl-12">
-    @include('layouts._message')
+        @include('layouts._message')
         <div class="bg-white rounded h-100 p-4">
             <h6 class="mb-4 text-dark text-center">List of Users</h6>
             <div class="d-flex align-items-center justify-content-between">
@@ -17,12 +17,17 @@
                     <button type="button" class="btn btn-success m-1" onclick="clearSearch()">Clear</button>
                 </form>
                 <div>
-                <a class="text-dark text-center me-2 rounded border-bottom border-success" href="{{ url('Admin/Listusers/Addusers') }}"> <i
-                        class="fas fa-user-plus" style="color: #198754;"></i> Add Users</a>
-                        <a  class="text-dark me-2 rounded border-bottom border-danger" href="{{url('Admin/Listarchive')}}"><i class="fas fa-file-archive fa-1x" style="color: #dc3545;"></i> File Archived</a>
-                        </div>
-                    </div>
-           
+                    <a class="text-dark text-center me-2 rounded border-bottom border-success"
+                        href="{{ url('Admin/Listusers/Addusers') }}"> <i class="fas fa-user-plus"
+                            style="color: #198754;"></i> Add Users</a>
+                    <a class="text-dark me-2 rounded border-bottom border-danger" href="{{url('Admin/Listarchive')}}"><i
+                            class="fas fa-file-archive fa-1x" style="color: #dc3545;"></i> File Archived</a>
+                </div>
+            </div>
+            @php
+            $counter = 1;
+            @endphp
+
             <div class="table-responsive">
                 <table class="table table-hover text-dark">
                     <thead>
@@ -40,7 +45,7 @@
                     <tbody>
                         @foreach($getRecord as $user)
                         <tr>
-                            <td class="text-center">{{ $user->id }}</td>
+                            <td class="text-center">{{ $counter++ }}</td>
                             <td class="text-center">{{ $user->firstname }}</td>
                             <td class="text-center">{{ $user->lastname }}</td>
                             <td class="text-center">{{ $user->user_type }}</td>

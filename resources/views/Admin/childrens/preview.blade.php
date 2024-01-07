@@ -56,8 +56,12 @@
         }
     }
 </style>
-
+@if(Auth::user()->user_type == 'Admin')
 <body class="bg-white" onclick="window.location='{{ url('Admin/Listchildrens') }}'" style="cursor: pointer;">
+@elseif(Auth::user()->user_type == 'Staff')
+<body class="bg-white" onclick="window.location='{{ url('Staff/Listchildrens') }}'" style="cursor: pointer;">
+@endif
+
     <div class="container d-flex justify-content-center">
         <div class="row">
             <!-- First A4 Box -->
@@ -72,7 +76,7 @@
 
                                 </div>
                                 <div class="col-4 col-md-4 text-center">
-                                    <img src="{{asset('images/Login/Logo.png')}}" width="180px" alt="logo">
+                                    <img src="{{asset('images/Admin/Logo2.png')}}" width="180px" alt="logo">
                                 </div>
                                 <div class="col-4 col-md-4 ">
                                 </div>
@@ -104,8 +108,7 @@
                         <div class="row">
                             <div class="col-8 col-md-8">
                                 <span class="text-bold text-dark">Name of Child: <span
-                                        class="text-dark text-decoration-underline">{{ $getRecord->full_name
-                                        }}</span></span>
+                                        class="text-dark text-decoration-underline">{{ $getRecord->firstname}} {{ $getRecord->lastname}}</span></span>
                             </div>
 
                             <div class="col-4 col-md-4 ">
@@ -218,8 +221,14 @@
                         </div>
                         <div class="row">
                             <div class="col-12 col-md-12">
-                                <span class="text-bold text-dark">Occupation: <span
+                                <span class="text-bold text-dark">Occupation of Father: <span
                                         class="text-dark text-decoration-underline"></span>{{$getRecord->infofamily->infofamily_occupation}}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-12">
+                                <span class="text-bold text-dark">Occupation of Mother: <span
+                                        class="text-dark text-decoration-underline"></span>{{$getRecord->infofamily->infofamily_occupation_mother}}</span>
                             </div>
                         </div>
 

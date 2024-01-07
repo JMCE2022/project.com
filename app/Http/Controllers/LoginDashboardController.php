@@ -9,19 +9,29 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginDashboardController extends Controller
 {
-    public function login()
+    public function login(Request $request)
     {
+        // Check if the user has already agreed to data privacy terms
+        if (!$request->session()->get('privacy_agreement')) {
+            return view('auth.login');
+        }
+
         if (!empty(Auth::check())) {
             if (Auth::user()->user_type == 'Admin') {
                 return redirect('Admin/Dashboard');
-            } else if (Auth::user()->user_type == 'Staff') {
+            } elseif (Auth::user()->user_type == 'Staff') {
                 return redirect('Staff/Dashboard');
             }
         }
+
         return view('auth.login');
     }
+
     public function AuthLogin(Request $request)
     {
+        // Check if the user has agreed to data privacy terms
+       
+
         $credentials = [
             'username' => $request->username,
             'password' => $request->password,
@@ -31,7 +41,7 @@ class LoginDashboardController extends Controller
         if (Auth::attempt($credentials, true)) {
             if (Auth::user()->user_type == 'Admin') {
                 return redirect('Admin/Dashboard');
-            } else if (Auth::user()->user_type == 'Staff') {
+            } elseif (Auth::user()->user_type == 'Staff') {
                 return redirect('Staff/Dashboard');
             }
         } else {
@@ -44,5 +54,6 @@ class LoginDashboardController extends Controller
         Auth::logout();
         return redirect(url(''));
     }
-
 }
+
+

@@ -33,7 +33,7 @@
                             <select name="children_id" class="custom-input">
                                 <option value="" disabled selected>Select a child</option>
                                 @foreach($getRecord as $child)
-                                <option value="{{ $child->id }}">{{ $child->id }} - {{ $child->full_name }}</option>
+                                <option value="{{ $child->id }}">{{ $child->id }} - {{ $child->firstname }} {{ $child->lastname }}</option>
                                 @endforeach
                             </select>
                     </div>
@@ -62,11 +62,11 @@
                         @endif
                         <div class=" mb-3">
                             <label>Sex</label>
-                            <select class="form-select bg-white text-dark custom-input" name="finder_sex"
+                            <select class="form-select bg-white text-dark custom-input" name="finder_sex required"
                                 aria-label="Floating label select example">
                                 <option value="" disabled selected class="text-dark">Select</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
                             </select>
                         </div>
                         @if($errors->has('finder_sex'))

@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('guardians', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->string('age')->nullable();
-            $table->string('sex')->nullable();
-            $table->string('occupation')->nullable();
-            $table->text('circumstances_of_guardian')->nullable();
-            $table->text('economic_situation_of_the_family')->nullable();
+            $table->char('guardian_name',60)->nullable();
+            $table->tinyInteger('guardian_age')->nullable();
+            $table->char('guardian_sex',1)->nullable();
+            $table->char('guardian_occupation',20)->nullable();
+            $table->text('guardian_circumstances_of_guardian')->nullable();
+            $table->text('guardian_economic_situation_of_the_family')->nullable();
             $table->ForeignId('children_id')->constrained('childrens')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });

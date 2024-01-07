@@ -33,7 +33,7 @@
                             <select name="children_id" class="custom-input">
                                 <option value="" disabled selected>Select a child</option>
                                 @foreach($getRecord as $child)
-                                <option value="{{ $child->id }}">{{ $child->id }} - {{ $child->full_name }}</option>
+                                <option value="{{ $child->id }}">{{ $child->id }} - {{ $child->firstname }} {{ $child->lastname }}</option>
                                 @endforeach
                             </select>
                     </div>
@@ -67,14 +67,14 @@
                         <span class="text-danger">{{ $errors->first('development_birth_history') }}</span>
                         @endif
                         <div class=" mb-3">
-                            <label>Birth Weight</label>
+                            <label>Birth Weight in KG</label>
                             <input type="number" name="development_birth_weight" class="custom-input bg-white">
                         </div>
                         @if($errors->has('development_birth_weight'))
                         <span class="text-danger">{{ $errors->first('development_birth_weight') }}</span>
                         @endif
                         <div class="mb-3">
-                            <label>Birth Height</label>
+                            <label>Birth Height in CM</label>
                             <input type="number" name="development_birth_height" class="custom-input bg-white">
                         </div>
                         @if($errors->has('development_birth_height'))
