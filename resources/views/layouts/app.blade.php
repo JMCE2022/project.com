@@ -213,109 +213,7 @@ $(document).ready(function() {
     });
 });
 </script>
-<script>
 
-$(document).ready(function() {
-
-    $('#myaccount-staff-region-dropdown').on('change', function() {
-            var region_id = this.value;
-             $("#myaccount-staff-province-dropdown").html('');
-            $.ajax({
-                url:"{{url('/Staff/Myaccount/get-provinces-by-region')}}",
-                type: "POST",
-                data: {
-                    region_id: region_id,
-                     _token: '{{csrf_token()}}' 
-                },
-                dataType : 'json',
-                success: function(result){
-                    $('#myaccount-staff-province-dropdown').html('<option value="">Select Province</option>'); 
-                    $.each(result.provinces,function(key,value){
-                    $("#myaccount-staff-province-dropdown").append('<option value="'+value.id+'">'+value.name+'</option>');
-                    });
-                    $('#myaccount-staff-city-dropdown').html('<option value="">Select Province First</option>'); 
-                }
-            });
-        
-        
-    });    
-
-    $('#myaccount-staff-province-dropdown').on('change', function() {
-            var province_id = this.value;
-             $("#myaccount-staff-city-dropdown").html('');
-            $.ajax({
-                url:"{{url('/Staff/Myaccount/get-cities-by-province')}}",
-                type: "POST",
-                data: {
-                    province_id: province_id,
-                     _token: '{{csrf_token()}}' 
-                },
-                dataType : 'json',
-                success: function(result){
-                    $('#myaccount-staff-city-dropdown').html('<option value="">Select City/Municipality</option>'); 
-                    $.each(result.cities,function(key,value){
-                    $("#myaccount-staff-city-dropdown").append('<option value="'+value.id+'">'+value.name+'</option>');
-                    });
-
-                }
-            });
-        
-        
-    });
-});
-</script>
-
-<script>
-
-$(document).ready(function() {
-
-    $('#myaccount-admin-region-dropdown').on('change', function() {
-            var region_id = this.value;
-             $("#myaccount-admin-province-dropdown").html('');
-            $.ajax({
-                url:"{{url('/Admin/Myaccount/get-provinces-by-region')}}",
-                type: "POST",
-                data: {
-                    region_id: region_id,
-                     _token: '{{csrf_token()}}' 
-                },
-                dataType : 'json',
-                success: function(result){
-                    $('#myaccount-admin-province-dropdown').html('<option value="">Select Province</option>'); 
-                    $.each(result.provinces,function(key,value){
-                    $("#myaccount-admin-province-dropdown").append('<option value="'+value.id+'">'+value.name+'</option>');
-                    });
-                    $('#myaccount-admin-city-dropdown').html('<option value="">Select Province First</option>'); 
-                }
-            });
-        
-        
-    });    
-
-    $('#myaccount-admin-province-dropdown').on('change', function() {
-            var province_id = this.value;
-             $("#myaccount-admin-city-dropdown").html('');
-            $.ajax({
-                url:"{{url('/Admin/Myaccount/get-cities-by-province')}}",
-                type: "POST",
-                data: {
-                    province_id: province_id,
-                     _token: '{{csrf_token()}}' 
-                },
-                dataType : 'json',
-                success: function(result){
-                    $('#myaccount-admin-city-dropdown').html('<option value="">Select City/Municipality</option>'); 
-                    $.each(result.cities,function(key,value){
-                    $("#myaccount-admin-city-dropdown").append('<option value="'+value.id+'">'+value.name+'</option>');
-                    });
-
-                }
-            });
-        
-        
-    });
-});
-</script>
 
 
 <script>
@@ -327,6 +225,10 @@ $(document).ready(function() {
         hiddenInput.value = selectedDropdown.options[selectedDropdown.selectedIndex].text;
     }
 </script>
+
+
+
+
 
 
     

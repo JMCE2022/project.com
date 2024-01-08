@@ -91,13 +91,13 @@
                             <div class="col-4 col-md-4"></div>
                             <div class="col-4 col-md-4 ">
                                 <span class="d-flex justify-content-between">
-                                    <span class="text-bold">Date of Admission:</span>
+                                    <span class="text-bold text-dark">Date of Admission:</span>
                                     <span class="text-dark text-decoration-underline">{{
                                         $getRecord->created_at->format('Y/m/d') }}</span>
                                 </span>
 
                                 <span class="d-flex justify-content-between">
-                                    <span class="text-bold">Case Number:</span>
+                                    <span class="text-bold text-dark">Case Number:</span>
                                     <span class="text-dark text-decoration-underline">{{ $getRecord->id }}</span>
                                 </span>
                             </div>
@@ -236,7 +236,7 @@
                         @if(count($siblings) > 0)
                         <h6 class="text-dark text-start mb-2 mt-4">Siblings:</h6>
 
-                        <table class="table table-bordered">
+                        <table class="table table-form table-hover text-dark">
                             <thead>
                                 <tr>
                                     <th scope="col">Name</th>
