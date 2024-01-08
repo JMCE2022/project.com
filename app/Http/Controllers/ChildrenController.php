@@ -201,7 +201,7 @@ class ChildrenController extends Controller
             'date_of_birth' => 'nullable|date',
             'place_of_birth' => 'nullable|string|max:30',
             'educational_attainment' => 'nullable|string|max:20',
-            'region' => 'nullable|string|max:30',
+            'region' => 'nullable|string|max:45',
             'province' => 'nullable|string|max:30',
             'city' => 'nullable|string|max:30',
             'barangay' => 'nullable|string|max:30',
@@ -295,8 +295,9 @@ class ChildrenController extends Controller
         if ($user->development) {
 
             $user->development->development_birth_history = trim($request->development_birth_history);
-            $user->development->development_birth_weight = $request->input('development_birth_weight') ? trim($request->input('development_birth_weight')) : null;
-            $user->development->development_birth_height = $request->input('development_birth_height') ? trim($request->input('development_birth_height')) : null;
+            $user->development->development_birth_weight = $request->input('development_birth_weight') ? (int) $request->input('development_birth_weight') : null;
+            $user->development->development_birth_height = $request->input('development_birth_height') ? (int) $request->input('development_birth_height') : null;
+            
             $user->development->development_describe_abnormalities = trim($request->development_describe_abnormalities);
 
             $user->development->save();

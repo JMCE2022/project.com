@@ -53,8 +53,8 @@
                         <label>Full Name</label>
                         <input name="guardian_name" class="custom-input bg-white">
                     </div>
-                    @if($errors->has('guardian_fullname'))
-                    <span class="text-danger">{{ $errors->first('guardian_fullname') }}</span>
+                    @if($errors->has('guardian_name'))
+                    <span class="text-danger">{{ $errors->first('guardian_name') }}</span>
                     @endif
                     <div class="mb-3">
                         <label>Age</label>
@@ -67,7 +67,7 @@
                 <div class="col-md-6">
                 <div class=" mb-3">
                 <label>Sex</label>
-                            <select class="form-select bg-white text-dark custom-input" name="guardian_sex required"
+                            <select class="form-select bg-white text-dark custom-input" name="guardian_sex" required
                                 aria-label="Floating label select example">
                                 <option value="" disabled selected class="text-dark">Select</option>
                                 <option value="M">Male</option>

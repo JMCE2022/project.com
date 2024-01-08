@@ -450,17 +450,17 @@
                                 aria-label="Floating label select example">
                                 <option value="" disabled selected class="text-dark">
                                     Select</option>
-                                <option value="Full Term">Full Term</option>
-                                <option value="Premature">Premature</option>
-                                <option value="Borne at Home">Borne at Home</option>
-                                <option value="Hospital">Hospital</option>
-                                <option value="Normal Delivery">Normal Delivery</option>
-                                <option value="Caesarean">Caesarean</option>
-                                <option value="Forceps">Forceps</option>
-                                <option value="Delivery by Physician">Delivery by
+                                <option value="Full Term" @if($getRecord->development->development_birth_history == 'Full Term') selected @endif >Full Term</option>
+                                <option value="Premature" @if($getRecord->development->development_birth_history == 'Premature') selected @endif>Premature</option>
+                                <option value="Borne at Home" @if($getRecord->development->development_birth_history == 'Borne at Home') selected @endif>Borne at Home</option>
+                                <option value="Hospital" @if($getRecord->development->development_birth_history == 'Hospital') selected @endif>Hospital</option>
+                                <option value="Normal Delivery" @if($getRecord->development->development_birth_history == 'Normal Delivery') selected @endif>Normal Delivery</option>
+                                <option value="Caesarean" @if($getRecord->development->development_birth_history == 'Caesarean') selected @endif>Caesarean</option>
+                                <option value="Forceps" @if($getRecord->development->development_birth_history == 'Forceps') selected @endif>Forceps</option>
+                                <option value="Delivery by Physician" @if($getRecord->development->development_birth_history == 'Delivery by Physician') selected @endif>Delivery by
                                     Physician</option>
-                                <option value="Midwife">Midwife</option>
-                                <option value="Hilot">Hilot</option>
+                                <option value="Midwife" @if($getRecord->development->development_birth_history == 'Midwife') selected @endif>Midwife</option>
+                                <option value="Hilot" @if($getRecord->development->development_birth_history == 'Hilot') selected @endif>Hilot</option>
                             </select>
                         </div>
                         @if($errors->has('development_birth_history'))
